@@ -1,0 +1,70 @@
+﻿<div snap-content style="margin: 60px 5px 5px 5px; background-color:white" ng-controller="mnemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 style="padding-top:-5px">Очистные сооружения водоканала города Агидель</h4>
+        </div>
+        <div class="panel-body">
+            <div style="width:100%" ng-include="'./mnemo/boiler3.svg'"></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">События <button class="btn btn-default" ng-context-menu="menuOptions" ng-click="refresh()">Обновить</button></div>
+        <div class="panel-body">
+            <!--<div style="height:300px" ng-grid="options"></div>-->
+            <div style="height:300px"
+                 external-scopes="cellModel"
+                 ui-grid="options" ui-grid-resize-columns></div>
+        </div>
+    </div>
+</div>
+<div snap-drawer="left" style="background-color: white; margin: 60px 5px 5px 5px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">Отчеты</div>
+        <div class="panel-body">
+            <report-list types="['Tube']"></report-list>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Задачи</div>
+        <div class="panel-body">
+
+            <div class="input-group" style="margin-bottom:5px">
+                <input type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="start" ng-required="true" close-text="Закрыть" show-weeks="false" starting-day="1" show-button-bar="false" max-date="end" />
+                <span class="input-group-addon">
+                    <img src="./img/date.png" width="20" />
+                </span>
+            </div>
+            <!--<timepicker ng-model="start" hour-step="1" minute-step="1" show-meridian="false"></timepicker>-->
+            <div class="input-group">
+                <input type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="end" ng-required="true" close-text="Закрыть" show-weeks="false" starting-day="1" show-button-bar="false" min-date="start" />
+                <span class="input-group-addon">
+                    <img src="./img/date.png" width="20" />
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--шаблон ячейки с датой-->
+<script type="text/ng-template" id="dateCellTmpl.html">
+    <div class="ui-grid-cell-contents">
+        <span>{{row.entity['date'] | amDateFormat: 'DD.MM.YYYY HH:mm:ss'}}</span>
+    </div>
+</script>
+
+<!--шаблон ячейки квитирования-->
+<script type="text/ng-template" id="limitState.html">
+    <div class="ui-grid-cell-contents">
+        <div ng-if="row.entity['status'] == 0" class="text-center">
+            <!--не квитировано-->
+            <button class="btn btn-info btn-xs" ng-click="getExternalScopes().apply(row.entity)">Квитировать</button>
+        </div>
+        <div ng-if="row.entity['status'] > 0">
+            <!--квитировано-->
+            <img src="./img/accept.png" width="20" title="{{row.entity[col.field] | number:2}}% [{{row.entity['signalDate']}}]" />
+            <span>{{row.entity['changeDate'] | amDateFormat: 'DD.MM.YYYY HH:mm:ss'}}</span>
+        </div>
+    </div>
+</script>

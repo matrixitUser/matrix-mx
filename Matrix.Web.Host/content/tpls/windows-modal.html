@@ -1,0 +1,23 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title modal-preview-head">
+        <img ng-src="/img/application_view_columns.png" width="32" />
+        Окна
+    </h3>
+</div>
+<div class="modal-body">
+    
+    <div style="overflow: auto; height: 75%">
+        <ng-include src="'tpls/windows.html'" ng-controller="WindowsCtrl"></ng-include>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

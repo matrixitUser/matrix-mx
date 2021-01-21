@@ -1,0 +1,76 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title modal-preview-head">
+        <span class="media" tooltip="{{model.names.join('; ')}}" tooltip-append-to-body="true" tooltip-placement="bottom">
+            <img src="/img/folders.png" width="32" />
+            <span class="badge" ng-bind="model.names.length"></span>
+        </span>
+        Настройка групп
+        <span ng-if="model.names.length>0" class="smallergrey">
+            для
+            {{model.names.join(', ')}}
+        </span>
+        <span ng-if="model.names.length==0" class="red">
+            нет объектов
+        </span>
+    </h3>
+</div>
+
+<div class="modal-body" style="padding:5px">
+
+    <div ng-if="model.overlayEnabled">
+        <div style="display: table; height: 70%; width: 100%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" /> 
+                <span ng-bind="model.overlayText"></span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!model.overlayEnabled">
+        <div ag-grid="opt" class="ag-fresh" style="height:70%"></div>
+        <!--<div style="height:70%;overflow-x:scroll">
+            <js-tree tree-data="scope"
+                     tree-model="folders"
+                     tree-plugins="checkbox">
+            </js-tree>
+        </div>-->
+    </div>
+
+    <!--<div ui-tree id="tree-root" data-drag-enabled="false" class="well well-sm pre-scrollable">
+        <ol ui-tree-nodes ng-model="model.folders">
+            <li ng-repeat="node in model.folders" ui-tree-node data-nodrag data-collapsed ng-include="'folders-nodes-renderer.html'"></li>
+        </ol>
+    </div>-->
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="model.save()" ng-disabled="model.overlayEnabled">Сохранить</button>
+    <button class="btn btn-warning" ng-click="model.close(null)">Закрыть</button>
+</div>
+
+<script type="text/ng-template" id="folders-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" ng-click="model.selectNode(node)">
+        <a class="btn" ng-if="node.children && node.children.length > 0" data-nodrag ng-click="toggle(this)">
+            <img ng-if="!collapsed" src="/img/16/toggle.png" />
+            <img ng-if="collapsed" src="/img/16/toggle_expand.png" />
+        </a>
+        <a class="btn" ng-if="!(node.children && node.children.length > 0)" data-nodrag>
+            <img src="/img/16/toggle.png" />
+        </a>
+        <span ng-if="node.data.type==='Folder'">
+            <img src="/img/folder.png" /> {{node.data.name}}<small ng-if="node._dirty">*</small>
+        </span>
+        <span ng-if="node.data.type==='all'">
+            <img src="/img/folder.png" /> Всё
+        </span>
+        <!--<img src="/img/folder.png" /> {{node.data.name}}-->
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.children" ui-tree-node data-nodrag data-collapsed ng-include="'folders-nodes-renderer.html'">
+        </li>
+    </ol>
+</script>

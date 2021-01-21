@@ -1,0 +1,59 @@
+﻿<div ng-controller="VSerialCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div class="modal-preview-head">
+            <img src="/img/port.png" width="20" />
+            Виртуальный COM-порт
+            <br />
+
+
+            <div ng-if="model.server.state=='disconnected'">
+                <div>
+                    <!--<b class="red">Объект:</b>-->
+                    <span ng-if="model.server.currentName != ''">
+                        <!--<img src="/img/house.png" width="20" />-->
+                        {{model.server.currentName}}
+                    </span>
+                    <span ng-if="model.server.currentName == ''" class="red">
+                        ???
+                    </span>
+                </div>
+            </div>
+
+            <div ng-if="model.server.state != 'disconnected'">
+                <div>
+                    <!--<b class="darkgreen">Объект:</b>-->
+                    <span ng-if="model.server.targetName != ''">
+                        <!--<img src="/img/house.png" width="20" />-->
+                        {{model.server.targetName}}
+                    </span>
+                    <span ng-if="model.server.targetName == ''" class="red">
+                        ???
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+
+            <span ng-class="{'red': model.vcom.state == 'disconnected', 'darkgreen': model.vcom.state == 'connected', 'blue': model.vcom.state != 'disconnected' && model.vcom.state != 'connected'}">
+                Сервер COM-порта<span ng-if="model.serial.state=='opened'">: {{model.serial.target}}</span>
+            </span>
+
+            <br />
+
+            <span ng-class="{'red' : !model.server.isReceiving, 'green' : model.server.isReceiving}">&lArr;</span>&nbsp;
+            <span ng-class="{'red' : !model.serial.isTransmitting, 'green' : model.serial.isTransmitting}">&lArr;</span>&nbsp;
+            <span ng-class="{'red' : !model.server.isTransmitting, 'green' : model.server.isTransmitting}">&rArr;</span>&nbsp;
+            <span ng-class="{'red' : !model.serial.isReceiving, 'green' : model.serial.isReceiving}">&rArr;</span>
+
+            <br />
+
+            <span ng-class="{'red': model.server.state == 'disconnected', 'darkgreen': model.server.state == 'connected', 'blue': model.server.state != 'disconnected' && model.server.state != 'connected'}">
+                Сервер опроса
+            </span>
+
+        </div>
+    </a>
+</div>

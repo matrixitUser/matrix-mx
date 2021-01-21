@@ -1,0 +1,11 @@
+<div ng-repeat="action in model.actionsView" context-menu="model.menu">
+    <hr ng-if="action.divider" style="margin-top: 5px; margin-bottom: 5px;" />
+    <a ng-if="!action.divider && action.enabled" href="#" ng-click="action.action()">
+        <img ng-src="{{action.icon}}" width="20" style="margin-right:5px" />
+        <span ng-bind="action.title"></span>
+    </a>
+    <span ng-if="!action.divider && !action.enabled" class="grey">
+        <img ng-src="{{action.icon}}" width="20" style="margin-right:5px" />
+        <span ng-bind="action.title"></span>
+    </span>
+</div>

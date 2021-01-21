@@ -1,0 +1,135 @@
+﻿<nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0px" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="model.navbarCollapsed = !model.navbarCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img alt="Matrix IT" src="/img/favicon.png" style="width: 32px; height: 32px; position: relative; top: -7px; left: -2px" />
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" ng-init="model.navbarCollapsed=true" ><!--collapse="model.navbarCollapsed"-->
+
+            <ul class="nav navbar-nav">
+                <li ng-class="{'active': !model.foldersAreHidden}"><a href="#" ng-click="model.foldersAreHidden = !model.foldersAreHidden"><img src="./img/explorer.png" width="20" /><span class="hidden-sm"> Группы</span></a></li>
+                <li ng-class="{'active': !model.actionsAreHidden}"><a href="#" ng-click="model.actionsAreHidden = !model.actionsAreHidden"><img src="./img/action_log.png" width="20" /><span class="hidden-sm"> Действия</span></a></li>
+                <li ng-class="{'active': !model.windowsAreHidden}"><a href="#" ng-click="model.windowsAreHidden = !model.windowsAreHidden"><img src="./img/application_view_columns.png" width="20" /><span class="hidden-sm"> Окна</span></a></li>
+            </ul>
+
+            <form class="navbar-form navbar-left" role="search">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-class="{'active': model.isShowPinnedOnly}" type="button" ng-click="model.toggleShowPinned()"
+                                tooltip="показать все/только закрепленные" tooltip-append-to-body="true" tooltip-placement="bottom"
+                                style="width: 46px; height: 34px">
+
+                            <span class="media">
+                                <img ng-src="./img/unpin_red.png" height="20" />
+                                <span ng-if="model.listPinned.length > 0" class="badge">{{model.listPinned.length > 9? '9+' : model.listPinned.length}}</span>
+                            </span>
+
+                            <!--<img ng-src="./img/unpin_red.png" height="20" />-->
+                        </button>
+                    </span>                    
+                    <input type="search" class="form-control "
+                           ng-model="model.filterText"                           
+                           ng-change="model.onFilterTextChange()"
+                           placeholder="поиск" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="model.onFilterTextClear()"
+                                style="width: 46px; height: 34px">
+                            <!--<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>-->
+                            ×
+                        </button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="model.toggleToolPanel()" style="height:34px"
+                                tooltip="открыть/закрыть панель инструментов" tooltip-append-to-body="true" tooltip-placement="bottom">
+                            <img src="/img/16/table_gear.png" />
+                        </button>
+                    </span>
+                </div>
+            </form>
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-if="model.addNewObject" class="dropdown" dropdown on-toggle="">
+                    <a href="#" class="dropdown-toggle" dropdown-toggle>
+                        <img ng-src="./img/add.png" width="20" /><span class="caret"></span>
+                        <span class="hidden-sm hidden-md">Создать...</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-if="model.addNewObject">
+                            <a href="#" ng-click="model.addNewObject()">
+                                <img src="/img/house_add.png" height="20" /> 
+                                Создать объект учета
+                            </a>
+                        </li>
+                        <li ng-if="model.addNewFolder">
+                            <a href="#" ng-click="model.addNewFolder()">
+                                <img src="/img/folder_add.png" height="20" /> 
+                                Создать новую группу
+                            </a>
+                        </li>
+                        <li ng-if="model.addNewReport">
+                            <a href="#" ng-click="model.addNewReport()">
+                                <img src="/img/report_add.png" height="20" /> 
+                                Создать новый шаблон отчёта
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="/wiki/user-manual.pdf" target="_blank"><img src="./img/help.png" width="20" /><span class="hidden-sm hidden-md"> Помощь</span></a></li>
+                <li class="dropdown" dropdown on-toggle="">
+                    <a href="#" class="dropdown-toggle" dropdown-toggle>
+                        <img ng-src="./img/{{user.isAdmin? 'administrator':'user'}}.png" width="20" /><span class="caret"></span>
+                        <span ng-bind="user.name"></span> (<span ng-bind="user.login"></span>)
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="action in model.menuView" ng-class="{ 'divider' : !!action.divider }">
+                            <a ng-if="!action.divider" href="#" ng-click="action.action()">
+                                <img ng-src="{{action.icon}}" width="20" />
+                                <span ng-bind="action.title"></span>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a ng-click="signout()" href="#"><img src="./img/door_out.png" width="20" /> Выход</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-2 col-sm-6 col-xs-12" ng-if="!model.foldersAreHidden" style="padding-left: 0px; padding-right: 0px;">            
+            <ng-include src="'views/folders.html'" ng-controller="FoldersCtrl"></ng-include>
+        </div>
+        <div class="col-md-8 col-sm-6 col-xs-12"
+             ng-class="{
+             'col-md-7 col-sm-6 col-xs-12': !model.leftIsHidden && !model.rightIsHidden,
+             'col-md-7 col-sm-6 col-xs-12': model.onlyLeftOrRightIsHidden,
+             'col-md-12 col-sm-6 col-xs-12': model.rightIsHidden && model.foldersAreHidden}"
+             style="padding-left: 0px; padding-right: 0px;">
+            <ng-include src="'views/list.html'" ng-controller="ListCtrl"></ng-include>
+        </div>
+        <div class="col-md-2 col-sm-12 col-xs-12" ng-class="{'hidden': model.rightIsHidden}" style="padding-left: 0px; padding-right: 0px;">
+            <div class="panel panel-default" ng-class="{'hidden': model.actionsAreHidden}" style="margin-bottom:0px">
+                <div class="panel panel-body" resizable style="margin-bottom:0px; overflow: auto" ng-style="{height:model.getHeight(windowHeight, model.windowsAreHidden)}">
+                    <ng-include src="'views/actions.html'" ng-controller="ActionsCtrl"></ng-include>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-class="{'hidden': model.windowsAreHidden}" style="margin-bottom:0px">
+                <div class="panel panel-body" resizable style="margin-bottom:0px; overflow: auto" ng-style="{height:model.getHeight(windowHeight, model.actionsAreHidden)}">
+                    <ng-include src="'views/windows.html'" ng-controller="WindowsCtrl"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">Сервис</h3>
+</div>
+<div class="modal-body">
+    <input type="button" class="btn btn-default" value="Перезагрузка сервера опроса" ng-click="model.performServiceOperation('pollRestart')" /><br />
+    <input type="button" class="btn btn-default" value="Перезагрузка сервера расписаний" ng-click="model.performServiceOperation('taskRestart')" /><br />
+    <input type="button" class="btn btn-default" value="Обновить кэш (перезагрузка параметров и тегов)" ng-click="model.rebuildCache()" /><br />
+    <span class="red" ng-bind="model.textMessage"></span>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Закрыть</button>
+</div>

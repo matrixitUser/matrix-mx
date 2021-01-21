@@ -1,0 +1,84 @@
+﻿<uib-accordion-heading>
+    Команды <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.open, 'glyphicon-chevron-right': !accordion.open}"></i>
+</uib-accordion-heading>
+<div style="overflow: auto; width: 100%">
+    <table class="table table-hover">
+
+        <tr>
+            <td colspan="2">
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.debug" /> Опрос в режиме отладки
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setmode.edit" /> Установка режима работы
+                </label>
+            </td>
+            <td>
+                <select ng-model="model.matrixIc485.setmode.changeto" class="form-control" ng-if="model.matrixIc485.setmode.edit">
+                    <option value="">Выберите режим работы</option>
+                    <option value="service">Сервис</option>
+                    <option value="work">Работа</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setna.edit" ng-disabled="model.rows.length !== 1" /> Изменение сетевого адреса (одно устройство)
+                </label>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="Введите число от 1 до 240" ng-model="model.matrixIc485.setna.changeto" ng-disabled="model.selected.ids.length !== 1" ng-if="model.matrixIc485.setna.edit" />
+            </td>
+        </tr>
+        <tr ng-if="model.matrixIc485.channels && model.matrixIc485.channels.length > 0">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setbkp.edit" ng-disabled="model.rows.length !== 1" /> Сверка показаний (одно устройство)
+                </label>
+            </td>
+            <td>
+                <div ng-if="model.matrixIc485.setbkp.edit">
+                    <table class="table table-hover" style="margin-bottom: 0px">
+                        <tr>
+                            <!--<th ng-repeat="parameter in model.matrixIc485.parameters | orderBy: 'order'" ng-style="{'width': parameter.width || '100px'}">
+                                <span ng-if="parameter.required">*</span><span ng-bind="parameter.caption"></span>
+                            </th>-->
+                            <th>
+                                Параметр
+                            </th>
+                            <th colspan="2">
+                                Показание
+                            </th>
+                        </tr>
+                        <tr ng-repeat="channel in model.matrixIc485.channels">
+                            <!--<td ng-repeat="parameter in model.matrixIc485.parameters | orderBy: 'order'">
+                                <input type="text" ng-model="channel[parameter.name]" class="form-control" ng-style="{'width': parameter.width || '100px'}" />
+                            </td>-->
+                            <td>
+                                <span ng-bind="channel.parameter"></span>
+                            </td>
+                            <td>
+                                <input type="text" ng-model="channel.value" class="form-control" />
+                            </td>
+                            <td>
+                                <span ng-bind="channel.unit"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <span ng-repeat="button in model.buttons.matrixIc485">
+        <button ng-click="button.act()" tooltip="{{button.header}}" tooltip-append-to-body="true" class="btn btn-default">
+            <img ng-src="{{button.icon}}" height="20" /> {{button.header}}
+        </button>
+    </span>
+</div>

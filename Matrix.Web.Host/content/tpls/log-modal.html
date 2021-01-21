@@ -1,0 +1,105 @@
+<div class="modal-content" ng-if="!model.isLoaded">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+            <img ng-src="/img/cross.png" width="24" />
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+            <img ng-src="/img/application_control_bar.png" width="24" />
+        </button>
+        <h3 class="modal-title modal-preview-head">
+            <img src="/img/action_log.png" width="32" />
+            Опрос
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div style="display: table; width: 100%; overflow: auto; height: 70%">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-6" style="text-align: left">
+
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+                <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-content" ng-if="model.isLoaded">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+            <img ng-src="/img/cross.png" width="24" />
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+            <img ng-src="/img/application_control_bar.png" width="24" />
+        </button>
+        <h3 class="modal-title modal-preview-head">
+
+            <span class="media" tooltip="{{model.names}}" tooltip-append-to-body="true" tooltip-placement="bottom">
+                <img src="/img/action_log.png" width="32" />
+                <span class="badge" ng-bind="model.tubeids.length"></span>
+            </span>
+            Опрос
+            <span ng-if="model.names != ''" class="smallergrey">
+                {{model.names}}
+            </span>
+            <span ng-if="model.names == ''" class="red">
+                нет объектов
+            </span>
+
+        </h3>
+    </div>
+    <div class="modal-body">
+
+        <!-- есть список [.|.] -->
+        <div class="row" style="margin:5px">
+            <!-- 1/2: выбор объекта [v|.] -->
+            <div ng-if="!model.only1" class="col-md-3">
+                <div style="overflow: auto; height: 70%">
+                    <ul ng-repeat="row in model.rowsContainer | orderBy:['pos','title']" class="nav nav-pills nav-stacked">
+                        <li ng-class="{'active': model.selected == row}">
+                            <a style="overflow: hidden" ng-click="model.select(row)">
+                                <span ng-bind="row.title"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 2/2: объект [.|v] -->
+            <div ng-class='{"col-md-9": !model.only1, "col-md-12": model.only1 }'>
+
+                <uib-accordion close-others="true">
+                    <uib-accordion-group ng-repeat="accordion in model.accordion" is-open="accordion.open">
+                        <ng-include src="accordion.template"></ng-include>
+                    </uib-accordion-group>
+                </uib-accordion>
+                <div ag-grid="opt" class="ag-fresh" style="height:60%; width:100%"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-6" style="text-align: left">
+                <button class="btn btn-default" ng-class="{'active': !model.only1}" ng-click="model.toggleSideList()">
+                    <img src="../img/application_side_list.png" height="20" />
+                </button>
+                <button class="btn btn-default" ng-click="model.clearLog()">
+                    <img src="./img/eraser.png" alt="Очистить" height="20" />
+                    Очистить
+                </button>
+                Сообщений: <span ng-bind="model.messagesLen" tooltip-append-to-body="true"></span>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+                <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

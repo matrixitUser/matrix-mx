@@ -1,0 +1,23 @@
+﻿<div ng-controller="MailerCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/report_stack.png" width="16" />
+                Отправка писем по отчётам
+            </div>
+            <div class="modal-preview-head">
+                <span ng-if="model.selected">
+                    <small>{{model.selected.name}}</small>
+                </span>
+                <span ng-if="!model.selected">
+                    <small>Ничего не выбрано</small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+            <img ng-if="model.selected.isSending" src="img/loader.gif" height="32" />
+        </div>
+    </a>
+</div>

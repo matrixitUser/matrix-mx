@@ -1,0 +1,155 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">×</button>
+    <h3 class="modal-title">
+        <img src="/img/xml_exports.png" width="32" />
+        <span ng-if="!model.selected">
+            Отправка шаблонов макетов 80020
+            <span class="smallergrey">
+                макет не выбран
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Макет 80020:
+            <span ng-bind="model.selected.name || '???'"></span>
+            <span class="smallergrey">
+                отправить в сбытовую команию
+            </span>
+            <br />
+            <small style="color: lightgrey">[{{model.selected.id}}]</small>
+        </span>
+    </h3>
+</div>
+
+
+<div class="modal-body" style="padding:5px;">
+
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="!model.objs">
+        <div style="display: table; width: 100%; height: 45%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="model.objs">
+
+        <!-- 1/1: нет макетов [.v.] -->
+        <div ng-if="!model.objs.length">
+            <div style="display: table; width: 100%; height: 45%; overflow: hidden; text-overflow: ellipsis;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <h3>Нет макетов</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- есть макеты [.|..] -->
+        <div ng-if="model.objs.length" class="row" style="margin:5px">
+            <!-- 1/2: выбор макета [v|..] -->
+            <div ng-if="!model.only1" class="col-md-5">
+
+                <div style="overflow: auto; height: 45%">
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="m in model.sorted" ng-class="{'active': model.selected == m, 'disabled': !m.selectable}">
+                            <a style="overflow: hidden" ng-click="model.select(m)">
+                                <span ng-bind="m.name"></span>
+                                <span ng-if="m.daysSent && (m.daysSent.length > 0)" class="badge">
+                                    <span ng-bind="m.daysSent.length"></span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+            <!-- 2/2: макет [.|.v.] -->
+            <div ng-class='{"col-md-7": !model.only1, "col-md-12": model.only1 }'>
+                <!-- отчет выбран -->
+                <div ng-if="model.selected">
+
+                    <div style="display:inline-block;">
+                        <datepicker starting-day="1" ng-model="model.day" ng-click="model.addDate()" class="well well-sm" custom-class="model.selected.getDayClass(date, mode)"></datepicker>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="btn-group col-md-5">
+                            <button class="btn btn-default" ng-click="model.reset()">Обновить</button>
+                            <button class="btn btn-primary" ng-disabled="!model.selected || !model.days || model.days.length == 0 || model.selected.isSending || model.selected.disable" ng-click="model.selected.send()">Отправить</button>
+                        </div>
+                        <div class="col-md-7">
+                            <img ng-if="model.selected.isSending" src="img/loader.gif" height="32" />
+                            <span ng-if="model.days.length > 0 && !model.selected.isSending" class="red" ng-bind='"Выбрано дней для отправки: " + model.days.length'></span>
+                            <br/>
+                            <span ng-if="model.isSend">
+                                <span ng-if="model.successSend" class="green" ng-bind='"Макеты успешно отправлены " + model.errorSend'></span>
+                                <span ng-if="!model.successSend" class="red" ng-bind='"Макеты не отправились: " + model.errorSend'></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- style="overflow: auto; height: 45%"> -->
+
+                        <table class="table table-hover">
+                            <tr>
+                                <td>ИНН</td>
+                                <td>{{model.selected.Inn}}</td>
+                            </tr>
+                            <tr>
+                                <td>Организация</td>
+                                <td>{{model.selected.organization}}</td>
+                            </tr>
+                            <tr>
+                                <td>Адрес сбытовой компании</td>
+                                <td>{{model.selected.receiver}}</td>
+                            </tr>
+                            <tr>
+                                <td>Номер последнего макета</td>
+                                <td>{{model.selected.lastNumber}}</td>
+                            </tr>
+                        </table>
+
+                        <!--<div ng-if="model.selected.days.length > 0">
+                            <div>
+                                <button ng-click="model.selected.days.length = 0" class="btn btn-danger">Сброс</button>
+                                <button class="btn btn-primary" ng-click="model.selected.send()" ng-disabled="model.selected.isSending">Отправить</button>
+                                <img ng-if="model.selected.isSending" src="img/loader.gif" height="32" />
+                            </div>
+                            <div ng-if="!model.selected.isSending" class="red" ng-bind='"Макетов для отправки: " + model.selected.days.length'></div>
+                        </div>-->
+                    </div>
+                </div>
+                <!-- отчет НЕ выбран -->
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 45%; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите макет из списка</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-6 col-md-6" style="text-align: left">
+            <span ng-if="model.actionEdit">
+                <button type="button" class="btn btn-default" ng-click="model.actionEdit(model.selected.id)">
+                    <img src="/img/edit_button.png" height="20" />
+                    <span class="hidden-md">Редактор</span>
+                </button>
+            </span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

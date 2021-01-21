@@ -1,0 +1,1188 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/edit_button.png" width="32" />
+        {{model1.area.name}}
+        <span class="smallergrey">
+            редактор объекта
+        </span>
+    </h3>
+</div>
+
+<div class="modal-body" style="padding:5px;">
+
+    <div ng-if="!isLoaded">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="isLoaded">
+
+        <div class="row" style="margin:5px">
+
+            <div class="col-md-6">
+
+                <div style="overflow: auto; height: 75%">
+
+                    <form editable-form name="areaFrm">
+                        <h4>
+                            Объект учёта<span ng-if="areaFrm.$dirty">*</span>
+                            <button class="btn btn-default" ng-click="model1.area.__editMode = true" ng-if="!model1.area.__editMode" style="font-size: 8pt">
+                                Изменить
+                            </button>
+                        </h4>
+                        <table class="table table-hover">
+                            <tr ng-if="((model1.area.name !== undefined) && (model1.area.name !== '')) || model1.area.__viewMode">
+                                <td style="width:100px"><b><span ng-if="(model1.config === 'teplocom')">Абонент</span><span ng-if="(model1.config !== 'teplocom')">Название</span></b></td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.name" style="font-weight: bold" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+                            <tr ng-if="((model1.area.number !== undefined) && (model1.area.number !== '')) || model1.area.__viewMode">
+                                <td style="width:100px">Номер <span ng-if="(model1.config != 'orenburg')">договора</span><span ng-if="(model1.config == 'orenburg')">площадки</span></td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.number" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+                            <tr ng-if="(model1.config == 'teplocom') && (((model1.area.delegate !== undefined) && (model1.area.delegate !== '')) || model1.area.__viewMode)">
+                                <td style="width:100px">Представитель абонента</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.delegate" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+
+                            <tr ng-if="(model1.config == 'teplocom') && ((!model1.area.addr && (model1.area.address !== undefined) && (model1.area.address !== '')) || model1.area.__viewMode)">
+                                <td>Адрес</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.address" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+
+                            <tr ng-if="(model1.config != 'teplocom') && ((!model1.area.addr && (model1.area.city !== undefined) && (model1.area.city !== '')) || model1.area.__viewMode)">
+                                <td>Город</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.city" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+                            <tr ng-if="(model1.config != 'teplocom') && ((!model1.area.addr && (model1.area.street !== undefined) && (model1.area.street !== '')) || model1.area.__viewMode)">
+                                <td>Улица</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.street" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+                            <tr ng-if="(model1.config != 'teplocom') && ((!model1.area.addr && (model1.area.house !== undefined) && (model1.area.house !== '')) || model1.area.__viewMode)">
+                                <td>Дом</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.house" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+
+
+                            <tr ng-if="((model1.area.addr !== undefined) && (model1.area.addr !== '')) || model1.area.__viewMode">
+                                <td colspan="2">
+                                    Адрес (ФИАС) <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                    <!--<button type="button" class="btn btn-default" style="font-size: 8pt" ng-click="fillAddrFias()" ng-show="!!model1.area.__editMode && !model1.area.addr">Заполнить</button> <br />-->
+
+                                    <input type="text" ng-model="model1.area.addr" placeholder="Введите адрес для поиска в ФИАС"
+                                           uib-typeahead="address as address for address in getLocation($viewValue)"
+                                           typeahead-loading="loadingLocations"
+                                           typeahead-no-results="noResults"
+                                           typeahead-wait-ms="500"
+                                           class="form-control"
+                                           ng-disabled="!model1.area.__editMode">
+
+                                    <div ng-show="noResults">
+                                        <i class="glyphicon glyphicon-remove"></i> Адрес не найден
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr ng-if="(model1.config != 'orenburg') && (((model1.area.respOrganization !== undefined) && (model1.area.respOrganization !== '')) || model1.area.__viewMode)">
+                                <td>Обслуживающая организация</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.respOrganization" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+                            <tr ng-if="((model1.area.respPhone !== undefined) && (model1.area.respPhone !== '')) || model1.area.__viewMode">
+                                <td>Телефон ответственного</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.respPhone" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+
+                            <tr ng-if="!model1.area.__viewMode">
+                                <td colspan="2">
+                                    <button class="btn btn-default" ng-click="model1.area.__viewMode = true" style="font-size: 5pt; width: 100%; height: 24px">
+                                        ...
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <form name="tubeFrm" editable-form>
+                        <h4>Точка учёта<span ng-if="tubeFrm.$dirty">*</span></h4>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-click="changeWorkState()" ng-model="model1.tube.isDisabled" /> Отключен
+                            </label>
+                        </div>
+
+                        <alert ng-if="model1.tube._disabledHistory.length>0">
+                            <span ng-repeat="history in model1.tube._disabledHistory | orderBy:'-start' | limitTo:3">
+                                <div>с <i>{{history.start | amDateFormat:"DD.MM.YYYY"}}</i> <span ng-if="history.end">по <i>{{history.end | amDateFormat:"DD.MM.YYYY"}}</i></span> <b>{{history.reason}}</b></div>
+                            </span>
+                        </alert>
+
+                        <table class="table table-hover">
+                            <tr>
+                                <td colspan="2">
+                                    <label>
+                                        <input type="checkbox" ng-model="model1.tube.logEnable" ng-disabled="model1.tube.isDisabled" /> Включение логгирования
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr ng-if="model1.tube.logEnable">
+                                <td style="width:100px">Уровень логов</td>
+                                <td>
+                                    <select ng-model="model1.tube.logLevel" ng-init="model1.tube.logLevel = model1.tube.logLevel || '1'" class="form-control" ng-disabled="model1.tube.isDisabled">
+                                        <option value="0">Системные сообщения</option>
+                                        <option value="1">Основная информация</option>
+                                        <option value="2">Отладочная информация</option>
+                                        <option value="3">Режим трассировки</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">Ресурс</td>
+                                <td>
+                                    <ui-select ng-model="model1.tube.resource"
+                                               theme="bootstrap"
+                                               ng-disabled="model1.tube.isDisabled"
+                                               reset-search-input="false"
+                                               style="width: 300px;"
+                                               title="Выберите тип">
+                                        <ui-select-match placeholder="Выберите ресурс...">{{$select.selected.caption}}</ui-select-match>
+                                        <ui-select-choices repeat="resource.name as resource in model1.resources track by $index"
+                                                           refresh-delay="0">
+                                            <span ng-bind-html="resource.caption | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px"><b>Название</b></td>
+                                <td><input type="text" class="form-control" ng-model="model1.tube.name" ng-disabled="model1.tube.isDisabled" style="font-weight: bold" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">Примечание</td>
+                                <td><textarea class="form-control" rows="3" ng-model="model1.tube.comment" ng-disabled="model1.tube.isDisabled"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">Расчетный день (программный)</td>
+                                <td><input type="text" class="form-control" ng-model="model1.tube.contractDay" ng-disabled="model1.tube.isDisabled" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">Вычислитель</td>
+                                <td>
+                                    <ui-select ng-model="model1.device"
+                                               theme="bootstrap"
+                                               ng-disabled="model1.tube.isDisabled"
+                                               reset-search-input="false"
+                                               on-select="changeDevice($item)"
+                                               style="width: 300px;"
+                                               title="Выберите тип">
+                                        <ui-select-match placeholder="Выберите тип...">{{$select.selected.name}}</ui-select-match>
+                                        <ui-select-choices repeat="device in model1.devices track by $index"
+                                                           refresh-delay="0">
+                                            <!--<img ng-src="{{meta[connection.type].img}}" width="20" />-->
+                                            <span ng-bind-html="device.name | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="field in model1.device.fieldNames">
+                                <td style="width:100px">
+                                    {{model1.device.fieldCaptions[$index]}}
+                                </td>
+
+                                <td>
+                                    <span ng-switch="field">
+                                        <span ng-switch-when="startDate">
+                                            <!--<span class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy" ng-model="model1.tube[field]" datepicker-options="model1.dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </span>-->
+                                            <input type="date" class="form-control" ng-model="model1.tube.startDate1" ng-disabled="model1.tube.isDisabled" />
+                                        </span>
+                                        <span ng-switch-when="parameters" class="input-group">
+                                            <input type="text" class="form-control" ng-model="model1.tube[field]" ng-disabled="model1.tube.isDisabled" />
+                                            <span class="input-group-btn">
+                                                <input type="button" class="btn btn-default" value="Редактор" ng-click="model1.editParameters(model1.tube[field])" ng-disabled="model1.tube.isDisabled" />
+                                            </span>
+                                        </span>
+                                        <span ng-switch-when="obises" class="input-group">
+                                            <input type="text" class="form-control" ng-model="model1.tube[field]" ng-disabled="model1.tube.isDisabled" />
+                                            <span class="input-group-btn">
+                                                <input type="button" class="btn btn-default" value="Редактор" ng-click="model1.editObises(model1.tube[field])" ng-disabled="model1.tube.isDisabled" />
+                                            </span>
+                                        </span>
+                                        <span ng-switch-default><input type="text" class="form-control" ng-model="model1.tube[field]" ng-disabled="model1.tube.isDisabled" /></span>
+                                    </span>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div style="overflow: auto; height: 75%">
+                    <div ng-repeat="connection in model1.connections">
+                        <ng-include src="'choose-connection-edit-template.html'"></ng-include>
+                        <hr style="height: 5px; background: black" />
+                    </div>
+                    <hr />
+                    <span>
+                        <ui-select ng-model="model1.tube._child"
+                                   theme="bootstrap"
+                                   on-select="addOrCreateConnection(model1.tube)"
+                                   reset-search-input="true"
+                                   style="width: 300px;"
+                                   title="Выберите соединение">
+                            <ui-select-match placeholder="Выберите соединение...">{{$select.selected._text}}</ui-select-match>
+                            <ui-select-choices repeat="connection in model1._connections track by $index"
+                                               refresh="refreshConnections($select.search,model1,['CsdConnection','MatrixConnection','SimpleMatrixConnection','TeleofisWrxConnection','MilurConnection','MatrixTerminalConnection','LanConnection','MatrixSwitch','ZigbeeConnection','ZliteConnection','HttpConnection','MxModbus','TcpClient','ComConnection'])"
+                                               refresh-delay="0">
+
+                                <img ng-src="{{meta[connection.type].img}}" width="20" />
+                                <span ng-bind-html="connection._text | highlight: $select.search"></span>
+
+                            </ui-select-choices>
+                        </ui-select>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-3 col-md-6" style="text-align: left">
+            <button class="btn btn-primary" ng-click="model.delete()">{{trashButton}}</button>
+        </div>
+
+        <div class="col-xs-9 col-md-6">
+            <button class="btn btn-primary" ng-click="save()">Сохранить</button>
+            <button class="btn btn-warning" ng-click="model.close(null)">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="csd-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/phone.png" width="20">
+            Модем
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover" ng-disabled="!connection.__editMode || connection.isDisabled">
+        <tr>
+            <td style="width:100px">Телефон</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.phone" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Ожидание при наборе номера (сек.)</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.callTimeout" min="30" max="180" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">AT команды</td>
+            <td>
+                <textarea ng-model="connection.commands" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Окна (часы опроса, через запятую)</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.windows" ng-disabled="!connection.__editMode || connection.isDisabled" ng-list />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Оборудование</td>
+            <td>
+                <select ng-model="connection.dev" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled">
+                    <option value="modem">Модем</option>
+                    <option value="stel">Стел</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Опрос через:</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Выберите модемный пул...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['CsdPort','Modem'])"
+                                       refresh-delay="0">
+                        <span ng-include="connection-icon.html" onload="con = port"></span>
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="matrix-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/fastrack.png" width="20">
+            Контроллер матрикс
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>IMEI</td>
+            <td>
+                <input type="text" ng-model="connection.imei" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Телефон</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.phone" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт на контролере</td>
+            <td>
+                <input type="text" ng-model="connection._relation.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт матрикс</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['MatrixPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="teleofis-wrx-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/teleofiswrx.png" width="20">
+            Терминал TELEOFIS-WRX
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>IMEI</td>
+            <td>
+                <input type="text" ng-model="connection.imei" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Телефон</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.phone" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт на контролере</td>
+            <td>
+                <input type="text" ng-model="connection._relation.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт телеофис</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['TeleofisWrxPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+<script type="text/ng-template" id="milur-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/teleofiswrx.png" width="20">
+            Терминал Milur
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>IMEI</td>
+            <td>
+                <input type="text" ng-model="connection.imei" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Телефон</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.phone" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт на контролере</td>
+            <td>
+                <input type="text" ng-model="connection._relation.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт милур</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['TeleofisWrxPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+<script type="text/ng-template" id="matrix-terminal-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/teleofiswrx.png" width="20">
+            Matrix терминал 
+        </span>
+        <button class="btn btn-default" ng-click="model1.editMatrixTerminal(connection)" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>IMEI</td>
+            <td>
+                <input type="text" ng-model="connection.imei" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Телефон</td>
+            <td>
+                <input type="text" class="form-control" ng-model="connection.phone" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт на контролере</td>
+            <td>
+                <input type="text" ng-model="connection._relation.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт матрикс</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['TeleofisWrxPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="matrix-switch-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/fastrack.png" width="20">
+            Свитч матрикс
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>Название</td>
+            <td>
+                <input type="text" ng-model="connection.name" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт на свиче</td>
+            <td>
+                <input type="text" ng-model="connection._relation.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Опрос через:</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Выберите соединение">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['MatrixConnection'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+    <div ng-if="connection._child" ng-repeat="connection in [connection._child]"><ng-include src="'choose-connection-edit-template.html'"></ng-include></div>
+</script>
+
+<script type="text/ng-template" id="lan-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/network_adapter.png" width="20">
+            LAN-соединение
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>IP</td>
+            <td>
+                <input type="text" ng-model="connection.host" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт</td>
+            <td>
+                <input type="text" ng-model="connection.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт LAN</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['LanPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="zlite-port-edit.html">
+    <h4>
+        <span>
+            <img src="../img/network_wireless.png" width="20">
+            Порт Zlite
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>Название</td>
+            <td>
+                <input type="text" ng-model="connection.name" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Конфигурация сети</td>
+            <td>
+                <span class="input-group">
+                    <input type="text" ng-model="connection.network" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+                    <span class="input-group-btn">
+                        <input type="button" class="btn btn-default" value="Редактор" ng-click="model1.editNetwork(connection, 'network')" ng-disabled="!connection.__editMode || connection.isDisabled" />
+                    </span>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Опрос через</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Выберите соединение...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['LanConnection', 'ComConnection'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+    <div ng-if="connection._child" ng-repeat="connection in [connection._child]"><ng-include src="'choose-connection-edit-template.html'"></ng-include></div>
+</script>
+
+<script type="text/ng-template" id="http-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/globe_network.png" width="20">
+            Соединение через Интернет
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px">Порт HTTP</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['HttpPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="zigbee-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/network_wireless.png" width="20">
+            Беспроводное соединение
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>MAC</td>
+            <td>
+                <input type="text" ng-model="connection.mac" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Вид</td>
+            <td>
+                <select class="form-control" ng-model="connection.kind" ng-disabled="!connection.__editMode || connection.isDisabled">
+                    <option value="C">Координатор</option>
+                    <option value="R">Роутер</option>
+                    <option value="ED">Конечное устройство</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт беспроводного соединения</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['ZigbeePort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="zlite-connection-edit.html">
+    <h4>
+        <span>
+            <img src="../img/node_wireless.png" width="20">
+            Zlite-соединение
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>Адрес</td>
+            <td>
+                <input type="text" ng-model="connection.addr" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Беспроводная сеть</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['ZlitePort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+    <div ng-if="connection._child" ng-repeat="connection in [connection._child]"><ng-include src="'choose-connection-edit-template.html'"></ng-include></div>
+</script>
+
+
+<script type="text/ng-template" id="mxmodbus-edit.html">
+    <h4>
+        <span>
+            <img src="../img/cog.png" width="20">
+            Modbus-коннектор
+            <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+                Изменить
+            </button>
+        </span>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>Инициатива снизу?</td>
+            <td>
+                <input type="checkbox" ng-model="connection.receiver" class="form-control" ng-disabled="connection.isDisabled || !connection.__editMode" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Порт</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="connection.isDisabled || !connection.__editMode"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['TcpClient','ComConnection'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="tcpclient-edit.html">
+    <h4>
+        <span>
+            <img src="../img/network_adapter.png" width="20">
+            Клиент TCP/IP
+            <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+                Изменить
+            </button>
+        </span>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>IP</td>
+            <td>
+                <input type="text" ng-model="connection.host" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Порт</td>
+            <td>
+                <input type="text" ng-model="connection.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Настройка режима соединения</td>
+            <td>
+                <select ng-model="connection.receiver" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled">
+                    <option value="">По умолчанию</option>
+                    <option value="false">Подключение на время опроса</option>
+                    <option value="true">Всегда на связи</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Интервал проверки связи (если всегда на связи), сек.</td>
+            <td>
+                <input type="text" ng-model="connection.keepalive" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Сервер</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="!connection.__editMode || connection.isDisabled"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['LanPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+
+<script type="text/ng-template" id="comport-edit.html">
+    <h4>
+        <span>
+            <img src="../img/port.png" width="20">
+            COM-порт
+        </span>
+        <button class="btn btn-default" ng-click="connection.__editMode = true" ng-if="!connection.__editMode" style="font-size: 8pt">
+            Изменить
+        </button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="$parent.deleteConnection(connection)">×</button>
+    </h4>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="connection.isDisabled" ng-disabled="!connection.__editMode" /> Отключен
+        </label>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <td style="width:100px" readonly>Порт</td>
+            <td>
+                <input type="text" ng-model="connection.port" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Скорость</td>
+            <td>
+                <input type="text" ng-model="connection.baudRate" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled" />
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Чётность</td>
+            <td>
+                <select class="form-control" ng-model="connection.parity" ng-disabled="!connection.__editMode || connection.isDisabled">
+                    <option value="">Нет</option>
+                    <option value="even">Чёт</option>
+                    <option value="odd">Нечёт</option>
+                    <option value="mark">1</option>
+                    <option value="space">0</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Управление потоком</td>
+            <td>
+                <select class="form-control" ng-model="connection.handshake" ng-disabled="!connection.__editMode || connection.isDisabled">
+                    <option value="">Нет</option>
+                    <option value="rts">RTS/CTS</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px" readonly>Настройка режима соединения</td>
+            <td>
+                <select ng-model="connection.receiver" class="form-control" ng-disabled="!connection.__editMode || connection.isDisabled">
+                    <option value="">По умолчанию</option>
+                    <option value="false">Подключение на время опроса</option>
+                    <option value="true">Всегда на связи</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100px">Сервер</td>
+            <td>
+                <ui-select ng-model="connection._child"
+                           theme="bootstrap"
+                           ng-disabled="connection.isDisabled || !connection.__editMode"
+                           on-select="$parent.addOrCreateConnection(connection)"
+                           reset-search-input="true"
+                           style="width: 300px;"
+                           title="Выберите порт">
+                    <ui-select-match placeholder="Опрос через...">{{$select.selected._text}}</ui-select-match>
+                    <ui-select-choices repeat="port in connection._connections track by $index"
+                                       refresh="refreshConnections($select.search,connection,['ComPort'])"
+                                       refresh-delay="0">
+                        <span ng-bind-html="port._text | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </td>
+        </tr>
+    </table>
+</script>
+
+
+
+<script type="text/ng-template" id="choose-connection-edit-template.html">
+    <div nf-if="connection" ng-switch="connection.type">
+        <div ng-switch-when="CsdConnection">
+            <ng-include src="'csd-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="MatrixConnection">
+            <ng-include src="'matrix-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="TeleofisWrxConnection">
+            <ng-include src="'teleofis-wrx-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="MilurConnection">
+            <ng-include src="'milur-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="MatrixTerminalConnection">
+            <ng-include src="'matrix-terminal-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="SimpleMatrixConnection">
+            <ng-include src="'matrix-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="MatrixSwitch">
+            <ng-include src="'matrix-switch-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="LanConnection">
+            <ng-include src="'lan-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="HttpConnection">
+            <ng-include src="'http-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="ZigbeeConnection">
+            <ng-include src="'zigbee-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="ZliteConnection">
+            <ng-include src="'zlite-connection-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="ZlitePort">
+            <ng-include src="'zlite-port-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="MxModbus">
+            <ng-include src="'mxmodbus-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="TcpClient">
+            <ng-include src="'tcpclient-edit.html'"></ng-include>
+        </div>
+        <div ng-switch-when="ComConnection">
+            <ng-include src="'comport-edit.html'"></ng-include>
+        </div>
+</script>
+
+<script type="text/ng-template" id="connection-icon.html">
+    <span nf-if="con" ng-switch="con.type">
+        <span ng-switch-when="CsdConnection">
+            <img src="../img/phone.png" width="20">
+        </span>
+        <span ng-switch-when="MatrixConnection">
+            <img src="../img/fastrack.png" width="20">
+        </span>
+        <span ng-switch-when="SimpleMatrixConnection">
+            <img src="../img/fastrack.png" width="20">
+        </span>
+        <span ng-switch-when="TeleofisWrxConnection">
+            <img src="../img/teleofiswrx.png" width="20">
+        </span>
+        <span ng-switch-when="MilurConnection">
+            <img src="../img/teleofiswrx.png" width="20">
+        </span>
+        <span ng-switch-when="MatrixTerminalConnection">
+            <img src="../img/teleofiswrx.png" width="20">
+        </span>
+        <span ng-switch-when="MatrixSwitch">
+            <img src="../img/fastrack.png" width="20">
+        </span>
+        <span ng-switch-when="LanConnection">
+            <img src="../img/network_adapter.png" width="20">
+        </span>
+        <span ng-switch-when="HttpConnection">
+            <img src="../img/globe_network.png" width="20">
+        </span>
+        <span ng-switch-when="ZigbeeConnection">
+            <img src="../img/network_wireless.png" width="20">
+        </span>
+        <span ng-switch-when="ZliteConnection">
+            <img src="../img/node_wireless.png" width="20">
+        </span>
+        <span ng-switch-when="ZlitePort">
+            <img src="../img/network_wireless.png" width="20">
+        </span>
+        <span ng-switch-when="MxModbus">
+            <img src="../img/cog.png" width="20">
+        </span>
+        <span ng-switch-when="TcpClient">
+            <img src="../img/network_adapter.png" width="20">
+        </span>
+        <span ng-switch-when="ComConnection">
+            <img src="../img/port.png" width="20">
+        </span>
+    </span>
+</script>
+
+
+<script type="text/ng-template" id="disable-confirm.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Причина отключения</h3>
+    </div>
+    <div class="modal-body">
+        <div fs-datetime="" ng-model="model.date" ng-disabled="false"></div>
+        <textarea style="margin-top:5px" ng-model="model.reason" class="form-control"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
+    </div>
+</script>

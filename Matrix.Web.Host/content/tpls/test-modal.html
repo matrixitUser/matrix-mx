@@ -1,0 +1,15 @@
+<div class="modal-header" style="padding-bottom: 0px">
+    <h3 class="modal-title">
+        <img src="/img/action_log.png" width="32" />
+        Тест
+        <span class="badge" tooltip="{{model.ids | json}}" tooltip-append-to-body="true" tooltip-placement="bottom">{{model.ids.length}}</span>
+    </h3>
+</div>
+<div class="modal-body">
+    <h1 ng-bind="model.counter"></h1>
+    <button ng-click="model.decrement()" class="btn btn-default"><img src="./img/16/toggle.png" /></button>
+    <button ng-click="model.increment()" class="btn btn-default"><img src="./img/16/toggle_expand.png" /></button>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+</div>

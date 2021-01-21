@@ -1,0 +1,43 @@
+﻿<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" id="report-window" style="width:90%">
+        <div class="modal-content" ng-controller="reportCtrl">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="close()" data-target="#report-window" aria-hidden="true">×</button>
+                <h3 class="modal-title">Отчеты</h3>
+
+                <div class="navbar navbar-default" role="navigation" bs-navbar>
+                    <div class="container-fluid">
+                        <form class="navbar-form navbar-left">
+                            <input size="6" class="form-control" ng-model="start" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+                            <input size="4" class="form-control" ng-model="start" data-autoclose="1" placeholder="Время" bs-timepicker type="text">
+                            <input size="6" class="form-control" ng-model="end" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+                            <input size="4" class="form-control" ng-model="end" data-autoclose="1" placeholder="Время" bs-timepicker type="text">
+                        </form>
+
+                        <button class="btn btn-default navbar-btn" ng-click="update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+                        <button class="btn btn-default navbar-btn" ng-click="savePdf()"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+                        <button class="btn btn-default navbar-btn" ng-click="toExcel()"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+                        <button class="btn btn-default navbar-btn" print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div ng-show="noObjects" class="alert alert-danger" style="margin-top:10px">
+                    <strong>не выбран ни один объект</strong> <button class="btn btn-primary" ng-click="close()">закрыть</button>
+                </div>
+                <div ng-hide="noObjects">
+                    <div ng-show="wait">
+                        <progressbar class="progress-striped active" value="100" type="info"><i>Идет построение отчета, ожидайте</i></progressbar>
+                    </div>
+                    <div ng-hide="wait" class="panel panel-default">
+                        <div data-ng-bind-html="reportAsHtml" id="report-content" style="overflow:scroll">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="close()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

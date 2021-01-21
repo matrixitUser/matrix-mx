@@ -1,0 +1,286 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title modal-preview-head">
+        <span class="media" tooltip="{{model.header}}" tooltip-append-to-body="true" tooltip-placement="bottom">
+            <img src="/img/report.png" width="32" />
+            <span class="badge" ng-bind="model.names.length"></span>
+        </span>
+        <span ng-if="!model.selected">
+            Построитель отчётов
+            <span class="smallergrey">
+                выберите отчёт
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Отчёт:
+            <span ng-bind="model.selected.name"></span>
+            <span ng-if="model.names.length>0" class="smallergrey">
+                для
+                {{model.names.join(', ')}}
+            </span>
+            <span ng-if="model.names.length==0" class="red">
+                нет объектов
+            </span>
+        </span>
+    </h3>
+</div>
+<div class="modal-body">
+
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="!model.objs">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="model.objs">
+
+        <!-- 1/1: нет отчётов [.v.] -->
+        <div ng-if="!model.objs.length">
+            <div style="display: table; width: 100%; height: 75%; overflow: hidden; text-overflow: ellipsis;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <h3>Нет отчётов</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- есть отчёты [.|..] -->
+        <div ng-if="model.objs.length" class="row" style="margin:5px">
+            <!-- 1/2: выбор отчёта [v|..] -->
+            <div ng-if="!model.only1" class="col-md-3">
+                
+                <div style="overflow: auto; height: 75%">
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="m in model.sorted | filter: { isHidden: '!true' }" ng-class="{'active': model.selected == m, 'disabled': !m.selectable}">
+                            <a style="overflow: hidden" ng-class="{'darkgreen': m.done, 'bold': m.done}" ng-click="model.select(m.id)">
+                                <span ng-bind="m.name"></span>
+                                <span ng-if="m.state=='wait'">
+                                    <img src="img/16/loader.gif" width="16" />
+                                </span>
+                                <span ng-if="m.state=='success'">
+                                    <img src="img/16/tick.png" width="16" />
+                                </span>
+                                <span ng-if="m.state=='error'">
+                                    <img src="img/16/cross.png" width="16" />
+                                </span>
+                            </a>
+                        </li>
+                        <li ng-if="!model.showAll" style="align-content:center; font-weight: bold">
+                            <a style="overflow: hidden" ng-click="model.showAll = !model.showAll">
+                                ...
+                            </a>
+                        </li>
+                        <li ng-if="model.showAll" ng-repeat="m in model.sorted | filter: { isHidden: 'true' }" ng-class="{'active': model.selected == m, 'disabled': !m.selectable}">
+                            <a style="overflow: hidden" ng-class="{'darkgreen': m.done, 'bold': m.done}" ng-click="model.select(m.id)">
+                                <span ng-bind="m.name"></span>
+                                <span ng-if="m.state=='wait'">
+                                    <img src="img/16/loader.gif" width="16" />
+                                </span>
+                                <span ng-if="m.state=='success'">
+                                    <img src="img/16/tick.png" width="16" />
+                                </span>
+                                <span ng-if="m.state=='error'">
+                                    <img src="img/16/cross.png" width="16" />
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- 2/2: отчёт [.|.v.] -->
+            <div ng-class='{"col-md-9": !model.only1, "col-md-12": model.only1 }'>
+
+                <!-- отчёт НЕ выбран -->
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 75%; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите отчёт из списка</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- отчёт выбран -->
+                <div ng-if="model.selected">
+
+                    <!--<div style="overflow: auto; height: 75%">-->
+
+                    <form fs-form-for="" class="form-horizontal">
+                        <div class="form-group row">
+
+                            <div class="col-lg-2 col-md-2 col-xs-6" style="padding-right:0px">
+                                <ui-select ng-model="model.selected.seDate"
+                                           theme="bootstrap"
+                                           reset-search-input="false"
+                                           on-select="model.selected.seSelect($item)"
+                                           title="Выберите диапазон">
+                                    <ui-select-match placeholder="Выберите диапазон...">{{$select.selected.caption}}</ui-select-match>
+                                    <ui-select-choices repeat="se in (model.seDates | filter: $select.search) track by se.name" refresh-delay="0">
+                                        <span ng-bind-html="se.caption | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-xs-6" style="padding-right:0px">
+                                <div class="btn-group">
+                                    <button ng-if="!model.selected.canDoPrevDate()" type="button" class="btn btn-default" ng-disabled="true">
+                                        <img src="./img/date_previous_gray.png" height="20" title="Предыдущая дата" />
+                                    </button>
+                                    <button ng-if="!model.selected.canDoNextDate()" type="button" class="btn btn-default" ng-disabled="true">
+                                        <img src="./img/date_next_gray.png" height="20" title="Следующая дата" />
+                                    </button>
+
+                                    <button ng-if="model.selected.canDoPrevDate()" type="button" class="btn btn-default" ng-click="model.selected.prevDate()" ng-disabled="false">
+                                        <img src="./img/date_previous.png" height="20" title="Предыдущая дата" />
+                                    </button>
+                                    <button ng-if="model.selected.canDoNextDate()" type="button" class="btn btn-default" ng-click="model.selected.nextDate()" ng-disabled="false">
+                                        <img src="./img/date_next.png" height="20" title="Следующая дата" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div ng-if="model.selected.range=='Month'" class="col-xs-12 col-lg-6 col-md-6" style="padding-right:0px">
+                                 <div class="input-group">
+                                    <select class="custom-select" ng-model="model.selected.selectMonth">
+                                        <option value=0>Январь</option>
+                                        <option value=1>Февраль</option>
+                                        <option value=2>Март</option>
+                                        <option value=3>Апрель</option>
+                                        <option value=4>Май</option>
+                                        <option value=5>Июнь</option>
+                                        <option value=6>Июль</option>
+                                        <option value=7>Август</option>
+                                        <option value=8>Сентябрь</option>
+                                        <option value=9>Октябрь</option>
+                                        <option value=10>Ноябрь</option>
+                                        <option value=11>Декабрь</option>
+                                    </select>
+                                    <select class="custom-select" ng-model="model.selected.selectYear">
+                                        <option value=2018>2018</option>
+                                        <option value=2019>2019</option>
+                                        <option value=2020>2020</option>
+                                    </select>
+                                    <span class="input-group-addon input-glyphicon glyphicon glyphicon-calendar"></span>
+                                </div>
+                            </div>
+                            <div ng-if="model.selected.range!='Month'" class="col-xs-12 col-lg-3 col-md-3" style="padding-right:0px">
+                                <div ng-if="!model.selected.range || model.selected.range=='Hour'" fs-datetime="" ng-model="model.selected.start" ng-change="model.selected.startChanged()"></div>
+                                <div ng-if="model.selected.range=='Day'" fs-date="" ng-model="model.selected.start" ng-change="model.selected.startChanged()"></div>
+                            </div>
+                            <div ng-if="model.selected.range!='Month'" class="col-xs-12 col-lg-3 col-md-3" style="padding-right:0px">
+                                <div ng-if="!model.selected.range || model.selected.range=='Hour'" fs-datetime="" ng-model="model.selected.end" ng-change="model.selected.endChanged()"></div>
+                                <div ng-if="model.selected.range=='Day'" fs-date="" ng-model="model.selected.end" ng-change="model.selected.endChanged()"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-lg-2 col-md-2">
+
+                                <div class="btn-group" dropdown>
+                                    <button id="split-button" type="button" class="btn btn-default" ng-click="model.selected.update()" ng-class="{'disabled' : model.selected.state == 'wait'}">
+                                        <img src="./img/table_refresh.png" height="20" title="Обновить" />
+                                    </button>
+                                    <button type="button" class="btn btn-default" dropdown-toggle>
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Дополнительно</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="split-button">
+                                        <li role="menuitem">
+                                            <a href="#" ng-click="model.savePdf(model.selected.reportAsHtml, model.selected.isOrientationAlbum)" class="btn" ng-class="{'disabled' : model.selected.state != 'success'}">
+                                                <img src="./img/pdf.png" height="20" title="Экспорт в PDF" />Экспорт в PDF
+                                            </a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a href="#" ng-click="model.toExcel(model.selected.reportAsHtml)" class="btn" ng-class="{'disabled' : model.selected.state != 'success'}">
+                                                <img src="./img/xls.png" height="20" title="Экспорт в XLS" />Экспорт в XLS
+                                            </a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a href="#" ng-click="model.sendMailToPdf(model.selected.reportAsHtml, model.selected.isOrientationAlbum)" class="btn" ng-class="{'disabled' : model.selected.state != 'success'}">
+                                                <img src="./img/pdf.png" height="20" title="Рассылка отчета(PDF)" />Рассылка отчета(PDF)
+                                            </a>
+                                        </li>
+                                        <li role="menuitem">
+                                            <a href="#" print-div="#report-content" class="btn" ng-class="{'disabled' : model.selected.state != 'success'}">
+                                                <img src="./img/print.png" height="20" title="Печать" />Печать
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!--<div class="hidden-md btn-group">
+            <button class="btn btn-default" ng-click="model.selected.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+            <button class="btn btn-default" ng-click="model.savePdf(model.selected.reportAsHtml)"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+            <button class="btn btn-default" ng-click="model.toExcel(model.selected.reportAsHtml)"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+            <button class="btn btn-default" print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>
+        </div>-->
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <div ng-if="model.selected.state == 'error'" style="overflow: auto; width: 100%; height: 70%">
+                        <div class="alert alert-danger" style="margin-top: 0px; margin-bottom: 0px">
+                            <strong>{{model.selected.error}}</strong>
+                        </div>
+                    </div>
+
+                    <div ng-if="model.selected.state != 'error'" style="overflow: auto; width: 100%; height: 70%">
+                        <div ng-if="model.selected.state == 'idle'" class="alert alert-info" style="margin-top: 0px; margin-bottom: 0px">
+                            Выберите дату и нажмите <button class="btn btn-default " ng-click="model.selected.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+                        </div>
+                        <uib-progressbar ng-if="model.selected.state == 'wait'" class="progress-striped active" value="100" type="info" style="margin-bottom: 0px">
+                            <i>Идет построение отчёта, ожидайте</i>
+                        </uib-progressbar>
+                        <uib-progressbar ng-if="model.selected.state == 'success' && model.selected.warningText != ''" value="100" type="warning" style="margin-bottom: 0px">
+                            <i>{{model.selected.warningText}}</i>
+                        </uib-progressbar>
+                        <div ng-if="model.selected.reportAsHtml" ng-class="{'disabled' : model.selected.state == 'wait'}" ng-bind-html="model.selected.reportAsHtml" id="report-content"></div>
+                        <!--bind-html-compile="model.selected.reportAsHtml"-->
+                    </div>
+
+                    <!--</div>-->
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-3 col-md-6" style="text-align: left">
+            <button class="btn btn-default" ng-class="{'active': !model.only1}" ng-click="model.toggleSideList()">
+                <img src="../img/application_side_list.png" height="20" />
+            </button>
+        </div>
+        <div class="col-xs-9 col-md-6">
+            <span ng-if="model.doneCounter>0">
+                <span class="darkgreen bold" ng-bind='"Построено отчётов: " + model.doneCounter'></span>
+            </span>
+            <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="navbar navbar-default" role="navigation" style="margin-bottom:5px">
+        <div class="container-fluid">
+            <fs-form-for>
+                <div fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+                <div fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+            </fs-form-for>
+
+            <button class="btn btn-default navbar-btn" ng-click="model.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+            <button class="btn btn-default navbar-btn" ng-click="model.savePdf()"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+            <button class="btn btn-default navbar-btn" ng-click="model.toExcel()"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+            <button class="btn btn-default navbar-btn" print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>
+        </div>
+    </div>-->

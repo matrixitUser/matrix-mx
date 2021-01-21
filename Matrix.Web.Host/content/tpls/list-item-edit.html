@@ -1,0 +1,203 @@
+﻿<!--master-detail форма для редактирования графа-->
+<div ng-controller="listItemEditCtrl">
+    <div ui-layout="{flow:'column',dividerSize:'10'}">
+        <!--<div ui-layout-container size="20%" >
+            <button class="btn btn-info" ng-click="addNew('CsdConnection')">Добавить модем</button>
+        </div>-->
+        <div ui-layout-container>
+            <mx-resizer on-resize="resize(size)">
+                <mx-waiting wait-for="loadComplete">
+                    <mx-waiting-gif>
+                        <div class="row text-center">
+                            <img src="./img/loading.gif" width="140" />
+                        </div>
+                    </mx-waiting-gif>
+                    <mx-waiting-content>
+                        <sytoscape elements="elements" height="400" width="width" on-select="onSelect(selected)"></sytoscape>
+                    </mx-waiting-content>
+                </mx-waiting>
+            </mx-resizer>
+        </div>
+        <div ui-layout-container size="30%">
+            <form class="form-horizontal" name="frm">
+                <span ng-switch on="selected.type">
+                    <span ng-switch-when="Folder">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+                    </span>
+                    <span ng-switch-when="Area">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">город</span>
+                            <input type="text" class="form-control" placeholder="Город" ng-model="selected.city">
+                        </div>
+
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">улица</span>
+                            <input type="text" class="form-control" placeholder="Улица" ng-model="selected.street">
+                        </div>
+                    </span>
+                    <span ng-switch-when="Tube">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">адрес</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.networkAddress">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">пароль</span>
+                            <input type="text" class="form-control" placeholder="Пароль" ng-model="selected.password">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">канал</span>
+                            <input type="number" class="form-control" placeholder="Канал" ng-model="selected.channel">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">тип</span>
+                            <select class="form-control" ng-model="selected.deviceTypeId" ng-options="dt.id as dt.name for dt in selected.w.deviceTypes"></select>
+                        </div>
+                    </span>
+                    <span ng-switch-when="CsdConnection">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">телефон</span>
+                            <input type="text" class="form-control" placeholder="Телефон" ng-model="selected.phone">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">приоритет</span>
+                            <input type="text" class="form-control" placeholder="Приоритет" ng-model="selected.priority">
+                        </div>
+                    </span>
+                    <span ng-switch-when="MatrixConnection">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">IMEI</span>
+                            <input type="text" class="form-control" placeholder="IMEI" ng-model="selected.imei">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">телефон</span>
+                            <input type="text" class="form-control" placeholder="Телефон" ng-model="selected.phone">
+                        </div>
+                    </span>
+                    <span ng-switch-when="MatrixSwitch">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">свитч</span>
+                            <span class="form-control">укажите порт в соединении</span>
+                        </div>
+                    </span>
+                    <span ng-switch-when="MatrixPort">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">порт</span>
+                            <input type="text" class="form-control" placeholder="Порт" ng-model="selected.port">
+                        </div>
+                    </span>
+                    <span ng-switch-when="CsdPort">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">модемы</span>
+                            <button class="form-control btn btn-default" ng-click="selected.w.editModems()">Модемы</button>
+                        </div>
+                    </span>
+                    <span ng-switch-when="LanPort">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+                    </span>
+                    <span ng-switch-when="ComConnection">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">порт</span>
+                            <input type="text" class="form-control" placeholder="Порт" ng-model="selected.port">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">приоритет</span>
+                            <input type="text" class="form-control" placeholder="Приоритет" ng-model="selected.priority">
+                        </div>
+                    </span>
+                    <span ng-switch-when="LanConnection">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">ip</span>
+                            <input type="text" class="form-control" placeholder="ip" ng-model="selected.ip">
+                        </div>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">порт</span>
+                            <input type="text" class="form-control" placeholder="Порт" ng-model="selected.port">
+                        </div>
+                    </span>
+                    <span ng-switch-when="SurveyServer">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">название</span>
+                            <input type="text" class="form-control" placeholder="Название" ng-model="selected.name">
+                        </div>
+                    </span>
+                    <span ng-switch-when="Relation">
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">порт</span>
+                            <input type="text" class="form-control" placeholder="Порт" ng-model="selected.port">
+                        </div>
+                    </span>
+                    <span ng-switch-default>
+                        <div class="input-group mx-margin">
+                            <span class="input-group-addon mx-label">тип</span>
+                            <span class="form-control">{{selected.type}}</span>
+                        </div>
+                    </span>
+                </span>
+                <input type="hidden" value="{{selected.w.dirty=frm.$dirty}}" />
+                <span style="color:white">{{selected.id}}</span>
+            </form>
+            <hr />
+
+            <button ng-click="delete(selected)" class="btn btn-default">
+                <img src="img/recycle.png" height="20" />
+                <span>удалить</span>
+            </button>
+
+            <ui-select ng-model="data.end" class="mx-margin">
+                <ui-select-match>
+                    <span ng-switch on="$select.selected.type">
+                        <img ng-switch-when="Tube" src="img/counter.png" height="20" />
+                        <img ng-switch-when="CsdConnection" src="img/phone.png" height="20" />
+                        <img ng-switch-when="ComConnection" src="img/port.png" height="20" />
+                        <img ng-switch-when="LanConnection" src="img/lan.png" height="20" />
+                        <img ng-switch-when="MatrixConnection" src="img/fastrack.png" height="20" />
+                        <img ng-switch-when="SurveyServer" src="img/server.png" height="20" />
+                        <img ng-switch-when="Folder" src="img/folder.png" height="20" />
+                        <img ng-switch-when="Area" src="img/house.png" height="20" />
+                        <img ng-switch-default src="img/add.png" height="20" />
+                    </span>
+                    {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices repeat="candidate in candidates | filter: $select.search" group-by="groupBy">
+                    <span ng-switch on="candidate.type">
+                        <img ng-switch-when="Tube" src="img/counter.png" height="20" />
+                        <img ng-switch-when="CsdConnection" src="img/phone.png" height="20" />
+                        <img ng-switch-when="ComConnection" src="img/port.png" height="20" />
+                        <img ng-switch-when="LanConnection" src="img/lan.png" height="20" />
+                        <img ng-switch-when="MatrixConnection" src="img/fastrack.png" height="20" />
+                        <img ng-switch-when="SurveyServer" src="img/server.png" height="20" />
+                        <img ng-switch-when="Folder" src="img/folder.png" height="20" />
+                        <img ng-switch-when="Area" src="img/house.png" height="20" />
+                        <img ng-switch-default src="img/add.png" height="20" />
+                    </span>
+                    <span>{{candidate.name}}</span>
+                </ui-select-choices>
+            </ui-select>
+            <span class="btn btn-default" ng-click="add(selected, data.end)">+</span>
+            <button ng-click="save()" class="btn btn-default">save</button>
+        </div>
+    </div>
+</div>

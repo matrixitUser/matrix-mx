@@ -1,0 +1,141 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="exit()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">Просмотр и редактирование matrix terminal</h3>
+</div>
+<div class="modal-body" style="padding:5px;">
+    <div class="row" style="margin:5px">
+        <div class="col-md-4">
+            Модем:
+            <table class="table table-borderless">
+                <tr>
+                    <td>IMEI</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="connection.imei" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Сетевой адрес</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.config.u8NetworkAddress" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Flash версия</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.config.u16FlashVer" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mode</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.config.u8Mode" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Release</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.config.u32ReleaseTs" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Period event</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.config.PeriodEvent" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>SIM card 1</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.APNs[0]" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>SIM card 2</td>
+                    <td>
+                        <input type="text" style="width:120px;" class="form-control" ng-model="model.APNs[1]" disabled />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-8">
+            Канал связи:
+            <table class="table table-borderless">
+                <tr>
+                    <td></td>
+                    <td>ip</td>
+                    <td>port</td>
+                </tr>
+                <tr ng-repeat="profile in model.profiles track by $index">
+                    <td>
+                        <select class="custom-select" ng-change="changed($index)" ng-model="model.serverClient[$index]">
+                            <option value="">Не используется</option>
+                            <option value="server">Сервер</option>
+                            <option value="client">Клиент</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" ng-model="profile.ip"  ng-change="changed()" ng-disabled="model.serverClient[$index]!='client'" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-for-light-shedule" ng-change="changed()" ng-model="profile.port" ng-disabled="model.serverClient[$index]!='client'" />
+                    </td>
+                </tr>
+            </table>
+            com порт:
+            <table class="table table-borderless">
+                <tr>
+                    <td></td>
+                    <td>com1</td>
+                    <td>com2</td>
+                    <td>com3</td>
+                </tr>
+                <tr>
+                    <td>
+                        BaudRate
+                    </td>
+                    <td ng-repeat="uart in model.uarts">
+                        <input type="text" class="form-control input-for-light-shedule" ng-change="changed()" ng-model="uart.BaudRate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        WordLen
+                    </td>
+                    <td ng-repeat="uart in model.uarts">
+                        <input type="text" class="form-control input-for-light-shedule" ng-model="uart.WordLen" disabled/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        StopBits
+                    </td>
+                    <td ng-repeat="uart in model.uarts">
+                        <input type="text" class="form-control input-for-light-shedule" ng-model="uart.StopBits" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Parity
+                    </td>
+                    <td ng-repeat="uart in model.uarts">
+                        <input type="text" class="form-control input-for-light-shedule" ng-model="uart.Parity" disabled />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</div>
+<div class="modal-footer">
+    <span class="red" ng-bind='model.lastError'></span>
+    <button class="btn btn-primary" type="button" ng-click="getConfig()">get config</button>
+    <div ng-if="model.isEditable">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Сохранить в модем</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
+    </div>
+    <div ng-if="!model.isEditable">
+        <button class="btn btn-warning" type="button" ng-click="exit()">Закрыть</button>
+    </div>
+</div>

@@ -1,0 +1,296 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/report_stack.png" width="32" />
+        <span ng-if="!model.selected">
+            Редактор рассылок
+            <span class="smallergrey">
+                ничего не выбрано
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Рассылка:
+            <span ng-bind="model.selected.name || '<без названия>'"></span><span class="red" ng-bind='model.selected.edited()? "*":""'></span>
+            <span class="smallergrey">
+                редактор
+            </span>
+        </span>
+    </h3>
+</div>
+
+
+<div class="modal-body" style="padding:5px;">
+
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="!model.objs">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="model.objs">
+
+        <!-- 1/1: нет рассылок [.v.] -->
+        <div ng-if="!model.objs.length && !model.addNew">
+            <div style="display: table; width: 100%; height: 75%; overflow: hidden; text-overflow: ellipsis;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <h3>Нет рассылок</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- есть рассылки [.|..] -->
+        <div ng-if="model.objs.length || model.addNew" class="row" style="margin:5px">
+
+            <uib-progressbar ng-if="model.state == 'save'" class="progress-striped active" max="model.saveCounterMax" value="model.saveCounter" type="info" style="margin-bottom: 0px">
+                <i>Идёт сохранение {{model.saveCounter}} / {{model.saveCounterMax}}</i>
+            </uib-progressbar>
+
+            <!-- 1/2: выбор отчёта [v|..] -->
+            <div ng-if="!model.only1" class="col-md-3">
+                <div style="overflow: auto; height: 75%" ng-class="{'disabled' : model.state == 'save'}">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="mailer in model.objs | orderBy:'name' | filter:{ isHidden: '!true' }" ng-class="{'active': model.selected == mailer}">
+                            <a style="overflow: hidden" ng-class="{'red': mailer.edited()}" ng-click="model.select(mailer)">
+                                <span ng-bind="mailer.undo.name"></span><span ng-bind='mailer.edited()? "*":""'></span>
+                            </a>
+                        </li>
+                        <li ng-if="model.addNew && (model.newId == null)">
+                            <a style="overflow: hidden" ng-click="model.addNew()">
+                                <img src="/img/add.png" width="20" />
+                                Добавить
+                            </a>
+                        </li>
+                    </ul>
+                    <div ng-if="(model.objs | filter:{ isHidden: 'true' }).length > 0">
+                        Архивные:
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ng-repeat="m in model.objs | orderBy:'name' | filter:{ isHidden: 'true' }" ng-class="{'active': model.selected == m}">
+                                <a style="overflow: hidden" ng-class="{'red': m.edited()}" ng-click="model.select(m)">
+                                    <span ng-bind="m.undo.name"></span><span ng-bind='m.edited()? "*":""'></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 2/2: отчёт [.|.v.] -->
+            <div ng-class='{"col-md-9": !model.only1, "col-md-12": model.only1 }'>
+                <!-- отчёт выбран -->
+                <div ng-if="model.selected" style="overflow: auto; width: 100%; height: 75%" ng-class="{'disabled' : model.state == 'save'}">
+
+                    <table class="table table-hover">
+                        <tr>
+                            <td>Название</td>
+                            <td>
+                                <input type="text" ng-model="model.selected.name" class="form-control" placeholder="Введите название рассылки..." required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Адреса получателей (через запятую)</td>
+                            <td>
+                                <input type="text" ng-model="model.selected.receiver" class="form-control" placeholder="Введите E-mail..." required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">Периодичность отправки</td>
+                            <td>
+                                <select ng-model="model.selected.kind" class="form-control" ng-disabled="model.selected.isHidden" ng-class="{'red': model.selected.kind == 'disabled' }">
+                                    <option value="disabled">Отправка запрещена</option>
+                                    <option value="manual">Не задано (вручную)</option>
+                                    <option value="auto">По расписанию (автоматически)</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 100px">Отправка отчёта с неполными данными</td>
+                            <td>
+                                <label>
+                                    <input type="checkbox" ng-model="model.selected.nullAllowed" /> 
+                                    <span ng-bind="model.selected.nullAllowed? 'Разрешена' : 'Запрещена'"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div>
+                        <h4>
+                            Выбранные отчёты:
+                            <button ng-disabled="(model.reports.length == 0) || (model.selected._reportState == 'delete')" class="btn btn-default" ng-click="model.selected._toggleReportState('add')">
+                                {{model.selected._reportState == "add"? "ОК" : "Добавить к выбору"}}
+                            </button>
+                            <button ng-disabled="(model.selected.reportIds.length == 0) || (model.selected._reportState == 'add')" class="btn btn-default" ng-click="model.selected._toggleReportState('delete')">
+                                {{model.selected._reportState == "delete"? "Отмена" : "Снять выбор"}}
+                            </button>
+                        </h4>
+
+                        <div ng-if="model.selected._reportState != 'add'">
+                            <div class="col-xs-12 red" ng-if="model.selected.Report.length == 0">
+                                Отчёты не выбраны
+                            </div>
+
+                            <div class="col-xs-12" ng-repeat="report in model.selected.Report">
+                                <div class="col-xs-4">
+                                    <button type="button" class="btn btn-default" ng-if="model.selected._reportState == 'delete'" ng-click="model.selected._deleteReport(report.id)">×</button>
+                                    {{report.name}}
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>
+                                        <input type="checkbox" ng-model="model.selected._reportPdf[report.id]" ng-click="model.selected._reportPdfRecalc()">
+                                        <img src="./img/file_extension_pdf.png" height="16" title="Формат PDF" /> PDF
+                                    </label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>
+                                        <input type="checkbox" ng-model="model.selected._reportXls[report.id]" ng-click="model.selected._reportXlsRecalc()">
+                                        <img src="./img/file_extension_xls.png" height="16" title="Формат XLS" /> XLS
+                                    </label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>
+                                        <input type="checkbox" ng-model="model.selected._reportDaily[report.id]" ng-click="model.selected._reportDailyRecalc()">
+                                        <span ng-if="!model.selected._reportDaily[report.id] || !model.selected._reportMonthly[report.id]">сутки</span>
+                                        <span ng-if="model.selected._reportDaily[report.id] && model.selected._reportMonthly[report.id]">сутки за месяц</span>
+                                    </label>
+                                </div>
+                                <div class="col-xs-2" ng-class="{'grey': model.selected._reportDaily[report.id] && model.selected._reportMonthly[report.id]}">
+                                    <label>
+                                        <input type="checkbox" ng-model="model.selected._reportMonthly[report.id]" ng-click="model.selected._reportMonthlyRecalc()"> месяц
+                                    </label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <label>
+                                        <input type="checkbox" ng-model="model.selected._reportSpecificDay[report.id]" ng-click="model.selected._reportSpecificDayRecalc()"> конкретный день
+                                    </label>
+                                </div>
+                                <span ng-if="model.selected._reportSpecificDay[report.id]">
+                                    <div class="col-xs-2">
+                                        <label>
+                                            <input class="form-control" type="text" ng-model="model.selected._dateSpecificDay[report.id]">
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button class="btn btn-default" ng-click="model.selected._dateSpecificDayRecalc()"></button>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <select ng-if="model.selected._reportState == 'add'" size="6" name="ngvalueselect" ng-model="model.selected._reportAddIds" multiple>
+                            <option ng-repeat="r in model.reports" ng-value="r.id">{{r.name}}</option>
+                        </select>
+                        
+                        <div>&nbsp;</div>
+                    </div>
+
+                    <!--<div><small>Если при выборе периода отправки отчёта указать сутки</small></div>-->
+
+                    <div>
+                        <h4>
+                            Выбранные точки учёта:
+                            <input class="btn btn-default" type="button" ng-click="model.selected.chooseTubes()" value="Добавить" />
+                            <button ng-disabled="model.selected.tubeIds.length == 0" class="btn btn-default" ng-click="model.selected._deletingTube = !model.selected._deletingTube">
+                                {{model.selected._deletingTube? "Отмена" : "Снять выбор"}}
+                            </button>
+                            <input ng-if="model.selected.tubeIds.length > 0 && model.selected._deletingTube" class="btn btn-danger" type="button" ng-click="model.selected._deleteTube('all')" value="× Снять выбор со всех" />
+                        </h4>
+
+                        <div class="col-xs-12" ng-if="model.selected.tubeIds.length == 0">
+                            Точки учёта не выбраны
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li ng-repeat="tube in model.selected.Tube" ng-class="{'grey' : tube.isDisabled === true}">
+                                    {{(tube.Area && tube.Area[0] && tube.Area[0].name? tube.Area[0].name : "")}} {{tube.name}}
+                                    <span ng-if="tube.Device && tube.Device[0] && tube.Device[0].name">({{tube.Device[0].name}})</span>
+                                    <button type="button" class="btn btn-default" ng-if="model.selected._deletingTube" ng-click="model.selected._deleteTube(tube.id)">×</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>&nbsp;</div>
+                    </div>
+
+                    <div ng-if="model.selected.kind == 'auto'">
+                        <h4>
+                            Расписание:
+                            <button ng-disabled="(model.tasks.length == 0) || (model.selected._taskState == 'delete')" class="btn btn-default" ng-click="model.selected._toggleTaskState('add', model.tasks)">
+                                {{model.selected._taskState == "add"? "ОК" : "Добавить"}}
+                            </button>
+                            <button ng-disabled="(model.selected.taskIds.length == 0) || (model.tasks.length == 0) || (model.selected._taskState == 'add')" class="btn btn-default" ng-click="model.selected._toggleTaskState('delete', model.tasks)">
+                                {{model.selected._taskState == "delete"? "Отмена" : "Снять выбор"}}
+                            </button>
+                        </h4>
+
+                        <div ng-if="model.selected._taskState != 'add'">
+                            <div class="col-xs-12" ng-if="model.selected.Task.length == 0">
+                                Расписание не выбрано
+                            </div>
+
+                            <div class="col-xs-12" ng-repeat="task in model.selected.Task">
+                                <div class="col-xs-12">
+                                    <button type="button" class="btn btn-default" ng-if="model.selected._taskState == 'delete'" ng-click="model.selected._deleteTask(task.id)">×</button>
+                                    <span ng-class="{'grey': task.kind != 'mailer' }">
+                                        {{task.name}} - расписание: <input type="button" ng-value="task.cron" ng-click="model.chooseCron(task.cron)" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <select ng-if="model.selected._taskState == 'add'" size="6" name="ngvalueselect" ng-model="model.selected._taskAddIds" multiple>
+                            <option ng-repeat="tk in model.tasks" ng-value="tk.id">{{tk.name}}</option>
+                        </select>
+
+                        <div>&nbsp;</div>
+                    </div>
+
+                    <button class="btn btn-default" ng-click="model.selected.toggleHide()">
+                        <span ng-if="model.selected.isHidden">Восстановить</span>
+                        <span ng-if="!model.selected.isHidden">В Архив</span>
+                    </button>
+
+                </div>
+
+                <!-- рассылка НЕ выбрана -->
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 75%; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите рассылку из списка</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-5 col-md-5" style="text-align: left">
+            <button class="btn btn-default" ng-class="{'active': !model.only1}" ng-click="model.toggleSideList()">
+                <img src="../img/application_side_list.png" height="20" />
+            </button>
+            <button class="btn btn-default" ng-disabled="model.state != 'edit'" ng-click="model.resetAll()">Сброс</button>
+        </div>
+        <div class="col-xs-7 col-md-7">
+            <span ng-if="model.state == 'edit'">
+                <span class="red" ng-bind='"Непринятые изменения: " + model.editedCounter'></span>
+            </span>
+            <button class="btn btn-primary" ng-click="model.saveState()" ng-disabled="model.state != 'edit'">Сохранить</button>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

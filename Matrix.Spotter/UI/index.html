@@ -1,0 +1,46 @@
+﻿<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>Матрикс.Микросервис.Наблюдатель</title>
+</head>
+<body ng-controller="main">
+    <div class="col-md-4" >
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="obj in objects" ng-class="{'active': object == obj.connection}">
+                <a ng-click="select(obj.connection)">
+                    <span class="label label-primary">{{obj.connection.spotterId}}</span><span class="text-muted">{{obj.connection.creationDate | date:"dd.MM.yyyy HH:mm:ss"}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-8 well">       
+        <div class="form-group row">
+            <label class="col-xs-2 control-label">Диапазон</label>
+            <div class="col-xs-4"><div fs-date ng-model="start"></div></div>            
+            <div class="col-xs-4"><div fs-date ng-model="end"></div></div>
+            <div class="col-xs-2"><button class="btn btn-default" ng-click="update(object)">Обновить</button></div>
+        </div> 
+        <table border="1">
+            <tr>
+                <th>Дата</th>
+                <th>Фото</th>
+                <th>Значение</th>
+                <th>Дата получения</th>
+            </tr>
+            <tr ng-repeat="row in object.rows | orderBy:'-date'">
+                <td>{{row.date | date:"dd.MM.yyyy HH:mm:ss"}}</td>
+                <td><img src="data:image/png;base64,{{row.image}}" /></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+    <link href="ui/ui.css" rel="stylesheet">
+    <script src="ui/lib.min.js"></script>
+    <script src="ui/ui.js"></script>
+</body>
+</html>

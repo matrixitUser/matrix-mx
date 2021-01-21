@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Matrix.PollServer.AgentDatabaseSize" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAACACABAAAAAYQAAAAAAAAA=</HashCode>
+      <FileName>AgentDatabaseSize.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.ApiConnector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACAAEAACACABCAAIASACABUDAAAQAAAiAAA=</HashCode>
+      <FileName>ApiConnector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Bus" Collapsed="true">
+    <Position X="11" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAAAAAACAIIAACAEABAAAAACBAAAAAIAAAAAAAAgA=</HashCode>
+      <FileName>Bus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.MessageReceivedEventArgs" Collapsed="true">
+    <Position X="12.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Bus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Codes" Collapsed="true">
+    <Position X="14.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAACSIABAIAAAAACEBAwIAAAAAEAAABgAAAgAAAAo=</HashCode>
+      <FileName>Codes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.DriverGhost" Collapsed="true">
+    <Position X="5.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAEAAAQEJAAABAgAAACgAAASgCgAQDIAwAEAAAIAA=</HashCode>
+      <FileName>Driver\DriverGhost.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.DriverManager" Collapsed="true">
+    <Position X="9.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAgAAAAAAAAAAAAAAIDAAAAABgAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Driver\DriverManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Helper" Collapsed="true">
+    <Position X="14.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.ILogExtentions" Collapsed="true">
+    <Position X="5.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAACAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Log\ILogExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.MockConnector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAACAACAAAAAACAAACAAAAAAAAAAA=</HashCode>
+      <FileName>MockConnector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Program" Collapsed="true">
+    <Position X="14.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAACAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Settings" Collapsed="true">
+    <Position X="5.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAA=</HashCode>
+      <FileName>Settings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.UnityManager" Collapsed="true">
+    <Position X="12.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAAACAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>UnityManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Api.ApiProxy" Collapsed="true">
+    <Position X="9.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Api\ApiProxy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Api.StateSaveCollector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAABBACAQCAAAAAAACAAAAABAAAgAQAAAAAAEIAg=</HashCode>
+      <FileName>Api\NodeSaveCollector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Fill.Stimulator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAIAACAAAAAAAAAACAAAAABAAAAISAAAAAAAAAA=</HashCode>
+      <FileName>Fill\Stimulator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Fill.JobRule" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAACAAAAAAAAAACAAAAAAEAAAIAAAAAAAACAA=</HashCode>
+      <FileName>Fill\Stimulator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Handlers.ChangesHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAQAAAAIAAAAAACAAAAAACAAAAAAIAAAAAAAAAAIA=</HashCode>
+      <FileName>Handlers\ChangesHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Handlers.DriverHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAACAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\DriverHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Handlers.HandlerManager" Collapsed="true">
+    <Position X="12.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAABBAABAQAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\HandlerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Handlers.ManagmentHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAACAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ManagmentHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.258" />
+  </Class>
+  <Class Name="Matrix.PollServer.Handlers.ManagmentHelper" Collapsed="true">
+    <Position X="11" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAEAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ManagmentHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Handlers.PollHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAACAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\PollHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Com.ComConnection" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCAyACCACAQKCQEQAAAGEBAAAQIIBAAIAACCAIAEAA=</HashCode>
+      <FileName>Nodes\Com\ComConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Com.ComPort" Collapsed="true">
+    <Position X="17.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\Com\ComPort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.ConnectionNode" Collapsed="true">
+    <Position X="2.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAACAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\ConnectionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.NodeFactory" Collapsed="true">
+    <Position X="16.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\NodeFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.NodeManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AA5AgAAAACAAAAAAAAAACAAAAABAAAAAQAAAAAAAIIA=</HashCode>
+      <FileName>Nodes\NodeManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.PollNode" Collapsed="true">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gwRaCBCAQyAwYEBAAAEACAJJCggMICFQAAAADBJAEAA=</HashCode>
+      <FileName>Nodes\PollNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Relation" Collapsed="true">
+    <Position X="9.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAABAAAABAAAAAgAAACAAAAAAAAAEAAAACAAAAAAA=</HashCode>
+      <FileName>Nodes\Relation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.RelationManager" Collapsed="true">
+    <Position X="11" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUYAAAAAAAAABABAAAAACAAAAAFKAAAAQAAAAABAAAA=</HashCode>
+      <FileName>Nodes\RelationManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.TransparentNode" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Nodes\TransparentNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Csd.CsdConnectionNode" Collapsed="true">
+    <Position X="1.25" Y="3" Width="1.5" />
+    <InheritanceLine Type="Matrix.PollServer.Nodes.ConnectionNode" FixedToPoint="true">
+      <Path>
+        <Point X="3" Y="2.441" />
+        <Point X="3" Y="2.7" />
+        <Point X="2" Y="2.7" />
+        <Point X="2" Y="3" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ACAAQAAAAAAAAQAEAAEAGiBAAAAAAAAggAIACCIAAYA=</HashCode>
+      <FileName>Nodes\Csd\CsdConnectionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Csd.CsdPort" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAACABAAAAIIAAAAAAACAIABAA=</HashCode>
+      <FileName>Nodes\Csd\CsdPort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Csd.PoolModem" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ASZASABIACAQKAQEAAAACADAAAwAINCQBQACCEAAEAA=</HashCode>
+      <FileName>Nodes\Csd\PoolModem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Ftp.FtpConnection" Collapsed="true">
+    <Position X="8.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAEAAAACABAAAAAAAAAAAAACAAgEAA=</HashCode>
+      <FileName>Nodes\Ftp\FtpConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Ftp.FtpPort" Collapsed="true">
+    <Position X="11" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\Ftp\FtpPort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Http.HttpConnection" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAQCAAEAAAACABAAAAAAAAAAAAACAIAEAA=</HashCode>
+      <FileName>Nodes\Http\HttpConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Http.HttpPort" Collapsed="true">
+    <Position X="21" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAACAIABAA=</HashCode>
+      <FileName>Nodes\Http\HttpPort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Lan.LanConnection" Collapsed="true">
+    <Position X="16.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQCAAEAAAACABAAAAAAAAAAAECCAACEAA=</HashCode>
+      <FileName>Nodes\Lan\LanConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Lan.LanPort" Collapsed="true">
+    <Position X="19.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\Lan\LanPort.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Matrix.Crc16Modbus" Collapsed="true">
+    <Position X="16.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\Matrix\Crc16Modbus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Matrix.MatrixConnectionNode" Collapsed="true">
+    <Position X="3.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYAECATAASAQIAHEABAiSEBICAIAIIAwAAkACIgAEAA=</HashCode>
+      <FileName>Nodes\Matrix\MatrixConnectionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Matrix.MatrixPortNode" Collapsed="true">
+    <Position X="7" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAADAACAQAAAEAAAACAAAAAAAAAAAYAACAAIAEAA=</HashCode>
+      <FileName>Nodes\Matrix\MatrixPortNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Matrix.MatrixSwitchNode" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAIAAAAACABAAAAAAACAAAoACAIAAAA=</HashCode>
+      <FileName>Nodes\Matrix\MatrixSwitchNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Matrix.SimpleMatrixNode" Collapsed="true">
+    <Position X="10.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYAACATAACAQIABEABACSEBICAAAIAAAAAEACAgAEAA=</HashCode>
+      <FileName>Nodes\Matrix\SimpleMatrixNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.MxModbus.MxModbus" Collapsed="true">
+    <Position X="12.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAKAACAAIAAEQAAACABAAAAIIAEQAAgACAIAEAA=</HashCode>
+      <FileName>Nodes\MxModbus\MxModbusNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Switch.SwitchNode2" Collapsed="true">
+    <Position X="14" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAABAHAAAgAIEAAABAAgACoAAAAA=</HashCode>
+      <FileName>Nodes\Switch\SwitchNode2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Tcp.TcpClient" Collapsed="true">
+    <Position X="15.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAiACAQCAwKAAEQQAACEBAQAAooQABIAECCBICEAA=</HashCode>
+      <FileName>Nodes\Tcp\TcpClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Tube.TubeNode" Collapsed="true">
+    <Position X="20.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AjAAAFAAAiACAAAGAgAAAAAIAgQAAEAAABAICgAAAAA=</HashCode>
+      <FileName>Nodes\Tube\TubeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Zigbee.ZigbeeConnection" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBAACMCAECAAABAEAAAACABIAAAAJECAAAgACAAAEAA=</HashCode>
+      <FileName>Nodes\Zigbee\ZigbeeConnectionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Zigbee.ZigbeeTcpPort" Collapsed="true">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAKAQCAQKAAMAAAACABAAAAoIAEAAAkCCBICEAA=</HashCode>
+      <FileName>Nodes\Zigbee\ZigbeePortNode - Copy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Nodes.Zigbee.ZigbeePort" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAKAACAAIAAEAAAACABAAAAIIAEQAAgACAIAEAA=</HashCode>
+      <FileName>Nodes\Zigbee\ZigbeePortNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Properties.Settings" Collapsed="true">
+    <Position X="7.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Routes.PollNodePathWrapper" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAEAAAA=</HashCode>
+      <FileName>Routes\PollNodePathWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Routes.PollTask" Collapsed="true">
+    <Position X="11" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQQYJSAAQAAABAGDEAAACBAIQBAEIIEAAAAIAAAmAQ=</HashCode>
+      <FileName>Routes\PollTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Routes.PollTaskManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAGDCAAACBAEAAGAAQAgQAAEAhDAEgAQQAAAAAAAAA=</HashCode>
+      <FileName>Routes\PollTaskManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Routes.Route" Collapsed="true">
+    <Position X="12.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIABIAAAAAAAAEAEAACAAAAAACIAIBAAAAAgAAIgA=</HashCode>
+      <FileName>Routes\Route.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Routes.Router" Collapsed="true">
+    <Position X="14.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Routes\Router.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Storage.HttpMessagesCollector" Collapsed="true">
+    <Position X="16.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Storage\HttpMessagesCollector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.PollServer.Storage.RecordsAcceptor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAIAAACAAAAAAAAAACAAAAABAABAAQAAQAAAAAAA=</HashCode>
+      <FileName>Storage\RecordsAcceptor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Storage.RecordsProccessChannel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAABAQCAQCAACAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Storage\RecordsProccessChannel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Storage.RecordsRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABABAAAAAKAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Storage\RecordsRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.PollServer.Storage.Saver" Collapsed="true">
+    <Position X="16.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAABAAAAAAAAACAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Storage\Saver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Matrix.PollServer.IConnector" Collapsed="true">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAACAAACAAAAAAAAAAA=</HashCode>
+      <FileName>IConnector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Matrix.PollServer.Handlers.IHandler" Collapsed="true">
+    <Position X="0.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\IHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Matrix.PollServer.Nodes.IIdentificable" Collapsed="true">
+    <Position X="9.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Nodes\IIdentificable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Matrix.PollServer.Nodes.PollType" Collapsed="true">
+    <Position X="7.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Nodes\ConnectionNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Matrix.PollServer.Routes.Direction" Collapsed="true">
+    <Position X="5.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Routes\Router.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

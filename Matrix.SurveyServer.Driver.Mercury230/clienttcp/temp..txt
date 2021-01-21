@@ -1,0 +1,210 @@
+{% comment %} Показания счетчиков за период   18052018{% endcomment %}
+{% comment %} ПЕРИОД start-end {% endcomment %}
+{% assign start = root.start | dateclear %}
+{% assign end = root.end | dateclear %}
+{% capture periodViewStart %}c {{start | format: 'dd.MM.yy'}} по {{end | format: 'dd.MM.yy'}}{% endcapture %}
+
+{% comment %} т.к архивных данных нет, то находим показания за сутки {% endcomment %}
+
+{% comment %} ПЕРИОД start(Day) {% endcomment %}
+{% assign startDayStart = start | adddate: -23, "hour" | adddate: -59, "minute" | adddate: -59, "second" %}
+{% assign startDayEnd = start | adddate: 22, "hour" | adddate: 59, "minute" | adddate: 59, "second" %}
+
+{% comment %} ПЕРИОД end(Day) {% endcomment %}
+{% assign endDayStart = end | adddate: -59, "minute" | adddate: -59, "second" %}
+{% assign endDayEnd = end | adddate: 23, "hour" | adddate: 59, "minute" | adddate: 59, "second" %}
+
+<html> 
+	<head> 
+		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'> 
+		<style> 
+			@media print { hr { page-break-after: always; } } 
+			.report table { width: 100%; /* Ширина таблицы */ /*border: 1px solid black;*/ /* Рамка вокруг таблицы */ border-collapse: collapse; /* Отображать только одинарные линии */ } 
+			.report th { text-align: center; /* Выравнивание по левому краю */ background: #ccc; /* Цвет фона ячеек */ padding: 5px; /* Поля вокруг содержимого ячеек */ border: 1px solid black; /* Граница вокруг ячеек */ } 
+			.report td { padding: 5px; /* Поля вокруг содержимого ячеек */ border: 1px solid black; /* Граница вокруг ячеек */ } 
+		</style> 
+	</head> 
+	<body> 
+		<div class='report'>	
+		
+        {% for target in root.targets -%}  	<!--  Список выбраных объектов (их id)  -->
+            {% assign ids = ids | cons: target.id -%} 
+        {% endfor -%}	
+		
+    	{% assign ignored = 0 %}
+    		
+		{% assign sortedTargets = root.targets | sortdyn: 'name' %}
+
+		<center><b>Показания электросчетчиков </b></center> 
+
+        <center><b>Период {{periodViewStart}}</center> <br/>
+
+        <table> 
+        	<tr> 
+				<th rowspan="2">№№</th>
+				<th rowspan="2">Фамилия Имя Отчество</th>
+        	    <th rowspan="2">Участок</th>
+				<th rowspan="2">Сетевой адрес</th>				
+        		<th colspan="4">Показания на начало периода</th> 
+        		<th colspan="4">Показания на конец периода</th> 
+        	    <th rowspan="2">Потребление по сумме </th> 
+        	</tr> 
+        	<tr> 
+        		<th>T1,кВт*час</th> 
+				<th>T2,кВт*час</th> 
+				<th>Сумма,кВт*час</th> 
+        		<th>Дата</th> 
+        		<th>T1,кВт*час</th> 
+				<th>T2,кВт*час</th> 
+				<th>Сумма,кВт*час</th> 
+        		<th>Дата</th> 
+        	</tr> 
+      
+    		{% for target in sortedTargets %} 
+				{% if target.class == "HouseRoot" %}
+	
+			
+					{% assign apts = target.apts | split:'|' %}
+					
+					{% assign ar = nil %}
+					{% for inx in (1..apts.size) -%} 
+						{% assign i = inx | minus: 1 %} 
+						{% assign aptsI = apts[i] | replace: '::',': :' %}{% assign aptsI= aptsI | replace: '::',': :' |plus: i %}
+						{% assign aptsI = aptsI|append: ':' %}
+						{% assign apt_param = aptsI| split: ':' %}
+						{% assign o = nil %}
+						{% assign o = o | dyn: "fio", apt_param[9]  %}
+						{% assign o = o | dyn: "inx", apt_param[15] %}
+						{% assign ar = ar | cons: o %}
+						
+					{% endfor -%} 
+					
+					{% assign sortedByFIO = ar | sortdyn: "fio" %}
+
+					{% assign inx = 0 %} 
+	     			{% for app in sortedByFIO -%} 
+						{% assign iString = app | get: "inx" %} 
+						{% assign i = iString | number %} 
+						{% assign i = 0|plus:i%}
+
+						{% assign hasData = 0 %}  {% assign currentD = nil %}
+						{% assign currentStartT1 = nil %}{% assign currentStartT2 = nil %}{% assign currentStart = nil %}{% assign currentStartT1_ = nil %}{% assign currentStartT2_ = nil %}{% assign currentStart_ = nil %}
+						{% assign currentEndT1 = nil %}{% assign currentEndT2 = nil %}{% assign currentEnd=nil %}{% assign currentEndT1_ = nil %}{% assign currentEndT2_ = nil %}{% assign currentEnd_ = nil %}
+
+						{% assign aptsI = apts[i] | replace: '::',': :' %}{% assign aptsI= aptsI | replace: '::',': :' %}
+						
+						{% assign apt_param = aptsI| split: ':' %}
+						{% assign apt_i = apt_param[2] %}
+
+						{% assign apt_na =  "na"|append: apt_param[6] %} {% assign len = apt_na.size %}
+						{% assign device_name =  apt_param[7] %}
+						{% assign parT1    =  apt_na|append:'_'|append:'Электроэнергия (тариф 1)' %}
+						{% assign parT2    =  apt_na|append:'_'|append:'Электроэнергия (тариф 2)' %}
+						{% assign parTotal =  apt_na|append:'_'|append:'Электроэнергия (все тарифы)' %}
+
+						{% assign idTube = nil %}
+						{% for tube in target.Tube %}
+							{% if  device_name == tube.name %}
+								{% assign idTube = tube.id %}
+								{% assign Concentrator = device_name| replace: 'Концентратор ','' %}
+
+							{% endif %}
+						{% endfor -%}
+						
+
+						<!-- Участок={{apt_i}};  -->
+
+						{% if idTube %}
+							{% assign idsTube = nil %} 
+							{% assign idsTube = idsTube | cons: idTube %}
+							<!--   -->
+							<!--  Определение дат (по наличию информации) -->
+							{{ cache | unload }}
+							{{ cache | load: 'Current', startDayStart, startDayEnd, idsTube }} 
+							{% assign dates = cache | cachedates: 'Current', idTube -%} 
+							{% assign datesStart = dates | last %}
+				            {% for date in dates -%} 
+								{% assign currentStartT1_ = cache | get: 'Current', date, idTube, parT1,    'd1' %}  {% assign currentStartT1Unit = cache | get: 'Current', date, idTube, parT1,    's2' %}
+								{% if currentStartT1_ %}  {% assign hasData = 1 %}{% assign currentStartT1 =  currentStartT1_ %} {% endif %}
+								{% assign currentStartT2_ = cache | get: 'Current', date, idTube, parT2,    'd1' %} {% assign currentStartT2Unit = cache | get: 'Current', date, idTube, parT2,    's2' %}
+								{% if currentStartT2_ %}  {% assign hasData = 1 %}{% assign currentStartT2 =  currentStartT2_ %} {% endif %}
+								{% assign currentStart_   = cache | get: 'Current', date, idTube, parTotal, 'd1' %}  {% assign currentStartUnit   = cache | get: 'Current', date, idTube, parTotal, 's2' %}
+								{% if currentStart_ %}  {% assign hasData = 1 %}{% assign currentStart =  currentStart_ %} {% endif %}
+							{% endfor %} 
+
+							{% if currentStart == nil %} 
+								{% if currentStartT1 %} {% if currentStartT2 %}  {% assign currentStart = currentStartT1|plus:currentStartT2 %} {% endif %}{% endif %}
+							{% endif %}
+						
+							{{ cache | unload }}
+							{{cache | load: 'Current', endDayStart, endDayEnd, idsTube }} 
+							{% assign dates = cache | cachedates: 'Current', idTube -%} 
+							{% assign datesEnd = dates | first %}
+				
+				            {% for date in dates -%} 
+								{% assign currentEndT1_ = cache | get: 'Current', date, idTube, parT1,    'd1' %} {% assign currentEndT1Unit = cache | get: 'Current', date, idTube, parT1,    's2' %}
+								{% if currentEndT1_ %}  {% assign hasData = 1 %}{% assign currentEndT1 =  currentEndT1_ %} {% endif %}
+								{% assign currentEndT2_ = cache | get: 'Current', date, idTube, parT2,    'd1' %} {% assign currentEndT2Unit = cache | get: 'Current', date, idTube, parT2,    's2' %}
+								{% if currentEndT2_ %}  {% assign hasData = 1 %}{% assign currentEndT2 =  currentEndT2_ %} {% endif %}	
+								{% assign currentEnd_   = cache | get: 'Current', date, idTube, parTotal, 'd1' %}  {% assign currentEndUnit   = cache | get: 'Current', date, idTube, parTotal, 's2' %}
+								{% if currentEnd_ %}  {% assign hasData = 1 %}{% assign currentEnd =  currentEnd_ %} {% endif %}
+							{% endfor %} 
+
+						
+							{% if currentEnd == nil %} 
+								{% if currentEndT1 %} 
+									{% if currentEndT2 %}  
+										{% assign currentEnd = currentEndT1|plus:currentEndT2 %} 
+									{% endif %}
+								{% endif %}
+							{% endif %}
+
+							{% if hasData > 0 %}
+
+							    {% if currentStart %} {% if currentEnd %} {% assign currentD = currentEnd |minus: currentStart  %} {% endif %}{% endif %}
+	    						{% assign inx = inx|plus:1 %} 
+								<tr> 
+									<!-- td>{{target.Area[0].name}} {{target.Area[0].city }} {{target.Area[0].street}} {{target.Area[0].house}}</td> -->
+									<td align="center">{{inx}}</td>
+									<td>{{apt_param[9]}}</td>
+									<td align="center">{{apt_i}}</td>
+									<td>{{Concentrator}}:{{apt_param[6]}}</td>
+									<td align="center" align="right">
+										{{currentStartT1 | format: '0'}} 
+									</td> 
+									<td align="right">
+										{{currentStartT2 | format: '0'}} 
+									</td> 
+									<td align="right">										
+										{{currentStart | format: '0'}} 
+									</td> 
+									<td>{{ datesStart | format: 'dd.MM.yyyy HH:mm'}}</td> 
+
+									<td align="right">
+										{{currentEndT1 | format: '0'}} 
+									</td> 
+									<td align="right">
+										{{currentEndT2 | format: '0'}} 
+									</td> 
+									<td align="right">
+										{{currentEnd | format: '0'}} 
+									</td> 
+									<td>{{ datesEnd | format: 'dd.MM.yyyy HH:mm'}}</td> 
+
+									<td align="right">
+										{{currentD | format: '0'}} 
+									</td> 
+								</tr> 
+							{% endif %} 
+
+							{% endif %} 
+					{% endfor %}
+				{% endif %} 
+			{% endfor %} 
+    	</table> 		
+
+    	{% if ignored > 0 %}<p>Пропущено {{ignored}} объектов, т.к нет данных за период</p>{% endif %}
+		</div> 
+	</body> 
+</html> 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

@@ -1,0 +1,65 @@
+<div class="modal-header" style="padding-bottom: 0px">
+    <!--<button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">×</button>-->
+    <h3 class="modal-title">
+        <img src="/img/report.png" width="32" />
+        Отчет:
+        <span ng-bind="model.report.name"></span>
+        <span class="badge" tooltip="{{model.data.ids | json}}" tooltip-append-to-body="true" tooltip-placement="bottom">{{model.data.ids.length}}</span>
+    </h3>
+    <form fs-form-for="" class="form-horizontal">
+        <div class="form-group row">
+            <!--<input type="datetime-local" class="form-control" ng-model="model.start" required />
+            <input type="datetime-local" class="form-control" ng-model="model.end" required />-->
+            <div class="col-lg-3 col-md-4" style="padding-right:0px">
+                <div fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+            </div>
+            <div class="col-lg-3 col-md-4" style="padding-right:0px">
+                <div fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-4">
+                <button class="btn btn-default " ng-click="model.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+                <button class="btn btn-default " ng-click="model.savePdf()"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+                <button class="btn btn-default " ng-click="model.toExcel()"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+                <button class="btn btn-default " print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+<div class="modal-body">
+    <div ng-if="!model.success" class="alert alert-danger" style="margin-top: 0px; margin-bottom: 0px">
+        <strong>{{model.error}}</strong>
+    </div>
+
+    <div ng-if="model.success && model.wait">
+        <progressbar class="progress-striped active" value="100" type="info" style="margin-bottom: 0px">
+            <i>Идет построение отчета, ожидайте</i>
+        </progressbar>
+    </div>
+
+    <div ng-if="model.success && !model.wait">
+        <div style="overflow: auto; width: 100%; height: 75%">
+            <div ng-bind-html="model.reportText" id="report-content">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+</div>
+
+<!--<div class="navbar navbar-default" role="navigation" style="margin-bottom:5px">
+        <div class="container-fluid">
+            <fs-form-for>
+                <div fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+                <div fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+            </fs-form-for>
+
+            <button class="btn btn-default navbar-btn" ng-click="model.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+            <button class="btn btn-default navbar-btn" ng-click="model.savePdf()"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+            <button class="btn btn-default navbar-btn" ng-click="model.toExcel()"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+            <button class="btn btn-default navbar-btn" print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>
+        </div>
+    </div>-->

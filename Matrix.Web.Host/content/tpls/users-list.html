@@ -1,0 +1,176 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/users_3.png" width="32" />
+        <span ng-if="!model.selected">
+            Пользователи
+            <span class="smallergrey">
+                пользователь или группа не выбраны
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Пользователь:
+            <span class="smallergrey">
+                {{model.selected.name}}
+            </span>
+        </span>
+    </h3>
+</div>
+
+<div class="modal-body" style="padding:5px">
+
+    <div ng-if="!model.isLoaded">
+        <div style="display: table; height: 55%; width: 100%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="model.isLoaded">
+
+        <div class="row" style="margin:5px">
+            <div class="col-md-6" style="overflow: auto; height: 55%">
+                <!--<input type="text" class="form-control" ng-model="filter" style="margin:5px" />-->
+                <div ui-tree id="tree-root" data-drag-enabled="false" class="well well-sm pre-scrollable" style="max-height:95%;height:95%;width:100%">
+                    <ol ui-tree-nodes ng-model="model.users">
+                        <li ng-repeat="node in model.users" ui-tree-node data-nodrag data-collapsed ng-include="'users-nodes-renderer.html'"></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <form name="editForm">
+                    <div ng-if="model.selected">
+                        <span style="display:none">{{model.setForm(editForm)}}{{model.selected._dirty=editForm.$dirty}}</span>
+                        <div style="overflow: auto; height: 55%" ng-switch="model.selected.type">
+                            <div ng-switch-when="User">
+                                <ng-include src="'user-editor-tpl.html'"></ng-include>
+                            </div>
+                            <div ng-switch-when="Group">
+                                <ng-include src="'group-editor-tpl.html'"></ng-include>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 55%; overflow: hidden;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите пользователя или группу</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-3 col-md-3" style="text-align: left">
+        </div>
+        <div class="col-xs-9 col-md-9">            
+            <button class="btn btn-primary" ng-click="model.save()">Сохранить</button>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="user-editor-tpl.html">
+
+    <h4>Пользователь<span ng-if="userForm.$dirty">*</span></h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Логин</td>
+            <td>
+                <input type="text" class="form-control" ng-model="model.selected.login" />
+            </td>
+        </tr>
+        <!--<tr>
+            <td>Пароль (старый ввод)</td>
+            <td>
+                <div class="input-group">
+                    <input type="password" class="form-control" ng-model="model.selected._password" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="basic-addon2" ng-click="model.applyPass(model.selected)">Принять</button>
+                    </span>
+                </div>
+            </td>
+        </tr>-->
+        <tr>
+            <td>Пароль</td>
+            <td>
+                <input type="password" class="form-control" ng-model="model.selected._password" ng-change="model.applyPass(model.selected)" />
+            </td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td>
+                <input type="text" class="form-control" ng-model="model.selected.name" />
+            </td>
+        </tr>
+        <tr>
+            <td>Фамилия</td>
+            <td>
+                <input type="text" class="form-control" ng-model="model.selected.surname" />
+            </td>
+        </tr>
+        <tr>
+            <td>Отчество</td>
+            <td>
+                <input type="text" class="form-control" ng-model="model.selected.patronymic" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="model.selected.isAdmin" /> Администратор
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="group-editor-tpl.html">
+    <h4>Группа</h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Название</td>
+            <td>
+                <input type="text" class="form-control" ng-model="model.selected.name" />
+            </td>
+        </tr>
+        <!--<tr>
+            <td style="width: 100px">Вид</td>
+            <td></td>
+        </tr>-->
+    </table>
+    <button class="btn btn-primary" ng-click="model.addUser(model.selected)">Добавить пользователя</button>
+    <button class="btn btn-primary" ng-click="model.addGroup(model.selected)">Добавить подгруппу</button>
+</script>
+
+<script type="text/ng-template" id="users-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" style="cursor:pointer" ng-class="{ 'users-group-row': node.type==='Group', 'users-user-row': node.type==='User', 'red': node._dirty }" ng-click="model.selectNode(node)" ng-dblclick="toggle(this)">
+        <span ng-if="node.type === 'User'">
+            <img ng-src="{{ '/img/' + ((node.isAdmin !== true)? 'user' : 'administrator') + '.png' }}" style="height: 24px" />{{node.name}} ({{node.login}})<small ng-if="node._dirty">*</small>
+        </span>
+        <span ng-if="node.type==='Group'">
+            <a ng-if="node._children && node._children.length > 0" class="btn btn-default" data-nodrag ng-click="toggle(this)" ng-init="collapse(this)">
+                <img ng-if="!collapsed" src="/img/16/toggle.png" />
+                <img ng-if="collapsed" src="/img/16/toggle_expand.png" />
+            </a>
+            <a ng-if="!(node._children && node._children.length > 0)" class="btn btn-default" data-nodrag ng-disabled="true">
+                <img src="/img/16/toggle.png" />
+            </a>
+            <img src="/img/group.png" /> {{node.name}}<small ng-if="node._dirty">*</small>
+        </span>
+    </div>
+
+    <ol ui-tree-nodes="" ng-model="node._children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node._children" ui-tree-node data-nodrag data-collapsed ng-include="'users-nodes-renderer.html'"></li>
+    </ol>
+</script>

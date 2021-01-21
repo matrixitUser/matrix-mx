@@ -1,0 +1,38 @@
+﻿<div ng-controller="ReportsCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/report.png" width="16" />
+                Отчет: <span ng-bind="model.report.name"></span>
+            </div>
+            <div class="modal-preview-head">
+                <span ng-if="model.names.length>0">
+                    <span class="badge" ng-bind="model.names.length" tooltip="{{model.names.join('; ')}}" tooltip-append-to-body="true" tooltip-placement="bottom"></span>
+                    <small>{{model.names.join(', ')}}</small>
+                </span>
+                <span ng-if="model.names.length==0">
+                    <small>нет объектов</small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->
+        <div ng-if="!model.success" class="modal-preview-body alert alert-danger">
+            <strong>{{model.error}}</strong>
+        </div>
+
+        <div ng-if="model.success && model.wait" class="modal-preview-body alert alert-info">
+            <progressbar class="progress-striped active" value="100" type="info" style="margin-bottom: 0px">
+                <i>построение...</i>
+            </progressbar>            
+            с {{model.start | date:"dd.MM.yyyy HH:mm"}} по {{model.end | date:"dd.MM.yyyy HH:mm"}}
+        </div>
+
+        <div ng-if="model.success && !model.wait" class="modal-preview-body alert alert-success">
+            <progressbar class="progress-striped" value="100" type="success" style="margin-bottom: 0px">
+                <i>Готово!</i>
+            </progressbar>            
+            с {{model.start | date:"dd.MM.yyyy HH:mm"}} по {{model.end | date:"dd.MM.yyyy HH:mm"}}
+        </div>
+    </a>
+</div>

@@ -1,0 +1,42 @@
+<div class="panel panel-default" style="margin-bottom:0px">
+
+    <!--<div class="panel-heading">
+        <div class="container-fluid">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="model.selectAll()" style="height:34px" ng-disabled="(model.selected.length == 0) && (model.count > 50)">
+                        <img ng-src="./img/16/check_box{{(model.selected.length == model.count? '' : (model.selected.length > 0? '_mix' : '_uncheck'))}}.png" />
+                    </button>
+                </span>
+                <input type="search" class="form-control "
+                       ng-model="model.filterText"
+                       ng-change="model.onFilterTextChange()"
+                       placeholder="поиск" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-class="{'active': model.isShowPinnedOnly}" type="button" ng-click="model.toggleShowPinned()"
+                            tooltip="показать все/только закрепленные" tooltip-append-to-body="true">
+                        <img ng-src="./img/unpin_red.png" height="20" />
+                    </button>
+                </span>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="model.toggleToolPanel()" style="height:34px"
+                            tooltip="открыть/закрыть панель инструментов" tooltip-append-to-body="true">
+                        <img src="/img/16/table_gear.png" />
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="panel-default">        
+        <!--<div ag-grid="opt" class="ag-fresh" resizable style="width: 100%" ng-style="{height:windowHeight-80}" context-menu="model.optionsView"></div>--><!-- height:windowHeight-87 -->        
+        <div ag-grid="model.grid2" class="ag-fresh" resizable style="width: 100%" ng-style="{height:windowHeight-80}" context-menu="model.optionsView"></div><!-- height:windowHeight-87 -->
+        <div class="modal-preview-head smaller">
+            <span ng-if="!connection.isConnected"><span class="red larger">&bull;</span> Нет соединения</span>
+            <span ng-if="connection.isConnected"><span class="green larger">&bull;</span> Соединение установлено</span>
+            | Группа: {{model.foldersShownNames.join(', ')}}
+            | Выбраны {{model.getSelectedIds().length}} из {{model.count}}
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div ng-controller="LogCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/action_log.png" width="16" />
+                Опрос
+            </div>
+            <div class="modal-preview-head">
+                <span ng-if="model.names != ''">
+                    <span class="badge" ng-bind="model.tubeids.length" tooltip="{{model.names}}" tooltip-appe tooltip-append-to-body="true" tooltip-placement="bottom"></span>
+                    <small>{{model.names}}</small>
+                </span>
+                <span ng-if="model.names.length==0">
+                    <small>нет объектов</small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->
+        <div ng-if="model.lastMessage != undefined" class="modal-preview-body alert alert-info">
+            <small>
+                ({{model.messagesLen}})
+                <span ng-bind="model.lastMessage.date | date: 'dd.MM.yy HH:mm:ss'"></span> <span ng-bind="model.lastMessage.name"></span><br />
+                <span ng-bind="model.lastMessage.message"></span>
+            </small>
+        </div>
+        <div ng-if="model.lastMessage == undefined" class="modal-preview-body alert alert-warning">
+            Нет сообщений
+        </div>
+    </a>
+</div>

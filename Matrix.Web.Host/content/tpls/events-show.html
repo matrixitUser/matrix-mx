@@ -1,0 +1,43 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <span class="media">
+            <img src="/img/lightning.png" width="32" />
+            <span class="badge" ng-bind="model.alarmsCounter"></span>
+        </span>
+        События
+    </h3>
+</div>
+
+<div class="modal-body" style="padding:5px;">
+    <div ag-grid="opt" class="ag-fresh" style="height:60%; width:100%"></div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-6 col-sm-9" style="text-align: left">
+            <button class="btn btn-default" ng-class="{'active': model.IsToolPanelShow}" ng-click="model.toggleToolPanel()">
+                <img src="../img/table_gear.png" height="20" />
+                <span class="hidden-xs">Настройка</span>
+            </button>
+            <button class="btn btn-default" ng-class="{'active': model.IsEndedShow}" ng-click="model.toggleEndedShow()">
+                <img src="../img/columns.png" height="20" />
+                <span class="hidden-xs">Отображать завершённые</span>
+            </button>
+            <button class="btn btn-default" ng-model="model.IsViewedShow" ng-click="model.toggleViewedShow()" btn-checkbox>
+                <img src="../img/columns.png" height="20" />
+                <span ng-show="model.IsViewedShow">Скрыть</span>
+                <span ng-hide="model.IsViewedShow">Отображать</span>
+                просмотренные
+            </button>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

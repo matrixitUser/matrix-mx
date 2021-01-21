@@ -1,0 +1,121 @@
+<div class="nopadding">
+
+    <uib-accordion close-others="false">
+
+        <uib-accordion-group is-open="model.accordion['folders'].open" ng-if="model.accordion['folders'].enabled">
+            <uib-accordion-heading>
+                <small>Группа</small><br />
+                <span ng-bind="model.selectedFolder"></span>
+                <span ng-if="!model.selectedFolder" class="grey">Все</span>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': model.accordion['folders'].open, 'glyphicon-chevron-right': !model.accordion['folders'].open}"></i>
+            </uib-accordion-heading>
+            <js-tree tree-data="scope"
+                     tree-model="folders"
+                     tree-plugins="checkbox,types"
+                     tree-types="typesConfig"
+                     tree-events="select_node:onFolderSelect;deselect_node:onFolderDeselect"
+                     context-menu="model.menu">
+            </js-tree>
+        </uib-accordion-group>
+
+        <uib-accordion-group is-open="model.accordion['state'].open" ng-if="model.accordion['state'].enabled">
+            <uib-accordion-heading>
+                <small>Статус</small><br />
+                <span ng-if="model.selectedState" ng-bind="model.selectedState"></span>
+                <span ng-if="!model.selectedState" class="grey">Все</span> 
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': model.accordion['state'].open, 'glyphicon-chevron-right': !model.accordion['state'].open}"></i>
+            </uib-accordion-heading>
+            <div ui-tree data-drag-enabled="false" class="well well-sm pre-scrollable" ng-style="{maxHeight:windowHeight-130,width:'100%'}">
+                <ol ui-tree-nodes ng-model="model.states">
+                    <li ng-repeat="node in model.states" ui-tree-node data-nodrag data-collapsed="false" ng-include="'state-nodes-renderer.html'"></li>
+                </ol>
+            </div>
+        </uib-accordion-group>
+
+        <uib-accordion-group is-open="model.accordion['device'].open" ng-if="model.accordion['device'].enabled">
+            <uib-accordion-heading>
+                <small>Вычислитель</small><br />
+                <span ng-bind="model.selectedDevice"></span>
+                <span ng-if="!model.selectedDevice" class="grey">Все</span>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': model.accordion['device'].open, 'glyphicon-chevron-right': !model.accordion['device'].open}"></i>
+            </uib-accordion-heading>
+            <div ui-tree data-drag-enabled="false" class="well well-sm pre-scrollable" ng-style="{maxHeight:windowHeight-130,width:'100%'}">
+                <ol ui-tree-nodes ng-model="model.devices">
+                    <li ng-repeat="node in model.devices" ui-tree-node data-nodrag data-collapsed="false" ng-include="'device-nodes-renderer.html'"></li>
+                </ol>
+            </div>
+        </uib-accordion-group>
+    </uib-accordion>
+
+</div>
+
+<script type="text/ng-template" id="folder-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" style="cursor:pointer">
+        <a ng-if="node.children && node.children.length > 0" data-nodrag ng-click="toggle(this)">
+            <img ng-if="!collapsed" src="/img/16/toggle.png" />{{model.colapseFolders(this)}}
+            <img ng-if="collapsed" src="/img/16/toggle_expand.png" />
+        </a>
+        <a ng-if="!(node.children && node.children.length > 0)" data-nodrag>
+            <img src="/img/16/toggle.png" />
+        </a>
+
+        <span ng-switch="node.type">
+            <span ng-switch-when="trash" ng-click="model.selectFolder(node.data)"><img src="/img/recycle_bag.png" width="16" /> {{node.data.name}}</span>
+            <span ng-switch-when="all" ng-click="model.selectFolder(node.data)"><img src="/img/folder_green.png" width="16" /> {{node.data.name}}</span>
+            <span ng-switch-when="pin" ng-click="model.selectFolder(node.data)"><img src="/img/folder_green.png" width="16" /> {{node.data.name}}</span>
+            <span ng-switch-default ng-click="model.selectFolder(node.data)"><img src="/img/folder.png" width="16" /> {{node.data.name}}</span>
+        </span>
+    </div>
+    <div ng-if="node.children && (node.children.length > 0)">
+        <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.children" ui-tree-node data-nodrag data-collapsed="false" ng-include="'folder-nodes-renderer.html'">
+            </li>
+        </ol>
+    </div>
+</script>
+
+<script type="text/ng-template" id="state-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" style="cursor:auto">
+        <a ng-if="node.children && (node.children.length > 0)" data-nodrag ng-click="toggle(this)" style="cursor:pointer">
+            <img ng-if="!collapsed" src="/img/16/toggle.png" />
+            <img ng-if="collapsed" src="/img/16/toggle_expand.png" />            
+        </a>
+        <a ng-if="!(node.children && (node.children.length > 0))" data-nodrag>
+            <img src="/img/16/toggle.png" />
+        </a>
+        <span ng-click="model.selectState(node)" style="cursor:pointer">
+            <img src="/img/16/folder.png" /> 
+            {{node.name}}
+        </span>
+
+    </div>
+    <div ng-if="node.children && (node.children.length > 0)">
+        <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.children" ui-tree-node data-nodrag data-collapsed="false" ng-include="'state-nodes-renderer.html'">
+            </li>
+        </ol>
+    </div>
+</script>
+
+<script type="text/ng-template" id="device-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" style="cursor:auto">
+        <a ng-if="node.children && (node.children.length > 0)" data-nodrag ng-click="toggle(this)" style="cursor:pointer">
+            <img ng-if="!collapsed" src="/img/16/toggle.png" />
+            <img ng-if="collapsed" src="/img/16/toggle_expand.png" />
+        </a>
+        <a ng-if="!(node.children && (node.children.length > 0))" data-nodrag>
+            <img src="/img/16/toggle.png" />
+        </a>
+        <span ng-click="model.selectDevice(node)" style="cursor:pointer">
+            <img ng-src="/img/16/{{node.children && (node.children.length > 0)? 'folder' : 'counter'}}.png" /> 
+            {{node.name}}
+        </span>
+        
+    </div>
+    <div ng-if="node.children && (node.children.length > 0)">
+        <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.children" ui-tree-node data-nodrag data-collapsed="false" ng-include="'device-nodes-renderer.html'">
+            </li>
+        </ol>
+    </div>
+</script>

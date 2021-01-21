@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2EA10186-D22B-463A-8525-F6852C62D78F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Matrix.SignalingServer</RootNamespace>
+    <AssemblyName>Matrix.SignalingServer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>f36f8637</NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.FileSystems.4.1.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.4.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.4.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.StaticFiles.4.1.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="NCrontab, Version=3.1.19111.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\ncrontab.3.1.0\lib\net45\NCrontab.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.0.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7">
+      <HintPath>..\packages\Npgsql.3.0.5\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=3.6.1.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce">
+      <HintPath>..\packages\RabbitMQ.Client.3.6.1\lib\net45\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.316.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\StackExchange.Redis.1.0.488\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="TuesPechkin, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TuesPechkin.2.1.1\lib\net20\TuesPechkin.dll</HintPath>
+    </Reference>
+    <Reference Include="TuesPechkin.Wkhtmltox.Win32, Version=0.12.2.1, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\TuesPechkin.Wkhtmltox.Win32.0.12.2.1\lib\net20\TuesPechkin.Wkhtmltox.Win32.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiConnector.cs" />
+    <Compile Include="Bus.cs" />
+    <Compile Include="Calc.cs" />
+    <Compile Include="Data\TubeEvent.cs" />
+    <Compile Include="Fill\Stimulator.cs" />
+    <Compile Include="Handlers\SignalHandler.cs" />
+    <Compile Include="Log\ILogExtensions.cs" />
+    <Compile Include="Handlers\HandlerManager.cs" />
+    <Compile Include="Handlers\IHandler.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="IConnector.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transport\MessageProccessor.cs" />
+    <Compile Include="Transport\TransportController.cs" />
+    <Compile Include="UnityManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ClassDiagram1.cd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="content\content.7z" />
+    <None Include="content\lib\angular-formstamp\.bower.json" />
+    <None Include="content\lib\angular-formstamp\bower.json" />
+    <None Include="content\lib\angular-formstamp\CHANGELOG.md" />
+    <None Include="content\lib\angular-formstamp\MIT-LICENSE" />
+    <None Include="content\lib\angular-formstamp\README.md" />
+    <None Include="content\lib\angular-strap-2.1.3\angular-strap.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\affix.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\alert.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\aside.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\button.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\collapse.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\date-parser.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\datepicker.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\debounce.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\dimensions.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\dropdown.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\modal.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\navbar.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\parse-options.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\popover.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\raf.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\scrollspy.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\select.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\tab.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\timepicker.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\tooltip.min.js.map" />
+    <None Include="content\lib\angular-strap-2.1.3\modules\typeahead.min.js.map" />
+    <None Include="content\lib\bootstrap-3.3.0\css\bootstrap-theme.css.map" />
+    <None Include="content\lib\bootstrap-3.3.0\css\bootstrap.css.map" />
+    <None Include="content\lib\bootstrap-3.3.0\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="content\lib\bootstrap-3.3.0\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="content\lib\bootstrap-3.3.0\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="content\lib\bootstrap-3.3.0\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="content\lib\bootstrap-4.4.1\css\bootstrap-grid.css.map" />
+    <None Include="content\lib\bootstrap-4.4.1\css\bootstrap-grid.min.css.map" />
+    <None Include="content\lib\bootstrap-4.4.1\css\bootstrap-reboot.css.map" />
+    <None Include="content\lib\bootstrap-4.4.1\css\bootstrap-reboot.min.css.map" />
+    <None Include="content\lib\bootstrap-4.4.1\css\bootstrap.css.map" />
+    <None Include="content\lib\bootstrap-4.4.1\css\bootstrap.min.css.map" />
+    <None Include="content\lib\bootstrap-4.4.1\js\bootstrap.bundle.js.map" />
+    <None Include="content\lib\bootstrap-4.4.1\js\bootstrap.bundle.min.js.map" />
+    <None Include="content\lib\bootstrap-4.4.1\js\bootstrap.js.map" />
+    <None Include="content\lib\bootstrap-4.4.1\js\bootstrap.min.js.map" />
+    <None Include="content\lib\jquery-3.4.1\jquery-3.4.1.min.map" />
+    <None Include="content\lib\jquery-3.4.1\jquery-3.4.1.slim.min.map" />
+    <None Include="content\lib\ui-grid-rc\ui-grid.eot" />
+    <None Include="content\lib\ui-grid-rc\ui-grid.svg" />
+    <None Include="content\lib\ui-grid-rc\ui-grid.ttf" />
+    <None Include="content\lib\ui-grid-rc\ui-grid.woff" />
+    <None Include="content\mnemo\boiler3.svg" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.svg" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\jquery-3.4.1.min.map" />
+    <None Include="Scripts\jquery-3.4.1.slim.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Matrix.SurveyServer.Driver.Common\Matrix.SurveyServer.Driver.Common.csproj">
+      <Project>{A121EE42-6B37-40DB-9FDC-0EC602C244CB}</Project>
+      <Name>Matrix.SurveyServer.Driver.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="content\favicon.ico" />
+    <Content Include="content\img\80020.png" />
+    <Content Include="content\img\accept.png" />
+    <Content Include="content\img\action_log.png" />
+    <Content Include="content\img\add.png" />
+    <Content Include="content\img\arrow_refresh_small.png" />
+    <Content Include="content\img\bullet_add.png" />
+    <Content Include="content\img\bullet_gear.png" />
+    <Content Include="content\img\bullet_toggle_empty.png" />
+    <Content Include="content\img\bullet_toggle_minus.png" />
+    <Content Include="content\img\bullet_toggle_plus.png" />
+    <Content Include="content\img\catalog.png" />
+    <Content Include="content\img\check-all.png" />
+    <Content Include="content\img\clock_history_frame.png" />
+    <Content Include="content\img\columns.png" />
+    <Content Include="content\img\copy.png" />
+    <Content Include="content\img\counter.png" />
+    <Content Include="content\img\cross.png" />
+    <Content Include="content\img\date.png" />
+    <Content Include="content\img\disabled.png" />
+    <Content Include="content\img\door_out.png" />
+    <Content Include="content\img\enabled.png" />
+    <Content Include="content\img\eraser.png" />
+    <Content Include="content\img\explorer.png" />
+    <Content Include="content\img\fastrack.png" />
+    <Content Include="content\img\folder.png" />
+    <Content Include="content\img\folder_add.png" />
+    <Content Include="content\img\folder_database.png" />
+    <Content Include="content\img\folder_edit.png" />
+    <Content Include="content\img\folder_go.png" />
+    <Content Include="content\img\folder_star.png" />
+    <Content Include="content\img\group.png" />
+    <Content Include="content\img\group_key.png" />
+    <Content Include="content\img\house.png" />
+    <Content Include="content\img\house_add.png" />
+    <Content Include="content\img\loading.gif" />
+    <Content Include="content\img\magnify.png" />
+    <Content Include="content\img\muted — копия.png" />
+    <Content Include="content\img\muted.png" />
+    <Content Include="content\img\note_edit.png" />
+    <Content Include="content\img\note_error.png" />
+    <Content Include="content\img\paste.png" />
+    <Content Include="content\img\pdf.png" />
+    <Content Include="content\img\phone.png" />
+    <Content Include="content\img\port.png" />
+    <Content Include="content\img\print.png" />
+    <Content Include="content\img\report.png" />
+    <Content Include="content\img\report1.png" />
+    <Content Include="content\img\server.png" />
+    <Content Include="content\img\setting_tools.png" />
+    <Content Include="content\img\sheduled_task.png" />
+    <Content Include="content\img\signal_0-6.png" />
+    <Content Include="content\img\signal_1-6.png" />
+    <Content Include="content\img\signal_2-6.png" />
+    <Content Include="content\img\signal_3-6.png" />
+    <Content Include="content\img\signal_4-6.png" />
+    <Content Include="content\img\signal_5-6.png" />
+    <Content Include="content\img\signal_6-6.png" />
+    <Content Include="content\img\signal_no.png" />
+    <Content Include="content\img\table_refresh.png" />
+    <Content Include="content\img\tags.png" />
+    <Content Include="content\img\time.png" />
+    <Content Include="content\img\uncheck-all.png" />
+    <Content Include="content\img\unmuted — копия.png" />
+    <Content Include="content\img\unmuted.png" />
+    <Content Include="content\img\user.png" />
+    <Content Include="content\img\warning.png" />
+    <Content Include="content\img\xls.png" />
+    <Content Include="content\img\xps.png" />
+    <Content Include="content\index.html" />
+    <Content Include="content\js\app.js" />
+    <Content Include="content\lib\angular-1.3.2\angular.min.js" />
+    <Content Include="content\lib\angular-1.3.2\i18n\angular-locale_ru-ru.js" />
+    <Content Include="content\lib\angular-1.3.9\angular-animate.min.js" />
+    <Content Include="content\lib\angular-1.3.9\angular-sanitize.min.js" />
+    <Content Include="content\lib\angular-1.3.9\angular-touch.min.js" />
+    <Content Include="content\lib\angular-1.3.9\angular.js" />
+    <Content Include="content\lib\angular-1.3.9\angular.min.js" />
+    <Content Include="content\lib\angular-bootstrap-datetimepicker\datetimepicker.css" />
+    <Content Include="content\lib\angular-formstamp\formstamp.css" />
+    <Content Include="content\lib\angular-formstamp\formstamp.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\angular-strap.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\angular-strap.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\angular-strap.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\angular-strap.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\affix.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\affix.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\alert.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\alert.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\alert.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\alert.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\aside.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\aside.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\aside.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\aside.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\button.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\button.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\collapse.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\collapse.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\date-parser.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\date-parser.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\datepicker.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\datepicker.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\datepicker.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\datepicker.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\debounce.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\debounce.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\dimensions.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\dimensions.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\dropdown.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\dropdown.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\dropdown.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\dropdown.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\modal.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\modal.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\modal.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\modal.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\navbar.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\navbar.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\parse-options.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\parse-options.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\popover.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\popover.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\popover.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\popover.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\raf.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\raf.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\scrollspy.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\scrollspy.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\select.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\select.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\select.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\select.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tab.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tab.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tab.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tab.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\timepicker.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\timepicker.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\timepicker.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\timepicker.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tooltip.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tooltip.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tooltip.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\tooltip.tpl.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\typeahead.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\typeahead.min.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\typeahead.tpl.js" />
+    <Content Include="content\lib\angular-strap-2.1.3\modules\typeahead.tpl.min.js" />
+    <Content Include="content\lib\audio\angular.audio.js" />
+    <Content Include="content\lib\bootstrap-3.3.0\css\bootstrap-theme.css" />
+    <Content Include="content\lib\bootstrap-3.3.0\css\bootstrap-theme.min.css" />
+    <Content Include="content\lib\bootstrap-3.3.0\css\bootstrap.css" />
+    <Content Include="content\lib\bootstrap-3.3.0\css\bootstrap.min.css" />
+    <Content Include="content\lib\bootstrap-3.3.0\js\bootstrap.js" />
+    <Content Include="content\lib\bootstrap-3.3.0\js\bootstrap.min.js" />
+    <Content Include="content\lib\bootstrap-3.3.0\js\npm.js" />
+    <Content Include="content\lib\bootstrap-4.4.1\css\bootstrap-grid.css" />
+    <Content Include="content\lib\bootstrap-4.4.1\css\bootstrap-grid.min.css" />
+    <Content Include="content\lib\bootstrap-4.4.1\css\bootstrap-reboot.css" />
+    <Content Include="content\lib\bootstrap-4.4.1\css\bootstrap-reboot.min.css" />
+    <Content Include="content\lib\bootstrap-4.4.1\css\bootstrap.css" />
+    <Content Include="content\lib\bootstrap-4.4.1\css\bootstrap.min.css" />
+    <Content Include="content\lib\bootstrap-4.4.1\js\bootstrap.bundle.js" />
+    <Content Include="content\lib\bootstrap-4.4.1\js\bootstrap.bundle.min.js" />
+    <Content Include="content\lib\bootstrap-4.4.1\js\bootstrap.js" />
+    <Content Include="content\lib\bootstrap-4.4.1\js\bootstrap.min.js" />
+    <Content Include="content\lib\bootstrap-datetimepicker\bootstrap-datetimepicker.css" />
+    <Content Include="content\lib\bootstrap-datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="content\lib\bootstrap-datetimepicker\bootstrap-datetimepicker.min.js" />
+    <Content Include="content\lib\jquery-3.4.1\jquery-3.4.1.min.js" />
+    <Content Include="content\lib\jquery-ui-1.11.2\external\jquery\jquery.js" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-icons_222222_256x240.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="content\lib\jquery-ui-1.11.2\index.html" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.css" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.js" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.min.css" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.min.js" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.structure.css" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.structure.min.css" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.theme.css" />
+    <Content Include="content\lib\jquery-ui-1.11.2\jquery-ui.theme.min.css" />
+    <Content Include="content\lib\moment\angular-moment.min.js" />
+    <Content Include="content\lib\moment\moment-with-locales.js" />
+    <Content Include="content\lib\ngToast\ngToast-animations.min.css" />
+    <Content Include="content\lib\ngToast\ngToast.min.css" />
+    <Content Include="content\lib\ngToast\ngToast.min.js" />
+    <Content Include="content\lib\ui-bootstrap-0.10.0\ui-bootstrap-0.10.0.js" />
+    <Content Include="content\lib\ui-bootstrap-0.10.0\ui-bootstrap-0.10.0.min.js" />
+    <Content Include="content\lib\ui-bootstrap-0.10.0\ui-bootstrap-tpls-0.10.0.js" />
+    <Content Include="content\lib\ui-bootstrap-0.10.0\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="content\lib\ui-grid-rc\ui-grid.css" />
+    <Content Include="content\lib\ui-grid-rc\ui-grid.js" />
+    <Content Include="content\lib\ui-grid-rc\ui-grid.min.css" />
+    <Content Include="content\lib\ui-grid-rc\ui-grid.min.js" />
+    <Content Include="content\lib\ui-layout\ui-layout.css" />
+    <Content Include="content\lib\ui-layout\ui-layout.js" />
+    <Content Include="content\media\song.mp3" />
+    <Content Include="content\site.css" />
+    <Content Include="content\tpls\modal.html" />
+    <Content Include="content\tpls\row.html" />
+    <Content Include="content\tpls\state.html" />
+    <Content Include="content\tpls\value.html" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-3.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\views\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Включите восстановление пакетов NuGet, чтобы загрузить их. Дополнительные сведения см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

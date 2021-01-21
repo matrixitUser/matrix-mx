@@ -1,0 +1,255 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title modal-preview-head">
+        <img src="/img/infocard.png" width="32" />
+        <span class="smallergrey">
+            Калькулятор ценовых категорий
+        </span>
+        <a href="#" ng-if="model.isResult" ng-click="model.savePdf()" class="btn pull-right">
+            <img src="./img/pdf.png" height="20" title="Экспорт в PDF" />Экспорт в PDF
+        </a>
+    </h3>
+</div>
+<div class="modal-body">
+    <div ng-if="!model.isLoaded">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+    <div ng-if="model.isLoaded">
+        <div ng-if="model.isResult" id="result-calculator" class="row" style="margin:5px;">
+            <h3 class="text-center">Результат расчета при расходе электроэнергии за месяц, {{model.consumption.toFixed(2)}} кВт*ч</h3>
+            <table class="table table-calculator">
+                <tr>
+                    <th scope="col" style="width:20%;">Ценовая категория</th>
+                    <td style="width:110px;" ng-class="(model2.currentPriceCategory == 1)?'calculator-current':'text-center'">Первая<p>{{model.textCur[0]}}</p></td>
+                    <td style="width:110px;" ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">Вторая <p ng-if="model.isCat2DN">(пик, полупик, ночь)</p><p>{{model.textCur[1]}}</p></td>
+                    <td style="width:110px;" ng-if="model.isCat2DN" ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">Вторая<br />(день, ночь)<p>{{model.textCur[1]}}</p></td>
+                    <td style="width:110px;" ng-class="(model2.currentPriceCategory == 3)?'calculator-current':'text-center'">Третья<p>{{model.textCur[2]}}</p></td>
+                    <td style="width:110px;" ng-class="(model2.currentPriceCategory == 4)?'calculator-current':'text-center'">Четвёртая<p>{{model.textCur[3]}}</p></td>
+                    <td style="width:110px;" ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">Пятая<p>{{model.textCur[4]}}</p></td>
+                    <td style="width:110px;" ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">Шестая<p>{{model.textCur[5]}}</p></td>
+                </tr>
+                <tr>
+                    <td>Итого затраты на оплату<br /> электроэнергии, руб. без НДС</td>
+                    <td ng-class="(model2.currentPriceCategory == 1)?'calculator-current':'text-center'">{{model.total[0].toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">{{model.total[1].toFixed(2)}}</td>
+                    <td ng-if="model.isCat2DN" ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">{{model.total[6].toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 3)?'calculator-current':'text-center'">{{model.total[2].toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 4)?'calculator-current':'text-center'">{{model.total[3].toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.total[4].toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.total[5].toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Электроэнергия, руб. без НДС</td>
+                    <td ng-class="(model2.currentPriceCategory == 1)?'calculator-current':'text-center'">{{model.categories[0].energy.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">{{model.categories[1].energy.toFixed(2)}}</td>
+                    <td ng-if="model.isCat2DN" ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">{{model.categories[1].energyDayNight.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 3)?'calculator-current':'text-center'">{{model.categories[2].energy.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 4)?'calculator-current':'text-center'">{{model.categories[3].energy.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.categories[4].energy.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].energy.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Мощность (Генерация), руб. без НДС</td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="model.isCat2DN"></td>
+                    <td ng-class="(model2.currentPriceCategory == 3)?'calculator-current':'text-center'">{{model.categories[2].power.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 4)?'calculator-current':'text-center'">{{model.categories[3].power.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.categories[4].power.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].power.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Мощность (Транспорт), руб. без НДС</td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="model.isCat2DN"></td>
+                    <td></td>
+                    <td ng-class="(model2.currentPriceCategory == 4)?'calculator-current':'text-center'">{{model.categories[3].network.toFixed(2)}}</td>
+                    <td></td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].network.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Фактор план</td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="model.isCat2DN"></td>
+                    <td></td>
+                    <td></td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.categories[4].factPlan.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].factPlan.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>План фактор</td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="model.isCat2DN"></td>
+                    <td></td>
+                    <td></td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.categories[4].planFact.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].planFact.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Сумма объемов планового потребления</td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="model.isCat2DN"></td>
+                    <td></td>
+                    <td></td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.categories[4].vSumPlan.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].vSumPlan.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Разность модуля факта и плана</td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="model.isCat2DN"></td>
+                    <td></td>
+                    <td></td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{model.categories[4].difFactPlan.toFixed(2)}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{model.categories[5].difFactPlan.toFixed(2)}}</td>
+                </tr>
+                <tr>
+                    <td>Экономия относительно действующей <br /> ценовой категории, руб. без НДС</td>
+                    <td ng-class="(model2.currentPriceCategory == 1)?'calculator-current':'text-center'">{{ (model.economy[0] > 0) ? model.economy[0].toFixed(2) : "Нет"}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">{{ (model.economy[1] > 0) ? model.economy[1].toFixed(2) : "Нет"}}</td>
+                    <td ng-if="model.isCat2DN" ng-class="(model2.currentPriceCategory == 2)?'calculator-current':'text-center'">{{ (model.economy[6] > 0) ? model.economy[6].toFixed(2) : "Нет"}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 3)?'calculator-current':'text-center'">{{ (model.economy[2] > 0) ? model.economy[2].toFixed(2) : "Нет"}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 4)?'calculator-current':'text-center'">{{ (model.economy[3] > 0) ? model.economy[3].toFixed(2) : "Нет"}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 5)?'calculator-current':'text-center'">{{ (model.economy[4] > 0) ? model.economy[4].toFixed(2) : "Нет"}}</td>
+                    <td ng-class="(model2.currentPriceCategory == 6)?'calculator-current':'text-center'">{{ (model.economy[5] > 0) ? model.economy[5].toFixed(2) : "Нет"}}</td>
+                </tr>
+            </table>
+            <div class="panel-body" style="overflow-x: auto;">
+                <div id="chart_div_calculator" style="width:99%;height:305px;"></div>
+            </div>
+        </div>
+
+        <div ng-if="!model.isResult" class="row" style="margin:5px">
+            <div class="col-md-12">
+                <h3 class="text-center">Выбрать тип предприятия</h3>
+                <select ng-click="model.selectEnterprises()" ng-model="model2.enterprises" class="form-control">
+                    <option value="">Тип предприятия или объекта предприятия</option>
+                    <option value="example">Пример</option>
+                    <option value="mine">Загрузить данные предприятия</option>
+                    <option value="systemEnterprise">Предприятия из системы</option>
+                </select>
+            </div>
+
+            <div class="col-md-12" ng-if="model.isMyEnterprise">
+                <h6>Для загрузки данных из предприятия, нужно скачать файл в формате .xlsx, заполнить его данными, затем выбрать заполненный файл кнопкой ниже</h6>
+                <input type="file" accept=".xls,.xlsx" ng-model="model2.file" base-sixty-four-input />
+                <a href="/media/consumption.xlsx" download>
+                    <img src="./img/xls.png" height="20" title="Скачать файл в формате .xlsx, чтобы заполнить его и загрузить обратно кнопкой выше" />Скачать файл для заполнения
+                </a>
+            </div>
+            <div class="col-md-12">
+                <center>
+                    <input name="unit" ng-model="model2.ratio" type="radio" value="1"> МВт*ч
+                    <input name="unit" ng-model="model2.ratio" type="radio" value="1000"> кВт*ч
+                </center>
+            </div>
+            <h3 class="text-center">Выберите год, месяц, регион и гарантирующего поставщика</h3>
+
+            <div class="col-md-2">
+                <select ng-click="model.selectYear()" ng-model="model2.year" class="form-control">
+                    <option ng-repeat="year in model.years" value="{{year}}">{{year}}</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select ng-model="model2.month" class="form-control">
+                    <option ng-repeat="month in model.months| orderBy:'number'" value="{{month.number}}">{{month.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select ng-click="model.selectRegion()" ng-model="model2.region" class="form-control">
+                    <option value="">Выберите регион</option>
+                    <option ng-repeat="region in model.regions| orderBy:'name'" value="{{region.tag}}">{{region.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select ng-model="model2.provider" class="form-control">
+                    <option value="">Выберите гарантирующего поставщика</option>
+                    <option ng-repeat="provider in model.providers| orderBy:'name'" value="{{provider.id}}">{{provider.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <h3 class="text-center">Выберите тип договора</h3>
+                <select ng-model="model2.contract" class="form-control">
+                    <option value="">Выберите договор</option>
+                    <option value="0">Договор энергоснабжения</option>
+                    <option value="1">Договор купли-продажи</option>
+                </select>
+            </div>
+            <div class="col-md-12"> <!-- ng-if="!model.isSystemEnterprise" -->
+                <h6 class="text-center">Уровень напряжения</h6>
+                <center>
+                    <input name="voltageLevel" ng-model="model2.voltageLevel" type="radio" value="bh"> BH
+                    <input name="voltageLevel" ng-model="model2.voltageLevel" type="radio" value="ch1"> CH1
+                    <input name="voltageLevel" ng-model="model2.voltageLevel" type="radio" value="ch2"> CH2
+                    <input name="voltageLevel" ng-model="model2.voltageLevel" type="radio" value="hh"> HH
+                </center>
+            </div>
+            <div class="col-md-12">
+                <h6 class="text-center">Максимальная мощность</h6>
+                <center>
+                    <input name="maxPower" ng-model="model2.maxPower" type="radio" value="0"> 0-150кВт
+                    <input name="maxPower" ng-model="model2.maxPower" type="radio" value="150"> 150-670 кВт
+                    <input name="maxPower" ng-model="model2.maxPower" type="radio" value="670"> 670кВт-10МВт
+                    <input name="maxPower" ng-model="model2.maxPower" type="radio" value="10"> Более 10МВт
+                </center>
+            </div>
+            <div class="col-md-12">
+                <h6 class="text-center">Время в приборе учета</h6>
+                <center>
+                    <input name="timeInMeter" ng-model="model2.timeInMeter" type="radio" value="local"> Местное
+                    <input name="timeInMeter" ng-model="model2.timeInMeter" type="radio" value="moscow"> Московское
+                </center>
+            </div>
+            <div class="col-md-12">
+                <h6 class="text-center">Действующая ценовая категория</h6>
+                <center>
+                    <input name="currentPriceCategory" ng-model="model2.currentPriceCategory" type="radio" value="1"> 1-я категория
+                    <input name="currentPriceCategory" ng-model="model2.currentPriceCategory" type="radio" value="2"> 2-я категория
+                    <input name="currentPriceCategory" ng-model="model2.currentPriceCategory" type="radio" value="3"> 3-я категория
+                    <input name="currentPriceCategory" ng-model="model2.currentPriceCategory" type="radio" value="4"> 4-я категория
+                    <input name="currentPriceCategory" ng-model="model2.currentPriceCategory" type="radio" value="5"> 5-я категория
+                    <input name="currentPriceCategory" ng-model="model2.currentPriceCategory" type="radio" value="6"> 6-я категория
+                </center>
+            </div>
+            <div class="col-md-12">
+                <h6 class="text-center">Погрешность планирования</h6>
+                <center>
+                    <input name="planningError" ng-model="model2.planningError" type="radio" value="0"> 0%
+                    <input name="planningError" ng-model="model2.planningError" type="radio" value="7"> 7%
+                    <input name="planningError" ng-model="model2.planningError" type="radio" value="13"> 13%
+                    <input name="planningError" ng-model="model2.planningError" type="radio" value="20"> 20%
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-md-6">
+            <p ng-if="model.message != ''" style="color:darkred; text-align:left;">
+                *{{model.message}}
+            </p>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary" ng-if="model.isResult" ng-click="model.back()">Назад</button>
+            <button class="btn btn-primary" ng-if="!model.isResult" ng-click="model.calculate()">Рассчитать</button>
+            <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+            <button class="btn btn-warning" ng-click="model.close(null)">Закрыть</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+﻿
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+
+.input-group-mine {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 10px;
+    width:auto;
+}
+
+.btn-cell{
+    padding-bottom:2px;
+    padding-top:2px;
+}
+.cell-contents-mine{
+    padding-top:2px;
+}
+.grid-mine{
+    margin-top:5px;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/*.modal-dialog {
+    width: 90%;
+}*/
+    .app-modal-window .modal-dialog {
+    width: 90%;
+}
+
+.login-modal-window .modal-dialog {
+    width: 350px;
+}
+
+.modal-backdrop {
+    background-color: black;
+    opacity: 0.5;
+}
+
+.modal-body {
+    max-height: 90%;
+}
+
+/*грид*/
+/*.ngViewport.ng-scope {
+    height: auto !important;
+    overflow-y: hidden;
+}
+
+.ngTopPanel.ng-scope, .ngHeaderContainer {
+    width: auto !important;
+}*/
+
+/*дерево*/
+.angular-ui-tree-handle {
+    background: #f8faff;
+    border: 1px solid #dae2ea;
+    color: #7c9eb2;
+    /*padding: 10px 10px;*/
+    font-weight: 100;
+}
+
+    .angular-ui-tree-handle:hover {
+        color: #438eb9;
+        background: #f4f6f7;
+        border-color: #dce2e8;
+    }
+
+.angular-ui-tree-placeholder {
+    background: #f0f9ff;
+    border: 2px dashed #bed2db;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.group-title {
+    background-color: #687074 !important;
+    color: #FFF !important;
+}
+
+/**/
+/*.input-block-level {
+    display: block;
+    width: 100%;
+    min-height: 28px;
+   
+}*/
+
+.footer {
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear: both;
+    padding-top: 20px;
+    color: #fff;
+}
+
+/*фикс бага в бутстрапе - горизонтальное выравнивание элементов в форме, (обещается исправление в версии 3.2.0 */
+/*.input-group {
+    display: inline-table;
+    vertical-align: middle;
+}
+.input-group-addon, .input-group-btn, .form-control{
+    width: auto !important;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    padding-left: 0px;
+}*/
+
+/*крестик в строке поиска*/
+#searchclear {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    height: 14px;
+    margin: auto;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+
+.ui-grid-render-container-body {
+    float: none;
+}
+
+/*.ui-grid-row:hover {
+    background-color: red;
+}*/
+
+/*.ui-grid-row {
+    font-style: italic;
+}
+
+    .ui-grid-row:hover {
+        background-color: red;
+    }*/
+
+.select.dropdown-menu {
+    max-height: 200px;
+    min-width: 100px;
+    overflow-y: auto;
+}
+
+.position-fixed {
+    position: fixed;
+}
+
+.ui-splitbar {
+    background-color: gray;
+}
+
+.ui-layout-container {
+    display: inline-block;
+}
+
+.mx-margin {
+    margin: 5px;
+}
+
+.mx-label {
+    width: 50px;
+    overflow-x:hidden;
+}

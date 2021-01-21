@@ -1,0 +1,42 @@
+<div class="navbar navbar-default" role="navigation" bs-navbar style="margin-bottom:5px">
+    <!--<div class="container-fluid">
+        <form class="navbar-form navbar-left">
+            <input type="date" class="form-control" datepicker-popup ng-model="model.start" ng-required="true" />
+            <timepicker ng-model="model.start" hour-step="1" minute-step="30" show-meridian="false"></timepicker>
+            <input type="date" class="form-control" datepicker-popup ng-model="model.end" ng-required="true" />
+            <timepicker ng-model="model.end" hour-step="1" minute-step="30" show-meridian="false"></timepicker>-->
+    <!--<input size="6" class="form-control" ng-model="model.start" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+    <input size="4" class="form-control" ng-model="model.start" data-autoclose="1" placeholder="Время" bs-timepicker type="text">
+    <input size="6" class="form-control" ng-model="model.end" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+    <input size="4" class="form-control" ng-model="model.end" data-autoclose="1" placeholder="Время" bs-timepicker type="text">-->
+    <!--<p class="input-group">
+                <input type="date" class="form-control" datepicker-popup ng-model="model.start" is-open="model.startOpened" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="model.startOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+            <p class="input-group">
+                <timepicker ng-model="model.start" hour-step="1" minute-step="30" show-meridian="false"></timepicker>
+            </p>
+            <p class="input-group">
+                <input type="date" class="form-control" datepicker-popup ng-model="model.end" is-open="model.endOpened" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="model.endOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+            <p class="input-group">
+                <timepicker ng-model="model.end" hour-step="1" minute-step="30" show-meridian="false"></timepicker>
+            </p>
+    </div>-->
+
+    <fs-form-for>
+        <div fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+        <div fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+
+        <button class="btn btn-default navbar-btn" ng-click="model.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+        <button class="btn btn-default navbar-btn" ng-click="model.savePdf()"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+        <button class="btn btn-default navbar-btn" ng-click="model.toExcel()"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+        <button class="btn btn-default navbar-btn" print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>
+    </fs-form-for>
+
+</div>

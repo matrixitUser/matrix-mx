@@ -1,0 +1,69 @@
+﻿<small>{{data.id}}</small><br />
+{{data.name}}<br />
+<small>Сетевой адрес: {{data.networkAddress}}</small><br />
+
+<div ng-if="data.Current && data.Current.length>0">
+    <div>Текущие:</div>
+    <ul>
+        <li ng-repeat="folder in data.Current">
+            <small><span tooltip="{{folder.date}}">{{folder.s1}}={{folder.d1 | number: 3}} {{folder.s2}}</span></small>
+        </li>
+    </ul>
+    <!--<div ng-repeat="folder in data.Current">
+        <small>
+            <img src="/img/folder.png" height="16" tooltip="{{folder.id}}" />
+            <span tooltip="{{folder.date}}">{{folder.s1}}={{folder.d1}} {{folder.s2}}</span>
+        </small>
+    </div>-->
+</div>
+
+<div ng-if="data.Folder && data.Folder.length>0">
+    <div>Группы:</div>
+    <div ng-repeat="folder in data.Folder">
+        <small>
+            <img src="/img/folder.png" height="16" tooltip="{{folder.id}}" />
+            <span ng-bind="folder.name"></span>
+        </small>
+    </div>
+</div>
+
+<div ng-if="data.Area && data.Area.length>0">
+    <div>Площадки:</div>
+    <div ng-repeat="area in data.Area">
+        <small>
+            <img src="/img/house.png" height="16" tooltip="{{area.id}}" />
+            <span ng-bind="area.name"></span>
+        </small>
+    </div>
+</div>
+
+
+<div ng-if="data.CsdConnection && data.CsdConnection.length>0">
+    <div>CSD:</div>
+    <div ng-repeat="csd in data.CsdConnection">
+        <small>
+            <img src="/img/phone.png" height="16" tooltip="{{csd.id}}" />
+            <span ng-bind="csd.phone"></span>
+        </small>
+    </div>
+</div>
+
+<div ng-if="data.Device && data.Device.length>0">
+    <div>Вычислители:</div>
+    <div ng-repeat="dev in data.Device">
+        <small>
+            <img src="/img/counter.png" height="16" tooltip="{{dev.id}}" />
+            <span ng-bind="dev.name"></span>
+        </small>
+    </div>
+</div>
+
+<div ng-if="data.CsdPort && data.CsdPort.length>0">
+    <div>Порты CSD:</div>
+    <div ng-repeat="port in data.CsdPort">
+        <small>
+            <img src="/img/port.png" height="16" tooltip="{{port.id}}" />
+            <span ng-bind="port.name"></span>
+        </small>
+    </div>
+</div>

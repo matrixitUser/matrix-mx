@@ -1,0 +1,483 @@
+<div class="panel panel-default" style="margin-bottom:0px">
+    <div class="panel-default">
+        <div ng-style="{height:windowHeight-80}">
+            <div id="listView" ag-grid="model.grid2" class="ag-fresh" resizable style="width: 100%" ng-style="{height:model.listHeightMultip*(windowHeight-80)/model.listHeightDivis}" context-menu="model.optionsView"></div>
+            <div ng-if="model.isRowProperties" resizable style="width: 100%; overflow-x: auto;" ng-style="{height:model.rowPropertiesHeightMultip*(windowHeight-80)/model.rowPropertiesHeightDivis}" id="rowProperies">
+                <div class="row" style="width: 100%; height: 100px; margin: 0px;">
+                    <div ng-class="(model.row.dev == 'Меркурий230' || model.row.dev == 'СЭТ-4М')? 'col-xl-4':'col-xl-6'" class="col-lg-6 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Общие сведения
+                            </div>
+                            <div class="panel-body panel-properties" style="overflow-x: auto;">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <td>Номер <span ng-if="model.row.config == 'orenburg'">площадки</span><span ng-if="model.row.config != 'orenburg'">договора</span></td>
+                                        <td>{{model.row.number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Адрес</td>
+                                        <td ng-if="model.row.config === 'teplocom'">{{model.row.address}}</td>
+                                        <td ng-if="model.row.config !== 'teplocom'">{{model.row.addr}}</td>
+                                    </tr>
+                                    <tr ng-if="model.row.config == 'matrix'">
+                                        <td>Обслуживающая организация</td>
+                                        <td>{{model.row.row.Area[0].respOrganization}}</td>
+                                    </tr>
+                                    <tr ng-if="model.row.config == 'teplocom'">
+                                        <td>Представитель абонента</td>
+                                        <td>{{model.row.row.Area[0].delegate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Телефон ответственного</td>
+                                        <td>{{model.row.row.Area[0].respPhone}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Тип прибора</td>
+                                        <td>{{model.row.dev}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Телефоны</td>
+                                        <td>{{model.row.phone}}</td>
+                                    </tr>
+
+                                    <tr ng-if="model.row.signal && model.row.signal.length > 0">
+                                        <td>Уровень сигнала {{model.row.signal[0].date | amDateFormat:"DD.MM.YY HH:mm:ss"}}</td>
+                                        <td ng-if="model.row.signal[0].img"><img ng-src="/img/{{model.row.signal[0].img}}" width="20" /> {{model.row.signal[0].level | number:2}}%</td>
+                                        <td ng-if="!model.row.signal[0].img">{{model.row.signal[0].level | number:2}}%</td>
+                                    </tr>
+                                    <tr ng-repeat="const in model.row.constants | orderBy:'s1'">
+                                        <td>{{const.name}}</td>
+                                        <td>{{const.value}}</td>
+                                    </tr>
+                                    <tr ng-if="model.row.row.KTr.length>0">
+                                        <td>Коэффицент трансформации</td>
+                                        <td>{{model.row.row.KTr}}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-class="(model.row.dev == 'Меркурий230' || model.row.dev == 'СЭТ-4М')? 'col-xl-4':'col-xl-6'" class="col-lg-6 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Текущие
+                                <span ng-if="model.row.currents.length>0">
+                                    на <img src="/img/16/server.png" />{{model.row.currents[0].serverDate | amDateFormat:"DD.MM.YY HH:mm:ss"}}
+                                </span>
+                                <button ng-if="!(model.row.dev == 'Меркурий230' || model.row.dev == 'СЭТ-4М')" type="button" class="close" aria-label="Close" ng-click="model.closeRowProperties()"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="panel-body panel-properties" style="overflow-x: auto;">
+                                <table class="table table-hover table-striped">
+                                    <tr>
+                                        <th>Пар.</th>
+                                        <th>Знач.</th>
+                                        <th>Ед.</th>
+                                    </tr>
+                                    <tr ng-if="!model.row.currents || (model.row.currents.length == 0)">
+                                        <td colspan="3"><i>Нет данных</i></td>
+                                    </tr>
+                                    <tr ng-if="model.row.currents && (model.row.currents.length > 0)">
+                                        <td>Время на приборе</td>
+                                        <td colspan="2">
+                                            {{model.row.currents[0].date | date: "dd.MM.yy HH:mm:ss"}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="current in model.row.currents | orderBy:'s1'">
+                                        <td>{{current.name}}</td>
+                                        <td>{{current.value | number:3}}</td>
+                                        <td>
+                                            <span ng-if="current.unit && (current.unit.length > 50)"><img ng-src="data:image/jpg;base64,{{(current.unit && current.unit.s2)? current.unit.s2 : '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKAP/2Q=='}}" /></span>
+                                            <span ng-if="current.unit && (current.unit.length <= 50)">{{current.unit}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="model.row.dev == 'Меркурий230' || model.row.dev == 'СЭТ-4М'" class="col-lg-12 col-xl-4 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Векторные диаграммы
+                                <button type="button" class="close" aria-label="Close" ng-click="model.closeRowProperties()"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="panel-body text-center" style="overflow-x: auto;">
+                                <svg class="SVG-dyagramma">
+                                    <defs>
+                                        <marker id="arrowhead1" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#FBCB04" />
+                                        </marker>
+                                        <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#1AC100" />
+                                        </marker>
+                                        <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#FF0000" />
+                                        </marker>
+
+                                        <marker id="arrowheadphi1" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#FBD639" />
+                                        </marker>
+                                        <marker id="arrowheadphi2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#00FF00" />
+                                        </marker>
+                                        <marker id="arrowheadphi3" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#E00000" />
+                                        </marker>
+
+                                        <marker id="arrowhead4" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                        <marker id="arrowheadphi4" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#FF0000" />
+                                        </marker>
+                                    </defs>
+
+                                    <circle cx="150" cy="150" r="150" fill="#F2F2E9" stroke-width="0" />
+                                    <line x1="150" y1="150" x2="150" y2="20" stroke-width="2" stroke="#FBCB04" marker-end="url(#arrowhead1)" />
+                                    <text x="160" y="20" class="small">фаза 1</text>
+                                    <line x1="150" y1="150" x2="{{model.row.phi1x}}" y2="{{model.row.phi1y}}" stroke-width="2" stroke="#FBD639" marker-end="url(#arrowheadphi1)" />
+
+
+                                    <line x1="150" y1="150" x2="262.58" y2="215" stroke-width="2" stroke="#1AC100" marker-end="url(#arrowhead2)" />
+                                    <text x="230" y="235" class="small">фаза 2</text>
+                                    <line x1="150" y1="150" x2="{{model.row.phi2x}}" y2="{{model.row.phi2y}}" stroke-width="2" stroke="#00FF00" marker-end="url(#arrowheadphi2)" />
+
+
+                                    <line x1="150" y1="150" x2="37.42" y2="215" stroke-width="2" stroke="#FF0000" marker-end="url(#arrowhead3)" />
+                                    <text x="15" y="200" class="small">фаза 3</text>
+                                    <line x1="150" y1="150" x2="{{model.row.phi3x}}" y2="{{model.row.phi3y}}" stroke-width="2" stroke="#E00000" marker-end="url(#arrowheadphi3)" />
+
+                                    <circle cx="50" cy="50" r="50" fill="#F2F2E9" stroke-width="0.0" fill-opacity="0.5" stroke="#7a8491" />
+                                    <line x1="00" y1="50" x2="90" y2="50" stroke-width="1" stroke="#7a8491" marker-end="url(#arrowhead4)" />
+                                    <line x1="50" y1="100" x2="50" y2="10" stroke-width="1" stroke="#7a8491" marker-end="url(#arrowhead4)" />
+                                    <line x1="50" y1="50" x2="{{model.row.phi4x}}" y2="{{model.row.phi4y}}" stroke-width="1" stroke="#E00000" marker-end="url(#arrowheadphi4)" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- *************************ГВС  Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS-Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS --> <!--  -->
+                     <div id="drawing" > </div> 
+                    <!-- *************************ГВС  Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS-Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS --> <!--  -->
+                    <div ng-if=" model.row.dev == 'MPC-Modbus'" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Суточные данные потребления горячей воды
+                            </div>
+                            <input class="checkbox-layer2" type="checkbox" ng-model="model.row.row.checkBox2">
+                            <input class="checkbox-layer4" type="checkbox" ng-model="model.row.row.checkBox4">
+                            <input class="checkbox-layer12" type="checkbox" ng-model="model.row.row.checkBox12">
+                            <input class="checkbox-layer14" type="checkbox" ng-model="model.row.row.checkBox14">
+                            <input class="checkbox-layer16" type="checkbox" ng-model="model.row.row.checkBox16">
+                            <div class="panel-body" style="overflow-x: auto; padding: 0px;">
+                                <svg class="SVG-profil-power2" viewBox="0 0 1100 300" preserveAspectRatio="none">
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                    </defs>
+                                    <!-- ФОН-->
+                                    <rect x="0" y="0" width="1100" height="300" fill="#E00206" fill-opacity="0.2" />
+                                    <!-- ось XY -->
+                                    <line x1="40" y1="280" x2="40" y2="20" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Y -->
+                                    <line x1="40" y1="280" x2="900" y2="280" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Х -->
+                                    <!-- Текст-->
+                                    <text x="940" y="285" class="small">Дата</text>
+                                    <text x="45" y="10" class="small">м3</text>
+                                    <text x="300" y="15" class="small">Графики суточного потребления горячей воды</text>
+                                    <!-- Рисуем графики -->
+                                    <circle ng-if="model.row.row.checkBox2" ng-repeat="tmp in model.row.tmpsModbus" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#FF0000" stroke-width="0" /> <!-- график с точками канал2 -->
+                                    <polyline ng-if="model.row.row.checkBox2" points="{{model.row.ModbusLine}}" stroke-width="1" stroke="#FF0000" fill="none" />  <!-- график с линией канал2-->
+                                    <circle ng-if="model.row.row.checkBox4" ng-repeat="tmp in model.row.tmpsModbus4" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#4E1A9C" stroke-width="0" /> <!-- график с точками канал4 -->
+                                    <polyline ng-if="model.row.row.checkBox4" points="{{model.row.ModbusLine4}}" stroke-width="1" stroke="#4E1A9C" fill="none" />  <!-- график с линией канал4-->
+                                    <circle ng-if="model.row.row.checkBox12" ng-repeat="tmp in model.row.tmpsModbus12" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#CC4F10" stroke-width="0" /> <!-- график с точками канал12 -->
+                                    <polyline ng-if="model.row.row.checkBox12" points="{{model.row.ModbusLine12}}" stroke-width="1" stroke="#CC4F10" fill="none" />  <!-- график с линией канал12-->
+                                    <circle ng-if="model.row.row.checkBox14" ng-repeat="tmp in model.row.tmpsModbus14" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#1CBD0D" stroke-width="0" /> <!-- график с точками канал14 -->
+                                    <polyline ng-if="model.row.row.checkBox14" points="{{model.row.ModbusLine14}}" stroke-width="1" stroke="#1CBD0D" fill="none" />  <!-- график с линией канал14-->
+                                    <circle ng-if="model.row.row.checkBox16" ng-repeat="tmp in model.row.tmpsModbus16" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#148196" stroke-width="0" /> <!-- график с точками канал16 -->
+                                    <polyline ng-if="model.row.row.checkBox16" points="{{model.row.ModbusLine16}}" stroke-width="1" stroke="#148196" fill="none" />  <!-- график с линией канал16-->
+                                    <!-- Подписи графиков-->
+                                    <text ng-repeat="name in model.row.row.nameGvs" x="880" y="{{name.y}}" class="small" fill="{{name.color}}">{{name.Gvs}}</text>
+                                    <!--<line x1="860" y1="17" x2="920" y2="17" stroke-width="2" stroke="#FF0000" /> <!-- канал2 -->
+                                    <!-- Шкалы по осям -->
+                                    <line ng-repeat="tmp in model.row.tmpsModbus" x1="{{tmp.x}}" y1="277" x2="{{tmp.x}}" y2="283" stroke-width="1" stroke="#7a8491" /> <!-- шкала по X -->
+                                    <line ng-repeat="upY in model.row.row.upGvs" x1="37" y1="{{upY.y}}" x2="840" y2="{{upY.y}}" stroke-width="1" stroke="#7a8491" /> <!-- шкала по Y -->
+                                    <line ng-repeat="tmp1 in model.row.arrDtModbus" x1="{{tmp1.x2}}" y1="20" x2="{{tmp1.x2}}" y2="285" stroke-width="1" stroke="#7a8491" /> <!-- шкала по X для даты, чуток больше -->
+                                    <text ng-repeat="tmp1 in model.row.arrDtModbus" x="{{tmp1.x}}" y="295" class="small">{{tmp1.date | amDateFormat:"DD.MM"}} 00:00 </text> <!-- Вывод значений на шкале деления Х-->
+                                    <text ng-repeat="upY in  model.row.row.upGvs" x="5" y="{{upY.y}}" class="small">{{upY.value | number: 2}} </text> <!-- Вывод значений на шкале деления Y-->
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- *************************ХВС  Диаграмма  MPC-MODBUS ХВС  MPC-MODBUS-ХВС  MPC-MODBUS Диаграмма  MPC-MODBUS Диаграмма  MPC-MODBUS --> <!--  -->
+                    <div ng-if=" model.row.dev == 'MPC-Modbus'" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Суточные данные потребления холодной воды
+                            </div>
+                            <input class="checkbox-layer3" type="checkbox" ng-model="model.row.row.checkBox3">
+                            <input class="checkbox-layer5" type="checkbox" ng-model="model.row.row.checkBox5">
+                            <input class="checkbox-layer6" type="checkbox" ng-model="model.row.row.checkBox6">
+                            <input class="checkbox-layer11" type="checkbox" ng-model="model.row.row.checkBox11">
+                            <input class="checkbox-layer13" type="checkbox" ng-model="model.row.row.checkBox13">
+                            <input class="checkbox-layer15" type="checkbox" ng-model="model.row.row.checkBox15">
+                            <div class="panel-body" style="overflow-x: auto; padding: 0px;">
+                                <svg class="SVG-profil-power2" viewBox="0 0 1100 300" preserveAspectRatio="none">
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                    </defs>
+                                    <!-- ФОН-->
+                                    <rect x="0" y="0" width="1100" height="300" fill="#0233C7" fill-opacity="0.2" />
+                                    <!-- ось XY -->
+                                    <line x1="40" y1="280" x2="40" y2="20" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Y -->
+                                    <line x1="40" y1="280" x2="900" y2="280" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Х -->
+                                    <!-- Текст-->
+                                    <text x="940" y="285" class="small">Дата</text>
+                                    <text x="45" y="10" class="small">м3</text>
+                                    <text x="300" y="15" class="small">Графики суточного потребления холодной воды</text>
+                                    <!-- Рисуем графики -->
+                                    <circle ng-if="model.row.row.checkBox3" ng-repeat="tmp in model.row.tmpsModbus3" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#FF0000" stroke-width="0" /> <!-- график с точками канал3 -->
+                                    <polyline ng-if="model.row.row.checkBox3" points="{{model.row.ModbusLine3}}" stroke-width="1" stroke="#FF0000" fill="none" />  <!-- график с линией канал3-->
+                                    <circle ng-if="model.row.row.checkBox5" ng-repeat="tmp in model.row.tmpsModbus5" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#4E1A9C" stroke-width="0" /> <!-- график с точками канал5 -->
+                                    <polyline ng-if="model.row.row.checkBox5" points="{{model.row.ModbusLine5}}" stroke-width="1" stroke="#4E1A9C" fill="none" />  <!-- график с линией канал5-->
+                                    <circle ng-if="model.row.row.checkBox6" ng-repeat="tmp in model.row.tmpsModbus6" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#CC4F10" stroke-width="0" /> <!-- график с точками канал6 -->
+                                    <polyline ng-if="model.row.row.checkBox6" points="{{model.row.ModbusLine6}}" stroke-width="1" stroke="#CC4F10" fill="none" />  <!-- график с линией канал6-->
+                                    <circle ng-if="model.row.row.checkBox11" ng-repeat="tmp in model.row.tmpsModbus11" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#1CBD0D" stroke-width="0" /> <!-- график с точками канал11 -->
+                                    <polyline ng-if="model.row.row.checkBox11" points="{{model.row.ModbusLine11}}" stroke-width="1" stroke="#1CBD0D" fill="none" />  <!-- график с линией канал11-->
+                                    <circle ng-if="model.row.row.checkBox13" ng-repeat="tmp in model.row.tmpsModbus13" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#148196" stroke-width="0" /> <!-- график с точками канал13 -->
+                                    <polyline ng-if="model.row.row.checkBox13" points="{{model.row.ModbusLine13}}" stroke-width="1" stroke="#148196" fill="none" />  <!-- график с линией канал13-->
+                                    <circle ng-if="model.row.row.checkBox15" ng-repeat="tmp in model.row.tmpsModbus15" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#FFF82B" stroke-width="0" /> <!-- график с точками канал15 -->
+                                    <polyline ng-if="model.row.row.checkBox15" points="{{model.row.ModbusLine15}}" stroke-width="1" stroke="#FFF82B" fill="none" />  <!-- график с линией канал15-->
+                                    <!-- Подписи графиков-->
+                                    <text ng-repeat="name in model.row.row.nameHvs" x="880" y="{{name.y}}" class="small" fill="{{name.color}}">{{name.Hvs}}</text>
+                                    <!--<line x1="860" y1="17" x2="920" y2="17" stroke-width="2" stroke="#FF0000" /> <!-- канал2 -->
+                                    <!-- Шкалы по осям -->
+                                    <line ng-repeat="tmp in model.row.tmpsModbus" x1="{{tmp.x}}" y1="277" x2="{{tmp.x}}" y2="283" stroke-width="1" stroke="#7a8491" /> <!-- шкала по X -->
+                                    <line ng-repeat="upY in model.row.row.upHvs" x1="37" y1="{{upY.y}}" x2="840" y2="{{upY.y}}" stroke-width="1" stroke="#7a8491" /> <!-- шкала по Y -->
+                                    <line ng-repeat="tmp1 in model.row.arrDtModbus" x1="{{tmp1.x2}}" y1="20" x2="{{tmp1.x2}}" y2="285" stroke-width="1" stroke="#7a8491" /> <!-- шкала по X для даты, чуток больше -->
+                                    <text ng-repeat="tmp1 in model.row.arrDtModbus" x="{{tmp1.x}}" y="295" class="small">{{tmp1.date | amDateFormat:"DD.MM"}} 00:00 </text> <!-- Вывод значений на шкале деления Х-->
+                                    <text ng-repeat="upY in  model.row.row.upHvs" x="5" y="{{upY.y}}" class="small">{{upY.value | number: 2}} </text> <!-- Вывод значений на шкале деления Y-->
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ENd ОТОПЛЕНИЯ  -->
+                    <!-- *************************  Диаграмма суточных данных для ТЕПЛОСЧЕТЧИКОВ --> <!--  -->
+                    <!-- ОТПОЛЕНИЕ  -->
+                    <div ng-if="model.row.isContainsW && model.row.dev == 'ТСРВ024'" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Суточные данные потребления тепловой энергии
+                            </div>
+                            <div class="panel-body" style="overflow-x: auto; padding: 0px;">
+                                <table class="table table-hover table-striped">
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th ng-repeat="rec in model.row.recs | orderBy:'date'">{{rec.date| amDateFormat:"DD.MM.YY"}}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Значения</td>
+                                        <td ng-repeat="rec in model.row.recs | orderBy:'date'">{{rec.tmp | number:3}}</td>
+                                    </tr>
+                                </table>
+                                <svg class="SVG-profil-power" viewBox="0 0 1000 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                    </defs>
+                                    <line x1="40" y1="180" x2="40" y2="20" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Y -->
+                                    <line x1="40" y1="180" x2="900" y2="180" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Х -->
+                                    <text x="920" y="165" class="small">Дата</text>
+                                    <text x="5" y="10" class="small">ГКал</text>
+                                    <!-- Рисуем диаграмму -->
+                                    <rect ng-repeat="coordinates in model.row.coord" x="{{coordinates.x}}" y="{{coordinates.y}}" width="50" height="{{coordinates.h}}" stroke="#ff6600" fill="#ff6600" fill-opacity="0.5" stroke-width="2" />
+                                    <text ng-repeat="values in model.row.valueW" x="{{values.x}}" y="{{values.y}}" class="small">{{values.tmp| number:3}}</text>  <!-- значения на самих колоннах -->
+                                    <text ng-repeat="rec in model.row.recs | orderBy:'date'" x="{{rec.x}}" y="195" class="small">{{rec.date| amDateFormat:"DD.MM.YY"}}</text>  <!-- значения оси X -->
+                                    <text x="5" y="35" class="small">{{model.row.const1 |  number:3}}</text>
+                                    <text x="5" y="100" class="small">{{model.row.const2 |  number:3}}</text>
+                                    <!-- Горизонтальные линии на грфике (фон) -->
+                                    <line x1="40" y1="90" x2="900" y2="90" stroke-width="0.5" stroke="#7a8491" />
+                                    <line x1="40" y1="20" x2="900" y2="20" stroke-width="0.5" stroke="#7a8491" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ENd ОТОПЛЕНИЯ  -->
+                    <!-- ГВС НАЧАЛО  -->
+                    <div ng-if="model.row.isContainsGvs && model.row.dev == 'ТСРВ024'" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Суточные данные потребления горячей воды в ГКал
+                            </div>
+                            <div class="panel-body" style="overflow-x: auto; padding-bottom: 0px;">
+                                <table class="table table-hover table-striped">
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th ng-repeat="recGvs in model.row.recsGvs | orderBy:'date'">{{recGvs.date| amDateFormat:"DD.MM.YY"}}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Значения</td>
+                                        <td ng-repeat="recGvs in model.row.recsGvs | orderBy:'date'">{{recGvs.tmp | number:3}}</td>
+                                    </tr>
+                                </table>
+                                <svg class="SVG-profil-power" viewBox="0 0 1000 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                    </defs>
+                                    <line x1="40" y1="180" x2="40" y2="20" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Y -->
+                                    <line x1="40" y1="180" x2="900" y2="180" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Х -->
+                                    <text x="920" y="165" class="small">Дата</text>
+                                    <text x="5" y="10" class="small">ГКал</text>
+                                    <!-- Рисуем диаграмму -->
+                                    <rect ng-repeat="coordinatesGvs in model.row.coordGvs" x="{{coordinatesGvs.x}}" y="{{coordinatesGvs.y}}" width="50" height="{{coordinatesGvs.h}}" stroke="#CC1417" fill="#CC1417" fill-opacity="0.5" stroke-width="2" />
+                                    <text ng-repeat="valuesGvs in model.row.valueGvs" x="{{valuesGvs.x}}" y="{{valuesGvs.y}}" class="small">{{valuesGvs.tmp| number:3}}</text>  <!-- значения на самих колоннах -->
+                                    <text ng-repeat="recGvs in model.row.recsGvs | orderBy:'date'" x="{{recGvs.x}}" y="195" class="small">{{recGvs.date| amDateFormat:"DD.MM.YY"}}</text>  <!-- значения оси X -->
+                                    <text x="5" y="35" class="small">{{model.row.constGvs1 |  number:3}}</text>
+                                    <text x="5" y="100" class="small">{{model.row.constGvs2 |  number:3}}</text>
+                                    <!-- Горизонтальные линии на грфике (фон) -->
+                                    <line x1="40" y1="90" x2="900" y2="90" stroke-width="0.5" stroke="#7a8491" />
+                                    <line x1="40" y1="20" x2="900" y2="20" stroke-width="0.5" stroke="#7a8491" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ГВС КОНЕЦ -->
+                    <!-- ХВС  -->
+                    <div ng-if="model.row.isContainsHvs && model.row.dev == 'ТСРВ024'" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Суточные данные потребления холодной воды в м3
+                            </div>
+                            <div class="panel-body" style="overflow-x: auto; padding-bottom: 0px;">
+                                <table class="table table-hover table-striped">
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th ng-repeat="recHvs in model.row.recsHvs | orderBy:'date'">{{recHvs.t| amDateFormat:"DD.MM.YY"}}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Значения</td>
+                                        <td ng-repeat="recHvs in model.row.recsHvs | orderBy:'date'">{{recHvs.v | number:3}}</td>
+                                    </tr>
+                                </table>
+                                <!--================= SVG======================-->
+                                <svg class="SVG-profil-power" viewBox="0 0 1000 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                    </defs>
+                                    <line x1="40" y1="180" x2="40" y2="20" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Y -->
+                                    <line x1="40" y1="180" x2="900" y2="180" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Х -->
+                                    <text x="920" y="165" class="small">Дата</text>
+                                    <text x="5" y="10" class="small">м3</text>
+                                    <!-- Рисуем диаграмму -->
+                                    <rect ng-repeat="coordinatesHvs in model.row.coordHvs" x="{{coordinatesHvs.x}}" y="{{coordinatesHvs.y}}" width="50" height="{{coordinatesHvs.h}}" stroke="#66a3ff" fill="#66a3ff" fill-opacity="0.5" stroke-width="2" />
+                                    <text ng-repeat="valuesHvs in model.row.valueHvs" x="{{valuesHvs.x}}" y="{{valuesHvs.y}}" class="small">{{valuesHvs.tmp| number:3}}</text>  <!-- значения на самих колоннах -->
+                                    <text ng-repeat="rec in model.row.recs | orderBy:'date'" x="{{rec.x}}" y="195" class="small">{{rec.date| amDateFormat:"DD.MM.YY"}}</text>  <!-- значения оси X -->
+                                    <text x="5" y="35" class="small">{{model.row.constHvs1 |  number:3}}</text>
+                                    <text x="5" y="100" class="small">{{model.row.constHvs2 |  number:3}}</text>
+                                    <!-- Горизонтальные линии на грфике (фон) -->
+                                    <line x1="40" y1="90" x2="900" y2="90" stroke-width="0.5" stroke="#7a8491" />
+                                    <line x1="40" y1="20" x2="900" y2="20" stroke-width="0.5" stroke="#7a8491" />
+                                </svg>
+                                <!--================= SVG======================-->
+                                <!--================= END ХВС ======================-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============ Конец диаграммы суточных данных теплосчетчика ============= -->
+                    <!-- *************************  Диаграмма суточных данных для электросчетчика -->
+                    <div ng-if="model.row.isContainsEE && model.row.records.length > 1" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Суточные данные
+                            </div>
+                            <div class="panel-body text-center" style="overflow-x: auto; padding-bottom: 0px;">
+                                <table class="table table-hover table-striped">
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th ng-repeat="record in model.row.records | orderBy:'date'">{{record.date| amDateFormat:"DD.MM.YY"}}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Значения</td>
+                                        <td ng-repeat="record in model.row.records | orderBy:'date'">{{record.value | number:3}}</td>
+                                    </tr>
+                                    <tr ng-if="!model.row.days || (model.row.days.length == 0)">
+                                        <td colspan="3"><i>Нет данных</i></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="chart_div" style="width:100%; height: 150px;"></div>
+                        </div>
+                    </div>
+                    <!-- *************************  ПРОФИЛЬ МОЩНОСТИ -->
+                    <div ng-if="(model.row.recordsHour.length > 2) && (model.row.dev == 'Меркурий230' || model.row.dev == 'СЭТ-4М')" class="col-lg-12 col-properties">
+                        <div class="panel panel-default panel-default-properties">
+                            <div class="panel-heading">
+                                Профиль мощности
+                            </div>
+                            <div class="panel-body" style="overflow-x: auto; padding-bottom: 0px;">
+                                <table class="table table-hover table-striped">
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th ng-repeat="record in model.row.recordsHour | orderBy:'date'">{{record.date| amDateFormat:"DD.MM"}} <br /> {{record.date| amDateFormat:"HH:mm"}} </th>
+                                    </tr>
+                                    <tr>
+                                        <td>Значения</td>
+                                        <td ng-repeat="record in model.row.recordsHour | orderBy:'date'">{{record.value | number:3}}</td>
+                                    </tr>
+                                </table>
+
+                                <!--================= SVG======================-->
+                                <svg class="SVG-profil-power" viewBox="0 0 900 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                            <polygon points="0 0, 10 3.5, 0 7" fill="#7a8491" />
+                                        </marker>
+                                    </defs>
+                                    <line x1="40" y1="180" x2="40" y2="20" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Y -->
+                                    <line x1="40" y1="180" x2="840" y2="180" stroke-width="2" stroke="#7a8491" marker-end="url(#arrowhead)" /> <!-- ось Х -->
+                                    <text x="850" y="165" class="small">Дата</text>
+                                    <text x="10" y="10" class="small">кВт</text>
+                                    <polyline points="{{model.row.profilPower}}" stroke-width="3" stroke="#1AC100" fill="none" />  <!-- график с линией -->
+                                    <circle ng-repeat="tmp in model.row.tmps" cx="{{tmp.x}}" cy="{{tmp.y}}" r="2" fill="#FF0000" stroke-width="0" /> <!-- график с точками -->
+                                    <!--<line ng-repeat="tmp1 in model.row.shkalaY" x1="37" y1="{{tmp1.y}}" x2="43" y2="{{tmp1.y}}" stroke-width="1" stroke="#4eb504" /> -->  <!-- шкала по Y -->
+                                    <line ng-repeat="tmp in model.row.tmps" x1="{{tmp.x}}" y1="177" x2="{{tmp.x}}" y2="183" stroke-width="1" stroke="#4eb504" /> <!-- шкала по X -->
+                                    <text ng-repeat="tmp1 in model.row.arrDt" x="{{tmp1.x}}" y="195" class="small">{{tmp1.date | amDateFormat:"DD.MM"}} 00:00 </text> <!-- Вывод значений на шкале деления -->
+                                    <line ng-repeat="x in model.row.hours00" x1="{{x}}" y1="20" x2="{{x}}" y2="180" stroke-width="0.5" stroke="#7a8491" /><!-- Вертикальные линии на графике (фон) -->
+                                    <text ng-repeat="tmpUpY in model.row.upper" x="0" y="{{tmpUpY.y}}" class="small">{{tmpUpY.up | number:2}}  </text> <!-- значения оси Y -->
+                                    <!-- Горизонтальные линии на грфике (фон) -->
+                                    <line x1="40" y1="135" x2="840" y2="135" stroke-width="0.5" stroke="#7a8491" />
+                                    <line x1="40" y1="90" x2="840" y2="90" stroke-width="0.5" stroke="#7a8491" />
+                                    <line x1="40" y1="45" x2="840" y2="45" stroke-width="0.5" stroke="#7a8491" />
+                                </svg>
+                                <!--================= SVG======================-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- *************************  КОНЕЦ ПРОФИЛЬ МОЩНОСТИ -->
+
+                </div>
+            </div>
+            <!-- ЯНДЕКС КАРТА-->
+            <div ng-if="model.isMap" class="panel panel-default panel-default-properties" resizable style="width: 100%" ng-style="{height:model.mapHeightMultip*(windowHeight-80)/model.mapHeightDivis}">
+                <div class="panel-heading" style="padding-top: 0; padding-bottom:0;height:20px">
+                    <button type="button" class="close" aria-label="Close" ng-click="model.closeMaps()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div style="width: 100%; height:100%" id="map"></div>
+            </div>
+            <!-- КОНЕЦ ЯНДЕКС КАРТЫ-->
+        </div>
+        <div class="modal-preview-head smaller">
+            <span ng-if="!connection.isConnected"><span class="red larger">&bull;</span> Нет соединения</span>
+            <span ng-if="connection.isConnected"><span class="green larger">&bull;</span> Соединение установлено</span>
+            | Выбраны {{model.getSelectedIds().length}} из {{model.count}}
+        </div>
+    </div>
+</div>

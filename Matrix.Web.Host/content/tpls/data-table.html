@@ -1,0 +1,46 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">×</button>
+    <h3 class="modal-title">
+        <img src="/img/table.png" width="32" />
+        Архивы
+    </h3>
+</div>
+
+<div class="modal-body" style="padding:5px">
+
+    <form fs-form-for="" class="form-horizontal">
+        <div class="form-group row">
+            <div class="col-lg-4 col-md-4" style="padding-right:0px">
+                <div ng-if="model.type==='Hour'" fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+                <div ng-if="model.type==='Day'" fs-date="" ng-model="model.start" ng-disabled="false"></div>
+            </div>
+            <div class="col-lg-4 col-md-4" style="padding-right:0px">
+                <div ng-if="model.type==='Hour'" fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+                <div ng-if="model.type==='Day'" fs-date="" ng-model="model.end" ng-disabled="false"></div>
+            </div>
+
+            <div class="col-lg-3 col-md-3" style="padding-right:0px">
+                <select class="form-control" name="singleSelect" ng-model="model.type">
+                    <option value="Hour">Часы</option>
+                    <option value="Day">Сутки</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-1">
+                <div class="hidden-md btn-group">
+                    <button class="btn btn-default" ng-click="model.update()"><img src="./img/table_refresh.png" height="20" title="Обновить" /></button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div ag-grid="model.grid" class="ag-fresh" style="height:70%">
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-9 col-md-6">
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

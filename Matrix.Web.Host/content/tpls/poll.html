@@ -1,0 +1,47 @@
+<div ng-controller="PollCtrl" style="margin:5px">
+	<h3 class="modal-title">Опрос архивов ({{caption}})</h3>
+	<div class="navbar navbar-default" style="margin-bottom:5px" bs-navbar>
+		<div class="navbar-form navbar-left">
+			<label>От</label>
+			<input size="6" class="form-control" ng-model="start" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+			<input size="4" class="form-control" ng-model="start" data-autoclose="1" placeholder="Время" bs-timepicker type="text">
+			<label>До</label>
+
+			<input size="6" class="form-control" ng-model="end" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+			<input size="4" class="form-control" ng-model="end" data-autoclose="1" placeholder="Время" bs-timepicker type="text">
+			<label class="checkbox">
+				<checkbox ng-model="onlyHoles" />
+				Только пропущенные
+			</label>
+		</div>
+	</div>
+	<div class="navbar navbar-default" style="margin-bottom:5px" bs-navbar>
+		<div class="navbar-form navbar-left">
+			<div class="btn-group">
+				<button class="btn btn-default" ng-click="hours()">Часовой архив</button>
+				<button class="btn btn-default" ng-click="days()">Суточный архив</button>
+				<button class="btn btn-default" ng-click="abnormals()">Нештатные ситуации</button>
+				<button class="btn btn-default" ng-click="currents()">Текущие показания</button>
+				<button class="btn btn-default" ng-click="constants()">Константы</button>
+				<button class="btn btn-default" ng-click="ping()">Пинг</button>
+				<button class="btn btn-default" ng-click="cancel()">Отмена</button>
+			</div>
+		</div>
+	</div>
+	<div class="navbar navbar-default" style="margin-bottom:5px" bs-navbar>
+		<div class="navbar-form navbar-left">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="at+..." ng-model="atCommandText" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="atCommandSend()">Go</button>
+				</span>
+			</div>
+			<button class="btn btn-default" ng-click="versionCommandSend()">Версия</button>
+		</div>
+	</div>
+
+	<div class="row" style="margin:5px">
+		<button ng-click="clear()" class="btn btn-default"><img src="./img/eraser.png" alt="Очистить" height="20" /></button>
+		<div style="height: 300px; " ui-grid="logOptions" ui-grid-resize-columns></div>
+	</div>
+</div>

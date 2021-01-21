@@ -1,0 +1,6 @@
+﻿<div ng-if="data.Parameter && data.Parameter.length>0">
+    <a href="#" ng-click="$parent.$parent.rowParameterEdit(data)">
+        <img ng-src="/img/tag_{{data.cart.isTagged? 'blue':'red'}}.png" width="20" />
+    </a>
+</div>
+<!-- popover-template="'/tpls/status-card-popover.html'" popover-append-to-body="true" popover-trigger="mouseenter" popover-placement="right"-->

@@ -1,0 +1,33 @@
+﻿<div ng-controller="ReportEditCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/report_edit.png" width="16" />
+                Редактор шаблонов отчётов
+            </div>
+            <div class="modal-preview-head">
+
+
+                <span ng-if="!model.selected">
+                    <span class="smaller">
+                        отчёт не выбран
+                    </span>
+                </span>
+                <span ng-if="model.selected">
+                    <small>{{ model.selected.name || '???' }}<span class="red" ng-bind='model.selected.edited? "*":""'></span></small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->    
+        <div ng-if="model.editedCounter>0" class="modal-preview-body alert alert-danger">
+            <span ng-bind='"Непринятые изменения: " + model.editedCounter'></span>
+        </div>
+
+        <div ng-if="model.editedCounter==0" class="modal-preview-body alert alert-success">
+            Нет непринятых изменений
+        </div>
+
+    </a>
+</div>
+

@@ -1,0 +1,17 @@
+﻿<div id="body">
+	<div class="body"></div>
+	<div class="grad"></div>
+	<div class="header">
+		<div>Matrix<span>IT</span></div>
+	</div>
+	<br>
+	<div class="login">
+        <form ng-submit="model.signin(this)">
+            <input type="text" placeholder="логин" id="login" required auto-fill><br>
+            <input type="password" placeholder="пароль" id="password" required auto-fill><br>
+            <input type="submit" value="Вход">
+        </form>
+        <input type="button" value="Демонстрационный вход" ng-click="model.demo()">
+		<div class="login-error" ng-bind="model.loginError"></div>
+	</div>
+</div>

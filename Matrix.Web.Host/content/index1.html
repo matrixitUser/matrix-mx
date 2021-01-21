@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>Система телеметрии 2.7.0</title>
+
+</head>
+<body>
+    <button id="btn">click</button>
+    <div id="cy">
+
+    </div>
+
+    <link href="lib/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="lib/bootstrap-3.3.0/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="lib/ui-grid-rc/ui-grid.min.css" rel="stylesheet" />
+    <link href="lib/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="lib/snap/snap.css" rel="stylesheet" />
+    <link href="lib/angular-snap/angular-snap.min.css" rel="stylesheet" />
+    <link href="lib/angular-tree/angular-ui-tree.min.css" rel="stylesheet" />
+    <link href="lib/angular-bootstrap-datetimepicker/datetimepicker.css" rel="stylesheet" />
+    <link href="lib/angular-dnd/stylesheet.css" rel="stylesheet" />
+    <link href="lib/acute.select/acute.select.css" rel="stylesheet" />
+    <link href="lib/jquery-ui-1.11.2/jquery-ui.min.css" rel="stylesheet" />
+    <link href="lib/jspanel/jquery.jspanel.min.css" rel="stylesheet" />
+    <link href="lib/ng-contextmenu/contextmenu.css" rel="stylesheet" />
+    <link href="site.css" rel="stylesheet" />
+
+    <!--необходимое-->
+    <script src="lib/jquery-2.1.0/jquery-2.1.0.min.js"></script>
+    <script src="lib/signalr-2.1.2/jquery.signalR-2.1.2.min.js"></script>
+    <script src="lib/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+    <script src="lib/angular-1.3.9/angular.js"></script>
+    <script src="lib/angular-1.3.2/i18n/angular-locale_ru-ru.js"></script>
+    <script src="lib/moment/moment-with-locales.js"></script>
+    <script src="lib/moment/angular-moment.min.js"></script>
+
+
+    <!--загрузчик файлов-->
+    <script src="lib/angular-base64-upload/angular-base64-upload.min.js"></script>
+
+    <!--контролы бутстрап-->
+    <script src="lib/ui-bootstrap-0.10.0/ui-bootstrap-0.10.0.min.js"></script>
+    <script src="lib/ui-bootstrap-0.10.0/ui-bootstrap-tpls-0.10.0.min.js"></script>
+
+    <script src="lib/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+    <!--панели-->
+    <script src="lib/jspanel/jquery.jspanel.min.js"></script>
+
+    <!--еще контролы бутстрапа-->
+    <script src="lib/angular-strap-2.1.3/angular-strap.min.js"></script>
+    <script src="lib/angular-strap-2.1.3/angular-strap.tpl.min.js"></script>
+
+    <!--контектное меню-->
+    <script src="lib/ng-contextmenu/ng-context-menu.js"></script>
+
+    <!--аудио-->
+    <script src="lib/audio/angular.audio.js"></script>
+
+    <!--комбобокс-->
+    <script src="lib/acute/acute.select.js"></script>
+
+    <!--чекбоксы-->
+    <script src="lib/checkbox/angular-bootstrap-checkbox.js"></script>
+
+    <!--ползунки-->
+    <script src="lib/snap/snap.min.js"></script>
+    <script src="lib/snap/angular-snap.min.js"></script>
+
+    <!--дерево-->
+    <script src="lib/ui-tree/angular-ui-tree.min.js"></script>
+
+    <script src="lib/base64/angular-utf8-base64.min.js"></script>
+    <script src="lib/base64/angular-base64.min.js"></script>
+
+    <!--хитрый маршрутизатор-->
+    <script src="lib/ui-router/angular-ui-router.min.js"></script>
+
+    <!--грид-->
+    <script src="lib/ui-grid-rc/ui-grid.min.js"></script>
+
+    <!--drag & drop-->
+    <script src="lib/dnd/angular-dnd.min.js"></script>
+
+    <!--даты-->
+    <script src="lib/datetimepicker/datetimepicker.js"></script>
+
+    <!--граф-->
+    <script src="lib/arbor/arbor.js"></script>
+    <script src="lib/cytoscape/cytoscape.js"></script>
+
+    <script src="lib/md5/md5.js"></script>
+
+    <style>
+        body {
+            font: 14px helvetica neue, helvetica, arial, sans-serif;
+        }
+
+        #cy {
+            height: 300px;
+            width: 600px;
+            /*position: absolute;
+            left: 0;
+            top: 0;*/
+        }
+
+        #eat {
+            position: absolute;
+            left: 1em;
+            top: 1em;
+            font-size: 1em;
+            z-index: -1;
+            color: #c88;
+        }
+
+        .n123 {
+            height: 80;
+            width: 80;
+            background-fit: 'cover';
+            border-color: '#000';
+            border-width: 3;
+            border-opacity: 0.5;
+        }
+
+        .edge {
+            width: 6;
+            target-arrow-shape: 'triangle';
+            line-color: '#ffaaaa';
+            target-arrow-color: '#ffaaaa';
+        }
+
+        .area {
+            background-image: url('img/house.png');
+        }
+
+        .tube {
+            background-image: url('img/copy.png');
+        }
+    </style>
+
+
+    <script src="js.js"></script>
+</body>
+</html>

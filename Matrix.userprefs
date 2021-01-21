@@ -1,0 +1,13 @@
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Matrix.Web.Host\Matrix.Web.Host.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Matrix.Irga2\Driver.cs">
+    <Files>
+      <File FileName="Matrix.Irga2\Driver.cs" Line="51" Column="43" />
+      <File FileName="Matrix.Driver.Ultramag\Driver.cs" Line="78" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

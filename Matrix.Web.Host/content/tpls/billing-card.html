@@ -1,0 +1,47 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+
+    <h4 class="modal-title">
+        <img src="/img/infocard.png" width="32" />
+        <var ng-repeat="row in model.rows">
+            {{((row.Area && row.Area.length > 0 && row.Area[0].name && row.Area[0].name != "")? (row.Area[0].name + ": ") : "")}}{{row.name? row.name : "&lt;без имени&gt;"}}{{(row != model.rows[model.rows.length - 1]) ? "; " : ""}}
+        </var>
+    </h4>
+     
+    <small style="color: lightgrey">{{model.objectIds}}</small>
+</div>
+<div class="modal-body" style="padding:5px">
+    <div class="panel panel-default">
+        <div class="panel-body" style="overflow-x: auto;">
+            <table class="table table-hover">
+                <tr style="width:50%;" >
+                    <th>Долг</th>
+                    <th>{{model.dataValue}}</th>
+                </tr>
+                <tr>
+                    <td>Сумма</td>
+                    <td>
+                        <input type="text" ng-model="model.count" class="form-control" placeholder="Введите сумму..." />
+                    </td>
+                    <td>За какую дату</td>
+                    <td>
+                        <input type="date" ng-model="model.date" class="form-control" placeholder="Введите дату..." />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Примечание</td>
+                    <td colspan="3">
+                        <textarea class="form-control ng-pristine ng-valid ng-touched" rows="3" ng-model="model.comment"></textarea>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary fa-align-right" ng-click="model.okBilling()">ОК</button>
+    <button class="btn btn-warning" ng-click="model.close()">Закрыть окно</button>
+</div>

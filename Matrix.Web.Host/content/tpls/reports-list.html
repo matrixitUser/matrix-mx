@@ -1,0 +1,37 @@
+﻿<div ng-controller="reportsCtrl">
+    <div ui-layout="{flow:'column',dividerSize:'10'}">
+        <div ui-layout-container size="30%">
+            <input type="text" class="form-control" ng-model="reportFilter" placeholder="фильтр" />
+            <button class="btn btn-default" ng-click="add()">+</button>
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-repeat="report in reports | filter:reportFilter" ng-class="{'active': $parent.selected==report}">
+                    <a style="overflow:hidden" ng-click="$parent.select(report);">
+                        <span ng-if="report.w.dirty" style="color:red">*</span>{{ report.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div ui-layout-container>
+            <form class="form-horizontal" name="frm">
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">имя</span>
+                    <input type="text" class="form-control" placeholder="Название" ng-model="selected.name" ng-required="true">                
+                </div>
+
+                <div class="mx-margin">
+                    <label for="tpl">Шаблон</label>
+                    <textarea id="tpl" class="form-control" ng-model="selected.template"></textarea>
+                </div>
+
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">права</span>
+                    <button class="btn btn-default" ng-click="setRights(selected.id)">Права</button>                    
+                </div>
+
+                <!--<div hljs source="selected.template" language="xml"></div>-->
+
+                <input type="hidden" value="{{selected.w.dirty=frm.$dirty}}" />
+            </form>
+        </div>
+    </div>
+</div>

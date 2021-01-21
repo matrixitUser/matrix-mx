@@ -1,0 +1,29 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">Просмотр <span ng-if="model.isEditable">и редактирование</span> cron-выражения</h3>
+</div>
+<div class="modal-body">
+    <div class="panel panel-default" style="margin-bottom:0px">
+        <div class="panel-default">       
+            <div ng-if="model.isEditable">
+                <input type="text" class="form-control" ng-model="model.cron" /><br />
+                <cron-selection ng-model="model.cron" config="model.cronconfig"></cron-selection>
+            </div>
+            <div ng-if="!model.isEditable">
+                <input type="text" class="form-control" ng-model="model.cron" readonly /><br />
+                <cron-selection ng-model="model.cron" config="model.cronconfig"></cron-selection>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div ng-if="model.isEditable">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
+    </div>
+    <div ng-if="!model.isEditable">
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Закрыть</button>
+    </div>
+</div>

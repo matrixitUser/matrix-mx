@@ -1,0 +1,58 @@
+﻿<div class="page-header" style="margin:10px"><h3>Справочник</h3></div>
+<div class="row" style="margin:10px">
+    <div class="col-xs-9 row">
+        <div class="panel panel-default" ng-controller="catalogCtrl">
+            <div class="panel-heading">
+                <div class="input-group">
+                    <input type="search" style="max-width:none;margin:0px 0px 0px 0px" class="form-control" ng-model="filterOptions.filterText" placeholder="поиск" />
+                    <span class="input-group-addon">
+                        <img src="./img/magnify.png" width="20" />
+                    </span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div style="height:500px" ng-grid="options"></div>
+            </div>
+        </div>        
+    </div>
+    <div class="col-xs-3 row" style="margin-left:5px">
+        <div class="panel panel-default">
+            <div class="panel-heading">Отчеты</div>
+            <div class="panel-body">
+                <report-list types="['Maquette80020']"></report-list>
+            </div>
+        </div>
+        <div class="panel panel-default" ng-controller="actionCtrl">
+            <div class="panel-heading">Задачи</div>
+            <div class="panel-body">
+     
+                <div class="input-group" style="margin-bottom:5px">
+                    <input type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="start" ng-required="true" close-text="Закрыть" show-weeks="false" starting-day="1" show-button-bar="false" max-date="end" />
+                    <span class="input-group-addon">
+                        <img src="./img/date.png" width="20" />
+                    </span>
+                </div>
+                <!--<timepicker ng-model="start" hour-step="1" minute-step="1" show-meridian="false"></timepicker>-->
+                <div class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="end" ng-required="true" close-text="Закрыть" show-weeks="false" starting-day="1" show-button-bar="false" min-date="start" />
+                    <span class="input-group-addon">
+                        <img src="./img/date.png" width="20" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="catalogTypeTmpl.html">
+    <div class="ngCellText" ng-class="col.colIndex()">
+        <div ng-if="row.getProperty('type')=='Maquette80020'">
+            <img src="./img/80020.png" width="20" alt="макет 80020" />
+            <span ng-cell-text>{{row.getProperty('name')}}</span>
+        </div>
+        <div ng-if="row.getProperty('type')=='Report'">
+            <img src="./img/report.png" width="20" alt="отчет" />
+            <span ng-cell-text>{{row.getProperty('name')}}</span>
+        </div>
+    </div>
+</script>

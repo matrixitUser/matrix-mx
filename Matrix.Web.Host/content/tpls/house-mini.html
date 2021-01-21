@@ -1,0 +1,21 @@
+﻿<div ng-controller="HouseCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div class="modal-preview-head">
+            <img src="/img/house_two.png" width="16" />
+            Поквартирный учёт
+        </div>
+        <div class="modal-preview-head">
+            <span ng-if="model.houseRoot">
+                <!--<span class="badge" ng-bind="model.names.length" tooltip="{{model.names.join('; ')}}" tooltip-append-to-body="true" tooltip-placement="bottom"></span>-->
+                <small>{{model.houseRoot.Area[0].name}}: {{model.houseRoot.name}} </small>
+            </span>
+            <span ng-if="!model.houseRoot">
+                <small>нет объектов</small>
+            </span>
+        </div>   
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+        </div>
+    </a>
+</div>

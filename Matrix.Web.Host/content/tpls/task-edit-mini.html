@@ -1,0 +1,25 @@
+﻿<div ng-controller="TaskEditCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/clock.png" width="16" />
+                Редактор расписаний
+            </div>
+            <div class="modal-preview-head">
+                <span ng-if="model.selected">
+                    <small>{{model.selected.name}}</small>
+                </span>
+                <span ng-if="!model.selected">
+                    <small>Ничего не выбрано</small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+            <uib-progressbar ng-if="model.state == 'save'" class="progress-striped active" max="model.saveCounterMax" value="model.saveCounter" type="info" style="margin-bottom: 0px">
+                <i>сохранение {{model.saveCounter}} / {{model.saveCounterMax}}</i>
+            </uib-progressbar>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,138 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+				<span class="sr-only">Toggle navigation</span>
+			</button>
+			<a class="navbar-brand" href="#">Телеметрия</a>
+		</div>
+		<div class="collapse navbar-collapse" id="main-nav">
+			<ul class="nav navbar-nav">
+				<li><a style="cursor:pointer" snap-toggle="left"><img src="./img/explorer.png" width="20" />Группы</a></li>
+				<li><a style="cursor:pointer"><img src="./img/house.png" width="20" /> Объекты</a></li>
+				<li role="presentation" class="dropdown">
+					<a class="dropdown-toggle" style="cursor:pointer"><img src="./img/catalog.png" width="20" /> Справочники</a>
+					<ul class="dropdown-menu">
+						<mx-menu-item data-name="drivers-edit"></mx-menu-item>
+						<mx-menu-item data-name="reports-edit"></mx-menu-item>
+						<mx-menu-item data-name="users-edit"></mx-menu-item>
+						<!--<li><a style="cursor:pointer" ng-click="showDeviceTypes()"><img src="./img/explorer.png" width="20" />Типы</a></li>-->
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav pull-right">
+				<li><a style="cursor:pointer" ng-click="signout()"><img src="./img/door_out.png" width="20" /><span ng-bind="user.name"></span> [<span ng-bind="user.login"></span>] Выйти</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<div>
+    <div id="m-maximize" ui-layout="{flow:'column',dividerSize:'10'}" style="top:50px">
+        <div ui-layout-container size="240px">
+            <div ng-controller="foldersCtrl">
+                <!--<mx-waiting wait-for="loadComplete">
+                    <mx-waiting-gif>
+                        <div class="row text-center">
+                            <img src="./img/loading.gif" width="140" />
+                        </div>
+                    </mx-waiting-gif>
+                    <mx-waiting-content>-->
+				<div class="panel panel-default" style="margin-bottom:0px">
+					<div class="panel-heading">
+						<input type="text" class="form-control" ng-model="filter" placeholder="группа" />
+					</div>
+				</div>
+				<div class="panel-body">
+					<div ui-tree="options" data-drag-enabled="false">
+						<ol ui-tree-nodes ng-model="roots" id="tree-root">
+							<li ng-repeat="node in roots" ui-tree-node ng-include="'nodes-renderer.html'"></li>
+						</ol>
+					</div>
+				</div>
+                    <!--</mx-waiting-content>
+                </mx-waiting>-->
+            </div>
+        </div>
+        <div ui-layout-container>
+            <div ng-controller="listCtrl">
+
+                <!--<mx-waiting wait-for="loadComplete">
+                    <mx-waiting-gif>
+                        <div class="row text-center">
+                            <img src="./img/loading.gif" width="140" />
+                        </div>
+                    </mx-waiting-gif>
+                    <mx-waiting-content>-->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="container-fluid">
+							<!--<div class="btn-group" ng-controller="searchCtrl">
+								<input type="search" class="form-control "
+									   ng-model="filterText"
+									   placeholder="поиск" />
+							</div>-->
+							<div class="btn-group">
+								<a class="btn btn-default" ng-click="checkAll()">
+									<img src="./img/check-all.png" width="20" />
+								</a>
+								<a class="btn btn-default" ng-click="uncheckAll()">
+									<img src="./img/uncheck-all.png" width="20" />
+								</a>
+							</div>
+							<button class="btn btn-default" ng-click="foo()">
+								<img src="./img/house_add.png" width="20" />
+							</button>
+						</div>
+					</div>
+
+					<!---->
+					<!---->
+					<!--<div class="panel-body">
+	<div ui-grid="{data:rows,columnDefs:columns,flatEntityAccess: true,onRegisterApi:onRegisterApi,
+	enableRowSelection:true,enableColumnMenus:false,rowTemplate:'tpls/row.html'}"
+				ui-grid-selection
+				ui-grid-auto-resize
+				ui-grid-resize-columns
+				ui-grid-grouping
+				external-scopes="ext"
+				ng-style="{width:myWidth-45,height:myHeight}">
+		   </div>-->
+					<!---->
+
+					<!--
+					<table tr-ng-grid=""
+						   items="model.rows"
+						   page-items="100"
+						   selection-mode="MultiRowWithKeyModifiers"
+						   selected-items="sels"
+						   enable-filtering="true"
+						   locale="ru-ru"
+						   fields="model.fields"
+						   style="height:300px">
+						-->   
+						   
+						<!--<thead>
+			<tr>
+				<th field-name="foo" display-name="Тест" enable-filtering="false" enable-sorting="false" cell-width="10em" display-align="right">
+				</th>
+				<th field-name="bar.ham[0]" display-name="bar" display-format="uppercase">
+				</th>
+				<th field-name="sat.date[0]" display-name="Дата" display-format="uppercase">
+				</th>
+			</tr>
+		</thead>-->
+					<!--</table>-->
+
+					<div>
+						<!--<span>группа: {{group.name}}</span>
+		<span>всего: {{list.length}}</span>
+		<span>выбрано: {{selectedRowsCount}}</span>-->
+						<span>найдено: {{rows.length}}</span>
+					</div>
+				</div>
+                    <!--</mx-waiting-content>
+                </mx-waiting>-->
+            </div>
+        </div>
+    </div>
+</div>

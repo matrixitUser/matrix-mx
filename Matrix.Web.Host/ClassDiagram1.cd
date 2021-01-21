@@ -1,0 +1,535 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Matrix.Web.Host.Bus" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgABCAEAACAoIAACAGIBAAgAACDAQCAAKIEAAAAAJgA=</HashCode>
+      <FileName>Bus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.MessageReceivedEventArgs" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Bus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.MessageValuidator" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MessageValuidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Program" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAACAAAAAAAAAgABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Transport2Controller" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transport2Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Common.Helper" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Helper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Common.Sender" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAEAACAAAAAAAAAACAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Common\Sender.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.444" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.AbnormalRecordsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAACAAAAAAAAAACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\AbnormalRecordsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.AbnormalsCache" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAgIAAACAAAAAACAAACQAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Data\AbnormalRecordsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.Cache" Collapsed="true">
+    <Position X="10" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACBAAIBAAAAAAAAAKAAAAABAAAABQAAAAAAAAAA=</HashCode>
+      <FileName>Data\Cache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.CacheExtensions" Collapsed="true">
+    <Position X="10" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Cache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.CacheRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEQCAgBADAAAAAIAAAADBAAQACQAAAgAAAAIA=</HashCode>
+      <FileName>Data\CacheRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.Carantine" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAACAAAAABIACAAQAAAAAAACAA=</HashCode>
+      <FileName>Data\Carantine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.CardHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\CardHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.ClientsNotifier" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABIAABAQAAAAAAAAAA=</HashCode>
+      <FileName>Data\ClientsNotifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.Collector&lt;T&gt;" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABBAAAADAAAAAAACAAAAAAAAQIAAAAAAAAEAAA=</HashCode>
+      <FileName>Data\Collector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.FulnessRecordsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\FulnessRecordsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.FulnessCache" Collapsed="true">
+    <Position X="11" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIgqAAADAgAAAACAAACACAAABAAAAAQAgAAAAAAAI=</HashCode>
+      <FileName>Data\FulnessRecordsHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.LastRecordCacheHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAIAAAAAAACAAAACAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\LastRecordCacheHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.LogRecordsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\LogRecordsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.NamesCache" Collapsed="true">
+    <Position X="8.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAACAAAAABAAAAAQAAAAAAABAA=</HashCode>
+      <FileName>Data\NamesCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.NodeBackgroundProccessor" Collapsed="true">
+    <Position X="10" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAABBAAAADAAAAAEACAAAACBAAABAQABAAAAAIAg=</HashCode>
+      <FileName>Data\NodeBackgroundProccessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.ParametersHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAA=</HashCode>
+      <FileName>Data\ParametersHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.RecordsBackgroundProccessor" Collapsed="true">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAABAAAAADAAAAAAACAAAAAAAAAhAAQBAACAAAAg=</HashCode>
+      <FileName>Data\RecordsBackgroundProccessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.RecordsDecorator" Collapsed="true">
+    <Position X="7.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Data\RecordsDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.RowsCache" Collapsed="true">
+    <Position X="4.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAACABAAAAAiAAAAEBAAkAASAAABAAAggA=</HashCode>
+      <FileName>Data\RowsCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.SaveHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\SaveHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.252" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.SetpointRecordsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAACAAAAAIAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\SetpointRecordsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.309" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.StructureGraph" Collapsed="true">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ZkKFASAgUEAkZSEQICNEyLAEhBBJASg9UAQElGQYAWA=</HashCode>
+      <FileName>Data\StructureGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.Extensions" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Data\StructureGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Data.Sql.RowsCacheQueries" Collapsed="true">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAABEAAAAQAAAAAAAABAAAAEAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.AuthHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAgACAAAAAAAAAIAAAAAQAAAAAA=</HashCode>
+      <FileName>Handlers\AuthHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.BusHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAACAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\BusHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.CacheHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\CacheHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.DriverHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\DriverHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.EditHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAQAAAAIAAAAAACAgAAAAAAAAAAAIAIAAAAAAAAIA=</HashCode>
+      <FileName>Handlers\EditHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.EventSubscribeHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\EventSubscribeHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.168" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.ExportHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAABAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ExportHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.FolderHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\FolderHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.HandlerManager" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAABBAABAQAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\HandlerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.Helper" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\Helper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.HelperHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\HelperHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.LogHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAABgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\LogHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.MailerHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAIAAAEgACAAAAABgAAIAQAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\MailerHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.ManagmentHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ManagmentHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.MaquetteHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAIAAAAAAAAAAEgACAAAAABAgCIAQAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\MaquetteHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.ModemsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ModemsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.NodesHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\NodesHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.ParameterHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ParameterHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.PollHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAgAAAAAAAAA=</HashCode>
+      <FileName>Handlers\PollHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.RecordAcceptor" Collapsed="true">
+    <Position X="5.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAIAAAAAAAAAAAAAACAAAAABAABAAQAAQAAAAAAA=</HashCode>
+      <FileName>Handlers\RecordAcceptor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.RecordsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAACAAAAAAAgAAgACAAAAAAAAAJAAABAAAAAAAA=</HashCode>
+      <FileName>Handlers\RecordsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.ReportHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAgAAAAAAABAgAIAQAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ReportHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.Html2PdfConvertor" Collapsed="true">
+    <Position X="14.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAIAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\ReportHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.RowsHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\RowsHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.SetpointHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\SetpointHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.SignalHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\SignalHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.TaskHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\TaskHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Handlers.UsersHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgACAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\UsersHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Matrix.Web.Host.Reports.DynamicDrop" Collapsed="true">
+    <Position X="12.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAEAAAAIBAAAAAAAAAAAAAAAAAAAAAIQAA=</HashCode>
+      <FileName>Reports\DynamicDrop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Reports.Mapper" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Reports\Mapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Reports.Formatter" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAFyAAQIAAijABIAEAAEIAAICgCDgAAAIAgBAAABCA=</HashCode>
+      <FileName>Reports\Mapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Reports.Foo" Collapsed="true">
+    <Position X="10" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reports\Mapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Reports.ReportExtensions" Collapsed="true">
+    <Position X="20.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reports\Mapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Transport.BusController" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABCAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transport\BusController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Transport.MessageProccessor" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transport\MessageProccessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Transport.SignalRConnection" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAAAUAAAAA=</HashCode>
+      <FileName>Transport\SignalRConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix.Web.Host.Transport.TransportController" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABCAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transport\TransportController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Matrix.Web.Host.Data.IRecordHandler" Collapsed="true">
+    <Position X="12.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\IRecordHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Matrix.Web.Host.Data.ITokenHandler" Collapsed="true">
+    <Position X="15" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ITokenHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Matrix.Web.Host.Handlers.IHandler" Collapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\IHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

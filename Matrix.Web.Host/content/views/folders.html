@@ -1,0 +1,94 @@
+<div class="panel panel-default" style="margin-bottom:0px">
+    <!--<div class="panel-heading">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="model.selectAll()" style="height:34px">
+                    <img ng-src="./img/16/check_box{{(model.selected.length == model.count? '' : (model.selected.length > 0? '_mix' : '_uncheck'))}}.png" />
+                </button>
+            </span>
+            <input type="text" class="form-control" ng-model="model.filterText" placeholder="группа" ng-change="model.onFilterChange()" />
+        </div>
+    </div>-->
+
+    <div class="panel-default">
+        <uib-tabset>
+            <uib-tab>
+                <uib-tab-heading>
+                    Директории<br />
+                    <small style="color: lightgrey">
+                        {{model.selectedFolder}}
+                    </small>
+                </uib-tab-heading>   
+                <!--<div ag-g-rid="opt" class="ag-fresh" resizable ng-style="{height:windowHeight-60,width:'100%'}" context-menu="model.menu"></div>-->
+                <js-tree tree-data="scope"
+                         tree-model="folders"
+                         tree-plugins="checkbox,types"
+                         tree-types="typesConfig"
+                         tree-events="select_node:onFolderSelect;deselect_node:onFolderDeselect"
+                         context-menu="model.menu">
+                </js-tree>
+                <!--<div ui-tree data-drag-enabled="false" class="well well-sm pre-scrollable" ng-style="{maxHeight:windowHeight-130,width:'100%'}" id="folders-tree-1" context-menu="model.menu">
+                    <ol ui-tree-nodes ng-model="model.states">
+                        <li ng-repeat="node in model.folders" ui-tree-node data-nodrag data-collapsed ng-include="'folder-nodes-renderer.html'"></li>
+                    </ol>
+                </div>-->
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>
+                    Статус<br />
+                    <small style="color: lightgrey">
+                        {{model.selectedState}}
+                    </small>
+                </uib-tab-heading>
+                <div ui-tree data-drag-enabled="false" class="well well-sm pre-scrollable" ng-style="{maxHeight:windowHeight-130,width:'100%'}">
+                    <ol ui-tree-nodes ng-model="model.states">
+                        <li ng-repeat="node in model.states" ui-tree-node data-nodrag data-collapsed ng-include="'state-nodes-renderer.html'"></li>
+                    </ol>
+                </div>
+            </uib-tab>            
+        </uib-tabset>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="folder-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" style="cursor:pointer">
+        <a ng-if="node.children && node.children.length > 0" data-nodrag ng-click="toggle(this)" >
+            <img ng-if="!collapsed" src="/img/16/toggle.png" />{{model.colapseFolders(this)}}
+            <img ng-if="collapsed" src="/img/16/toggle_expand.png" />
+        </a>
+        <a ng-if="!(node.children && node.children.length > 0)" data-nodrag>
+            <img src="/img/16/toggle.png" />
+        </a>
+
+        <span ng-switch="node.type">
+            <span ng-switch-when="trash" ng-click="model.selectFolder(node.data)"><img src="/img/recycle_bag.png" width="16" /> {{node.data.name}}</span>
+            <span ng-switch-when="all" ng-click="model.selectFolder(node.data)"><img src="/img/folder_green.png" width="16" /> {{node.data.name}}</span>
+            <span ng-switch-when="pin" ng-click="model.selectFolder(node.data)"><img src="/img/folder_green.png" width="16" /> {{node.data.name}}</span>            
+            <span ng-switch-default ng-click="model.selectFolder(node.data)"><img src="/img/folder.png" width="16" /> {{node.data.name}}</span>                        
+        </span>        
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.children" ui-tree-node data-nodrag data-collapsed ng-include="'folder-nodes-renderer.html'">
+        </li>
+    </ol>
+</script>
+
+<script type="text/ng-template" id="state-nodes-renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content" style="cursor:pointer">
+        <a ng-if="node.children && node.children.length > 0" data-nodrag ng-click="toggle(this)">
+            <img ng-if="!collapsed" src="/img/16/toggle.png" />
+            <img ng-if="collapsed" src="/img/16/toggle_expand.png" />
+        </a>
+        <a ng-if="!(node.children && node.children.length > 0)" data-nodrag>
+            <img src="/img/16/toggle.png" />
+        </a>
+
+        <span ng-click="model.selectState(node)"><img src="/img/folder.png" /> {{node.name}}</span>
+
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.children" ui-tree-node data-nodrag data-collapsed ng-include="'state-nodes-renderer.html'">
+        </li>
+    </ol>
+</script>

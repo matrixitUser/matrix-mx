@@ -1,0 +1,215 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/clock.png" width="32" />
+        <span ng-if="!model.selected">
+            Редактор расписаний
+            <span class="smallergrey">
+                ничего не выбрано
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Расписание:
+            <span ng-bind="model.selected.name || '<без названия>'"></span><span class="red" ng-bind='model.selected.edited()? "*":""'></span>
+            <span class="smallergrey">
+                редактор
+            </span>
+        </span>
+    </h3>
+</div>
+
+
+<div class="modal-body" style="padding:5px;">
+
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="!model.objects">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="model.objects">
+
+        <!-- 1/1: нет объектов [.v.] -->
+        <div ng-if="!model.objects.length && !model.addNew">
+            <div style="display: table; width: 100%; height: 75%; overflow: hidden; text-overflow: ellipsis;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <h3>Нет расписаний</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- есть объекты [.|..] -->
+        <div ng-if="model.objects.length || model.addNew" class="row" style="margin:5px">
+
+            <uib-progressbar ng-if="model.state == 'save'" class="progress-striped active" max="model.saveCounterMax" value="model.saveCounter" type="info" style="margin-bottom: 0px">
+                <i>Идёт сохранение {{model.saveCounter}} / {{model.saveCounterMax}}</i>
+            </uib-progressbar>
+
+            <!-- 1/2: выбор [v|..] -->
+            <div ng-if="!model.only1" class="col-md-3">
+                <div style="overflow: auto; height: 75%" ng-class="{'disabled' : model.state == 'save'}">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="choose in model.objects | orderBy:'name' | filter:{ isHidden: '!true' }" ng-class="{'active': model.selected == choose}">
+                            <a style="overflow: hidden" ng-class="{'red': choose.edited()}" ng-click="model.select(choose)">
+                                <span ng-bind="choose.undo.name"></span><span ng-bind='choose.edited()? "*":""'></span>
+                            </a>
+                        </li>
+                        <li ng-if="model.addNew && model.newId == null">
+                            <a style="overflow: hidden" ng-click="model.addNew()">
+                                <img src="/img/add.png" width="20" />
+                                Добавить
+                            </a>
+                        </li>
+                    </ul>
+                    <div ng-if="(model.objects | filter:{ isHidden: 'true' }).length > 0">
+                        Архивные:
+                        <ul class="nav nav-pills nav-stacked">
+                            <li ng-repeat="choose in model.objects | orderBy: 'name' | filter:{ isHidden: 'true' }" ng-class="{'active': model.selected == choose}">
+                                <a style="overflow: hidden" ng-class="{'red': choose.edited()}" ng-click="model.select(choose)">
+                                    <span ng-bind="choose.undo.name"></span><span ng-bind='choose.edited()? "*":""'></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 2/2: объект [.|.v.] -->
+            <div ng-class='{"col-md-9": !model.only1, "col-md-12": model.only1 }'>
+                <!-- объект выбран -->
+                <div ng-if="model.selected" style="overflow: auto; width: 100%; height: 75%" ng-class="{'disabled' : model.state == 'save'}">
+
+                    <table class="table table-hover">
+                        <tr>
+                            <td>Название</td>
+                            <td><input type="text" class="form-control" ng-model="model.selected.name" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">Действие при срабатывании расписания</td>
+                            <td>
+                                <select ng-model="model.selected.kind" class="form-control" ng-disabled="model.selected.isHidden" ng-class="{'red': model.selected.kind == 'disable'}">
+                                    <option value="disable">Нет действия</option>
+                                    <option value="poll">Начало опроса</option>
+                                    <option value="mailer">Рассылка отчётов</option>
+                                    <option value="maquette">Отправка макетов 80020</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Расписание
+                            </td>
+                            <td>
+                                <input type="button" class="form-control" ng-value="model.selected.cron" ng-click="model.selected.chooseCron()" />
+                            </td>
+                        </tr>
+                        <tr ng-if="model.selected.kind">
+                            <td>
+                                <span ng-if="model.selected.kind == 'poll'">Будут опрошены объекты:</span>
+                                <span ng-if="model.selected.kind == 'mailer'">Будут разосланы рассылки:</span>
+                                <span ng-if="model.selected.kind == 'maquette'">Будут отправлены макеты:</span>
+                            </td>
+                            <td>
+                                <select ng-model="model.selected[model.selected.kind]" class="form-control">
+                                    <option value="part">Выбранные</option>
+                                    <option value="all">Все</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr ng-if="model.selected.kind == 'poll'">
+                            <td>
+                                Цель опроса
+                            </td>
+                            <td>
+                                <select ng-model="model.selected.components" class="form-control">
+                                    <option value="">По умолчанию</option>
+                                    <option value="Current">Текущие</option>
+                                    <option value="Hour;Day;Abnormal">Архивы, НС</option>
+                                    <option value="Current;Hour;Day;Abnormal">Текущие, архивы, НС</option>
+                                    <option value="Constants;Current;Hour;Day;Abnormal">Константы, текущие, архивы, НС</option>
+                                    <option value="Constants">Константы</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr ng-if="model.selected.kind == 'poll'">
+                            <td>
+                                Метод опроса
+                            </td>
+                            <td>
+                                <select ng-model="model.selected.onlyHoles" class="form-control">
+                                    <option value="">По умолчанию</option>
+                                    <option value="true">Только дыры</option>
+                                    <option value="false">Всё</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr ng-if="model.selected.kind == 'poll'">
+                            <td>
+                                Поиск часовых дыр
+                            </td>
+                            <td>
+                                <select ng-model="model.selected.hoursDaily" class="form-control">
+                                    <option value="">По умолчанию</option>
+                                    <option value="false">Каждый час</option>
+                                    <option value="true">Один раз в сутки</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div>
+                        <button class="btn btn-default" ng-click="model.selected.toggleHide()">
+                            <span ng-if="model.selected.isHidden">Восстановить</span>
+                            <span ng-if="!model.selected.isHidden">В Архив</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- объект НЕ выбран -->
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 75%; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите расписание из списка</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-5 col-md-5" style="text-align: left">
+            <button class="btn btn-default" ng-class="{'active': !model.only1}" ng-click="model.toggleSideList()">
+                <img src="../img/application_side_list.png" height="20" />
+            </button>
+            <!--<span ng-if="model.actionListMailer">
+                <button type="button" class="btn btn-default" ng-click="model.actionListMailer(model.selected.id)">
+                    <img src="/img/report_go.png" height="20" />
+                    <span class="hidden-md">Отправка</span>
+                </button>
+            </span>-->
+            <button class="btn btn-default" ng-disabled="model.state != 'edit'" ng-click="model.resetAll()">Сброс</button>
+        </div>
+        <div class="col-xs-7 col-md-7">
+            <span ng-if="model.state == 'edit'">
+                <span class="red" ng-bind='"Непринятые изменения: " + model.editedCounter'></span>
+            </span>
+            <button class="btn btn-primary" ng-click="model.saveState()" ng-disabled="model.state != 'edit'">Сохранить</button>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿<div ng-controller="driversCtrl">
+    <div ui-layout="{flow:'column',dividerSize:'10'}">
+        <div ui-layout-container size="30%">
+            <input type="text" class="form-control" ng-model="driverFilter" placeholder="фильтр" />
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-repeat="driver in drivers | filter:driverFilter" ng-class="{'active': $parent.selected==driver}">
+                    <a style="overflow:hidden" ng-click="$parent.select(driver);">
+                        <span ng-if="driver.dirty" style="color:red">*</span>{{ driver.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div ui-layout-container>
+            <form class="form-horizontal" name="frm">
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">имя</span>
+                    <input type="text" class="form-control" placeholder="Название" ng-model="selected.name" ng-required="true">
+                    <span class="input-group-addon"></span>
+                </div>
+
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">файл</span>
+                    <span class="form-control">{{selected.file.filesize}},байт</span>
+                    <span class="btn btn-default input-group-addon btn-file">
+                        Обзор <input type="file" ng-model="selected.file" base-sixty-four-input />
+                    </span>
+                </div>
+
+                <input type="hidden" value="{{selected.dirty=frm.$dirty}}" />                                
+            </form>            
+        </div>
+    </div>
+</div>

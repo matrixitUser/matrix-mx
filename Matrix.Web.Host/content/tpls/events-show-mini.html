@@ -1,0 +1,30 @@
+﻿<div ng-controller="EventsCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div class="modal-preview-head">
+            <img src="/img/lightning.png" width="16" />
+            События
+        </div>
+        <div class="modal-preview-head">
+            <span class="badge" ng-bind="model.alarmsCounter"></span>
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert " ng-class="{'alert-info' : model.alertType == 'info', 'alert-danger' : model.alertType == 'danger', 'alert-success' : model.alertType == 'success'}">
+            <div>
+                Тревоги:
+                <span ng-if="model.alarmsCounter > 0">{{model.alarmsCounter}} событий</span>
+                <span ng-if="model.alarmsCounter == 0">нет</span>
+            </div>
+            <div>
+                не просмотренных:
+                <span ng-if="model.alarmsNotViewedCounter > 0">{{model.alarmsNotViewedCounter}} событий</span>
+                <span ng-if="model.alarmsNotViewedCounter == 0">нет</span>
+            </div>
+            <div>
+                Всего:
+                <span ng-if="model.events.length > 0">{{model.events.length}} событий</span>
+                <span ng-if="model.events.length == 0">нет</span>
+            </div>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,54 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">×</button>
+    <h3 class="modal-title modal-preview-head">
+
+        <span class="media" tooltip="{{model.names.join('; ')}}" tooltip-append-to-body="true" tooltip-placement="bottom">
+            <img ng-src="/img/tag_red.png" width="32" />
+            <span class="badge" ng-bind="model.names.length"></span>
+        </span>
+
+        Параметры
+        <span ng-if="model.names.length>0" class="smallergrey">
+            для
+            {{model.names.join(', ')}}
+        </span>
+        <span ng-if="model.names.length==0" class="red">
+            нет объектов
+        </span>
+
+    </h3>
+</div>
+<div class="modal-body">
+    <div ng-if="model.loading">
+        <div style="display: table; height: 55%; width: 100%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+                <span>{{model.description}}</span>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!model.loading">
+        <!--<div ng-if="model.row.Parameter.length===0">
+            <span>Параметров нет</span>
+        </div>
+        <div ng-if="model.row.Parameter.length!==0">
+            <div ag-grid="opt" class="ag-fresh" style="height:70%"></div>
+        </div>-->
+        <div ag-grid="model.opt" class="ag-fresh" style="height:70%"></div>
+    </div>
+</div>
+<div class="modal-footer">
+
+    <div class="row">
+        <div class="col-xs-3 col-md-3" style="text-align: left">
+            <button class="btn btn-default" ng-class="{'active': model.IsToolPanelShow}" ng-click="model.toggleToolPanel()">
+                <img src="../img/table_gear.png" height="20" />
+            </button>
+        </div>
+        <div class="col-xs-9 col-md-9">
+            <button class="btn btn-primary btn-default" ng-click="model.recalc()">Определить из данных</button>
+            <button class="btn btn-primary btn-default" ng-click="model.save()">Сохранить</button>
+            <button class="btn btn-warning" ng-click="model.close()">Отмена</button>
+        </div>
+    </div>
+</div>

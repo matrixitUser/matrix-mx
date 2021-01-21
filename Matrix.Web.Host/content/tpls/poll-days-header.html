@@ -1,0 +1,12 @@
+<div class="navbar navbar-default" style="margin-bottom:5px" bs-navbar>
+    <div class="navbar-form navbar-left">
+        <label>От</label>
+        <input size="6" class="form-control" ng-model="model.start" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+        <label>До</label>
+        <input size="6" class="form-control" ng-model="model.end" data-autoclose="1" placeholder="Дата" bs-datepicker data-use-native="true" data-start-week="1" type="text">
+        <label class="checkbox">
+            <checkbox ng-model="onlyHoles" />
+            Только пропущенные
+        </label>
+    </div>
+</div>

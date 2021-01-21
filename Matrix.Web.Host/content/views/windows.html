@@ -1,0 +1,5 @@
+﻿<button type="button" class="btn" ng-click="model.closeAll()" ng-disabled="model.windows.length==0">× Закрыть все</button>
+<div ng-repeat="window in model.windows" class="modal-preview">
+    <button type="button" class="close" ng-click="window.close()">×</button>
+    <ng-include src="window.templateUrl"></ng-include>
+</div>

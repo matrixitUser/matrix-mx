@@ -1,0 +1,28 @@
+﻿<div ng-controller="CalculatorCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/edit_button.png" width="16" />
+                Калькулятор
+            </div>
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+            <div ng-if="!model.isLoaded">
+                Ожидание...
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <img ng-src="/img/loader.gif" width="32" />
+                </div>
+            </div>
+            <div ng-if="model.isLoaded">
+                <div ng-if="!model.isResult">
+                    <p>Определение параметров</p>
+                </div>
+                <div ng-if="model.isResult">
+                    <p>Результат расчета при расходе электроэнергии за месяц, {{model.consumption.toFixed(2)}} кВт*ч</p>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,221 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+
+    <h3 class="modal-title modal-preview-head">
+        <img src="/img/house_two.png" width="32" />
+        <span ng-if="!model.rowParent">
+            Поквартирный учёт
+        </span>
+        <span ng-if="model.rowParent">
+            <span ng-bind="model.rowParent.cart.name"></span>
+            <span ng-bind="model.rowParent.name"></span>
+            <span class="smallergrey">
+                поквартирный учёт
+            </span>
+        </span>
+    </h3>
+
+</div>
+<div class="modal-body">
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="model.overlayEnabled">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>    
+    
+    <!-- загружен, нет данных о строении дома -->
+    <div ng-if="!model.overlayEnabled && model.Section.length == 0">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <h3>Нет информации о структуре дома!</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="!model.overlayEnabled && model.Section.length > 0">
+
+        <!-- period picker -->
+        <!--<form fs-form-for="" class="form-horizontal">
+            <div class="form-group row">
+                <div class="col-lg-4 col-md-5" style="padding-right:0px">
+                    <div fs-date="" ng-model="model.start" ng-disabled="false"></div>
+                </div>
+                <div class="col-lg-4 col-md-5" style="padding-right:0px">
+                    <div fs-date="" ng-model="model.end" ng-disabled="false"></div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-2">
+
+                    <div class="visible-md btn-group" dropdown>
+                        <button class="btn btn-default" ng-click="model.dailyUpdate()" ng-disabled="model.dailyIsUpdating">
+                            <img ng-src='/img/{{!model.dailyIsUpdating? "table_refresh.png" : "loader.gif"}}' width="20" title="Обновить" />
+                        </button>
+                        <button type="button" class="btn btn-default" dropdown-toggle>
+                            <span class="caret"></span>
+                            <span class="sr-only">Дополнительно</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="split-button">
+                            <li role="menuitem">
+                                <a href="#" ng-click="model.savePdf()">
+                                    <img src="./img/pdf.png" height="20" title="Экспорт в PDF" />Экспорт в PDF
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" ng-click="model.toExcel()">
+                                    <img src="./img/xls.png" height="20" title="Экспорт в XLS" />Экспорт в XLS
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" print-div="#report-content">
+                                    <img src="./img/print.png" height="20" title="Печать" />Печать
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="hidden-md btn-group">
+                        <button class="btn btn-default" ng-click="model.dailyUpdate()" ng-disabled="model.dailyIsUpdating">
+                            <img ng-src='/img/{{!model.dailyIsUpdating? "table_refresh.png" : "loader.gif"}}' width="20" title="Обновить" />
+                        </button>
+                        <button class="btn btn-default" ng-click="model.savePdf(model.selected.reportAsHtml)"><img src="./img/pdf.png" height="20" title="Экспорт в PDF" /></button>
+                        <button class="btn btn-default" ng-click="model.toExcel(model.selected.reportAsHtml)"><img src="./img/xls.png" height="20" title="Экспорт в XLS" /></button>
+                        <button class="btn btn-default" print-div="#report-content"><img src="./img/print.png" height="20" title="Печать" /></button>
+                    </div>
+
+                </div>
+            </div>
+        </form>-->
+
+        <div style="overflow: auto; width: 100%; height: 75%" id="report-content">
+
+            <style>
+                @media print {
+                    hr {
+                        page-break-after: always;
+                    }
+                }
+
+                .report table {
+                    width: 100%; /* Ширина таблицы */ /*border: 1px solid black;*/ /* Рамка вокруг таблицы */
+                    border-collapse: collapse; /* Отображать только одинарные линии */
+                }
+
+                .report th {
+                    text-align: center; /* Выравнивание по левому краю */
+                    background: #ccc; /* Цвет фона ячеек */
+                    padding: 5px; /* Поля вокруг содержимого ячеек */
+                    border: 1px solid black; /* Граница вокруг ячеек */
+                }
+
+                .report td {
+                    padding: 5px; /* Поля вокруг содержимого ячеек */
+                    border: 1px solid black; /* Граница вокруг ячеек */
+                }
+            </style>
+            <div class='report'>
+
+                <ul class="nav nav-pills">
+                    <li ng-repeat="section in model.Section" ng-class="{'active': model.csection == section}">
+                        <a style="overflow: hidden" ng-click="model.select(section)">
+                            Подъезд <span ng-bind="section.index"></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- SECTIONS -->
+                <table class="table table-hover">
+                    <!-- FLOORS -->
+                    <tr ng-repeat-start="floor in model.csection.Floor | orderBy: 'index' : true">
+                        <th rowspan="3">{{floor.index}} этаж</th>
+                        <!-- APTS -->
+                        <td rowspan="3" ng-repeat-start="apt in floor.Apt" style="width: 100px">
+                            <i>Кв. <span style="font-size: 30px" ng-bind="apt.index"></span></i>
+                        </td>
+                        <td style="background-color: lightyellow; width: 30px">
+                            <img src="/img/16/lightning.png" width="16" />
+                        </td>
+                        <td colspan="2" style="background-color: lightyellow">
+                            <small ng-bind-html="apt.energy"></small>
+                        </td>
+                        <td ng-repeat-end style="display:none"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #b3e5ff" ng-repeat-start="apt in floor.Apt">
+                            <img src="/img/16/cold.png" width="16" />
+                        </td>
+                        <td ng-if="apt.cw2 === undefined" colspan="2" style="background-color: #b3e5ff">
+                            <small ng-bind-html="apt.cw"></small>
+                        </td>
+                        <td ng-if="apt.cw2 !== undefined" style="background-color: #b3e5ff">
+                            <small ng-bind-html="apt.cw"></small>
+                        </td>
+                        <td ng-if="apt.cw2 !== undefined" style="background-color: #b3e5ff">
+                            <small ng-bind-html="apt.cw2"></small>
+                        </td>
+                        <td ng-repeat-end style="display:none"></td>
+                    </tr>
+                    <tr ng-repeat-end>
+                        <td style="background-color: #ffb3b3" ng-repeat-start="apt in floor.Apt">
+                            <img src="/img/16/hot.png" width="16" />
+                        </td>
+                        <td ng-if="apt.hw2 === undefined" colspan="2" style="background-color: #ffb3b3">
+                            <small ng-bind-html="apt.hw"></small>
+                        </td>
+                        <td ng-if="apt.hw2 !== undefined" style="background-color: #ffb3b3">
+                            <small ng-bind-html="apt.hw"></small>
+                        </td>
+                        <td ng-if="apt.hw2 !== undefined" style="background-color: #ffb3b3">
+                            <small ng-bind-html="apt.hw2"></small>
+                        </td>
+                        <td ng-repeat-end style="display:none"></td>
+                    </tr>
+
+                    <!-- COMMONS -->
+                    <!--<tr>
+                        <th rowspan="3" colspan="2">Общедомовой</th>
+                        <td style="background-color: #b3ffbc">
+                            <small>ЭЭ</small>
+                        </td>
+                        <td>
+                            <small></small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #ffb3b3">
+                            <small>ГВС</small>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat-end>
+                        <td style="background-color: #b3e5ff">
+                            <small>ХВС</small>
+                        </td>
+                        <td></td>
+                    </tr>-->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-xs-3 col-md-6" style="text-align: left">
+        <button class="btn btn-default" ng-click="model.refresh()" ng-disabled="model.overlayEnabled || model.Section.length == 0">
+            <img ng-src='/img/{{!model.isRefresh? "arrow_refresh_small.png" : "loader.gif"}}' width="20">
+            Обновить
+        </button>
+    </div>
+    <div class="col-xs-9 col-md-6">
+        <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+        <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+    </div>
+</div>

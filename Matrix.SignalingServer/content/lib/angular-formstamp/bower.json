@@ -1,0 +1,32 @@
+{
+  "name": "angular-formstamp",
+  "version": "0.0.6",
+  "authors": [
+    "Alexander Bondarev",
+    "Alexandra Pavlyshina",
+    "Danil Kutkevich",
+    "Dmitry Nechyaev",
+    "Mike Lapshin",
+    "Nikolay Ryzhikov",
+    "Serzh Nechyporchuk"
+  ],
+  "description": "Pure AngularJS widgets library",
+  "keywords": ["ui", "angular", "widgets"],
+  "main": [
+    "formstamp.css",
+    "formstamp.js",
+    "README.md",
+    "CHANGELOG.md",
+    "MIT-LICENSE"
+  ],
+  "license": "MIT",
+  "ignore": [ ],
+  "dependencies": {
+    "angular":"~1.3",
+    "bootstrap":"~3"
+  },
+  "devDependencies": {
+    "jquery":"latest",
+    "angular-mocks":"1.3.2"
+  }
+}

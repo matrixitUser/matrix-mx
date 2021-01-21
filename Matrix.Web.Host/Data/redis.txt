@@ -1,0 +1,12 @@
+﻿здесь собраны полезная информация по работе с субд redis
+* клиент в папке bin redis-cli
+
+* коннект к удаленному: redis-cli -h IP_ADDRESS
+
+* получение ключей redis-cli keys PATTERN > FILE (скинет ключи в файл)
+
+* пример удалить записи с параметрами объекта с id 85e9808f-7823-4c0e-9f69-1f1070499d61 на сервере 192.168.1.100
+	1. redis-cli -h 192.168.1.100 keys parameter85e9808f-7823-4c0e-9f69-1f1070499d61* > keys.txt
+	2. for /F %i in (keys.txt) do redis-cli -h 192.168.1.100 del %i
+
+* очистка базы flushall

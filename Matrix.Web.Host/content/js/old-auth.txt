@@ -1,0 +1,112 @@
+
+    /**
+     * отправка логина или сессии
+     */
+    var sendAuthInfo = function (info, callback) {
+
+        var request;
+        if ("sessionId" in info) {
+            request = new Message({ what: "auth-by-session" }, {
+                sessionId: info.sessionId
+            });
+        } else if ("login" in info) {
+            request = new Message({ what: "auth-by-login" }, {
+                login: info.login === undefined ? "" : info.login,
+                password: info.password === undefined ? "" : info.password
+            });
+        }
+
+        $transport.sendMessage2(request, callback, true);
+    }
+
+    /**
+     * показ окна авторизации
+     */
+    var displayWindow = function (error) {
+        setTimeout(function () {
+            var modal = $modal({
+                template: "/tpls/login.html",
+                show: false,
+                animation: "am-fade-and-slide-top",
+                backdrop: "static",
+                keyboard: false
+            });
+
+            //modal.$scope.login = "";
+            //modal.$scope.password = "";
+            modal.$scope.error = error;
+
+            modal.$scope.ok = function () {
+                sendAuthInfo({
+                    login: $("#login").val(),
+                    password: $("#password").val()
+                }, function (message) {
+                    if (message.head.what === "auth-error") {
+                        modal.$scope.error = message.body.message;
+                        //modal.$scope.$apply(function () {
+                        //    modal.$scope.error = message.Argument.message;
+                        //});
+                    } else {
+                        modal.hide();
+                        user = message.body.user;
+                        raiseAuthorised(message.body.sessionId);
+                    }
+                });
+            };
+
+            modal.$promise.then(modal.show);
+        }, 2000);
+    }
+
+    /**
+     * уведомление об успешной авторизации
+     */
+    var raiseAuthorised = function (sessionId) {
+        $settings.setSessionId(sessionId);
+        $transport.connect();
+        $rootScope.$broadcast("auth:authorized");
+    };
+
+    /**
+     * переавторизация
+     */
+    var relogin = function () {
+        var sessionId = $settings.getSessionId();
+        if (sessionId === undefined || sessionId === "" || sessionId === "undefined") {
+            displayWindow("shame on you!");
+            return;
+        }
+
+        sendAuthInfo({ sessionId: sessionId }, function (message) {
+            if (message.head.what === "auth-success") {
+                user = message.body.user;
+                raiseAuthorised(message.body.sessionId);
+            } else {
+                displayWindow(message.body.message);
+            }
+        });
+    };
+
+    var logout = function () {
+        $transport.sendMessage2(new Message({ what: "login-close-session" }, {
+            sessionId: $settings.getSessionId()
+        }), function (message) { });
+        $settings.setSessionId(undefined);
+        relogin();
+    };
+
+    var user = undefined;
+    var getUser = function () {
+        return user;
+    }
+
+    var isAuthorized = function () {
+        return user !== undefined;
+    };
+
+    return {
+        relogin: relogin,
+        logout: logout,
+        getUser: getUser,
+        isAuthorized: isAuthorized
+    };

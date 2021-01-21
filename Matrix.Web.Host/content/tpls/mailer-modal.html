@@ -1,0 +1,267 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/report_stack.png" width="32" />
+        <span ng-if="!model.selected">
+            Рассылка отчётов
+            <span class="smallergrey">
+                ничего не выбрано
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Рассылка:
+            <span ng-bind="model.selected.name || '<без названия>'"></span>
+
+            <span class="smallergrey">
+                отправка на почту
+            </span>
+        </span>
+    </h3>
+</div>
+
+
+<div class="modal-body" style="padding:5px;">
+
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="!model.objs">
+        <div style="display: table; width: 100%; height: 45%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="model.objs">
+
+        <!-- 1/1: нет [.v.] -->
+        <div ng-if="!model.objs.length">
+            <div style="display: table; width: 100%; height: 45%; overflow: hidden; text-overflow: ellipsis;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <h3>Нет рассылок</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- есть [.|..] -->
+        <div ng-if="model.objs.length" class="row" style="margin:5px">
+            <!-- 1/2: выбор [v|..] -->
+            <div ng-if="!model.only1" class="col-md-5">
+                <div style="overflow: auto; height: 65%">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="m in model.sorted" ng-class="{'active': model.selected == m, 'disabled': m.kind == 'disabled'}">
+                            <a style="overflow: hidden" ng-click="model.select(m)">
+                                <span ng-bind="m.name"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 2/2: макет [.|.v.] -->
+            <div ng-class='{"col-md-7": !model.only1, "col-md-12": model.only1 }'>
+                <!-- выбран -->
+                <div ng-if="model.selected">
+                    
+                    <div style="overflow: auto; height: 65%" ng-if="model.selected.kind == 'disabled'">
+                        <span class="red">Отправка запрещена</span>
+                    </div>
+
+                    <div style="overflow: auto; height: 65%" ng-if="model.selected.kind != 'disabled'">
+                        
+                        <table class="table table-hover">
+                            <tr>
+                                <td>Периодичность отправки</td>
+                                <td ng-class="{'red': model.selected.kind != 'auto' }">
+                                    {{ model.selected.showKind() }}
+                                </td>
+                            </tr>
+                            <tr ng-class="{'grey' : model.selected.kind == 'disabled'}">
+                                <td>Адреса получателей (через запятую)</td>
+                                <td>
+                                    {{ model.selected.receiver || 'E-mail отсутствует' }}
+                                </td>
+                            </tr>
+                            <tr ng-class="{'grey' : model.selected.kind != 'auto'}">
+                                <td>Отправка отчёта с неполными данными</td>
+                                <td>
+                                    {{ model.selected.nullAllowed && "Разрешена" || "Только полные данные" }}
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <form fs-form-for="" class="form-horizontal">
+                            <div class="form-group row">
+
+                                <div class="col-md-6" style="padding-right:0px">
+                                    <div fs-date="" ng-model="model.selected.date"></div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="btn-group">
+                                        <button class="btn btn-default" ng-disabled="(model.selected.kind == 'disabled')" ng-click="model.selected.send()">
+                                            <img src="./img/report_go.png" height="20" title="Рассылка по выбранной дате" />
+                                            <span>Отправить</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 small">
+                                    Будут отправлены:
+                                    <ul>
+                                        <li>посуточные отчёты за {{model.getStart(model.selected.date, 'Daily') | date: 'dd.MM.yyyy'}}-{{model.getEnd(model.selected.date, 'Daily') | date: 'dd.MM.yyyy'}}</li>
+                                        <li ng-if="!model.checkIsMonthly(model.selected.date)">сутки за месяц за период {{model.getStart(model.selected.date, 'DailyMonthly') | date: 'dd.MM.yyyy'}}-{{model.getEnd(model.selected.date, 'DailyMonthly') | date: 'dd.MM.yyyy'}}</li>
+                                        <li ng-if="model.checkIsMonthly(model.selected.date)">ежемесячные отчёты за период {{model.getStart(model.selected.date, 'Monthly') | date: 'dd.MM.yyyy'}}-{{model.getEnd(model.selected.date, 'Monthly') | date: 'dd.MM.yyyy'}}</li>
+                                    </ul>
+                                    <!-- Внимание! Отчёты будут отправлены вне зависимости от полноты данных. -->
+                                </div>
+                                <div class="col-md-12 red" ng-if="model.selected.lastError != ''">
+                                    {{model.selected.lastError}}
+                                </div>
+                                
+                            </div>
+                        </form>
+
+
+                        <h4>
+                            Предварительный просмотр выбранных отчётов:
+                        </h4>
+                        
+                        <div class="col-xs-12 red" ng-if="model.selected.reports.length == 0">
+                            Отчёты не выбраны
+                        </div>
+
+                        <div class="col-xs-12" ng-repeat="rid in model.selected.reports">
+                            <div class="col-xs-6">
+                                {{model.showReportName(rid)}}
+                                <span ng-if="!model.selected._reportXls[rid] || model.selected._reportPdf[rid]"><img src="./img/file_extension_pdf.png" height="16" title="Формат PDF" /></span>
+                                <span ng-if="model.selected._reportXls[rid]"><img src="./img/file_extension_xls.png" height="16" title="Формат XLS" /></span>
+                            </div>
+                            <div ng-if="model.selected._reportDaily[rid] || model.selected._reportMonthly[rid]">
+                                <div class="col-xs-6">
+                                    <span ng-if="model.selected._reportDaily[rid] && !model.selected._reportMonthly[rid]">
+                                        <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'Daily')">
+                                            <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" /> сутки
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span ng-if="!model.selected._reportDaily[rid] && model.selected._reportMonthly[rid]">
+                                        <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'Monthly')">
+                                            <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" /> месяц
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="col-xs-6" ng-if="model.selected._reportDaily[rid] && model.selected._reportMonthly[rid]">
+                                    <span>
+                                        <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'DailyMonthly')">
+                                            <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" /> сутки за месяц
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 red" ng-if="!model.selected._reportDaily[rid] && !model.selected._reportMonthly[rid]&& !model.selected._reportSpecificDay[rid]">
+                                Периодичность отправки не задана!
+                            </div>
+                        </div>
+
+                        <h4>
+                            Выбранные точки учёта:
+                        </h4>
+
+                        <div class="col-xs-12" ng-if="model.selected.tubeIds.length == 0">
+                            Точки учёта не выбраны
+                        </div>
+
+                        <ul ng-if="model.selected.tubeIds.length > 0">
+                            <li ng-repeat="tube in model.selected.tubeRows" ng-class="{'grey' : tube.isDisabled === true}">
+                                {{tube.name}} {{tube.pname}} ({{tube.device}})
+                            </li>
+                        </ul>
+
+                        <!--<div>
+                            <ul>
+                                <li ng-repeat="rid in model.selected.reports">
+                                    {{model.showReportName(rid)}} -
+                                    <span ng-if="model.selected._reportDaily[rid]">
+                                        ежесуточно
+                                        <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'Daily')">
+                                            <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" />
+                                        </button>;
+                                    </span>
+                                    <span ng-if="model.selected._reportMonthly[rid]">
+                                        ежемесячно
+                                        <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'Monthly')">
+                                            <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" />
+                                        </button>;
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <hr />
+
+                        <div class="col-xs-12" ng-repeat="rid in model.selected.reports">
+                            <div class="col-xs-6">
+                                {{model.showReportName(rid)}}
+                            </div>
+                            <div class="col-xs-6">
+                                <span ng-if="model.selected._reportDaily[rid]">
+                                    сутки
+                                    <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'Daily')">
+                                        <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" />
+                                    </button>
+                                </span>
+                                <span ng-if="model.selected._reportMonthly[rid]">
+                                    месяц
+                                    <button class="btn btn-default" ng-if="model.actionBuildReport" ng-click="model.actionBuildReport(model.selected, rid, 'Monthly')">
+                                        <img src="./img/report_magnify.png" height="20" title="Предварительный просмотр" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr />-->
+
+                    </div>
+                </div>
+                <!-- рассылка НЕ выбрана -->
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 65%; overflow: hidden; text-overflow: ellipsis;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите рассылку из списка</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-6 col-md-6" style="text-align: left">
+            <button class="btn btn-default" ng-class="{'active': !model.only1}" ng-click="model.toggleSideList()">
+                <img src="../img/application_side_list.png" height="20" />
+            </button>
+            <span ng-if="model.actionEdit">
+                <button type="button" class="btn btn-default" ng-click="model.actionEdit(model.selected.id)">
+                    <img src="/img/edit_button.png" height="20" />
+                    <span class="hidden-md">Редактор</span>
+                </button>
+            </span>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <img ng-if="model.selected.isSending" src="img/loader.gif" height="32" />
+            <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

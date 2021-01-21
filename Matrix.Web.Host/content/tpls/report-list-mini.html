@@ -1,0 +1,78 @@
+﻿<div ng-controller="ReportListCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/report.png" width="16" />
+                <span ng-if="!model.selected">
+                    Построитель отчётов
+                    <span class="smallergrey">
+                        отчёт не выбран
+                    </span>
+                </span>
+                <span ng-if="model.selected">
+                    Отчёт:
+                    <span ng-bind="model.selected.name"></span>
+                    <span ng-if="model.selected.state=='wait'">
+                        <img src="img/16/loader.gif" width="16" />
+                    </span>
+                    <span ng-if="model.selected.state=='success'">
+                        <img src="img/16/tick.png" width="16" />
+                    </span>
+                    <span ng-if="model.selected.state=='error'">
+                        <img src="img/16/cross.png" width="16" />
+                    </span>
+                </span>
+            </div>
+            <div class="modal-preview-head">
+                <span ng-if="model.names.length>0">
+                    <span class="badge" ng-bind="model.names.length" tooltip="{{model.header}}" tooltip-append-to-body="true" tooltip-placement="bottom"></span>
+                    <small>{{model.names.join(', ')}}</small>
+                </span>
+                <span ng-if="model.names.length==0">
+                    <small>нет объектов</small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info" ng-class="{'alert-info': model.state=='idle' || model.state=='wait', 'alert-success': model.state=='success', 'alert-danger': model.state=='error' }">
+            <div ng-if="model.state=='idle'">
+                Ожидание...
+            </div>
+            <uib-progressbar ng-if="model.errorCounter > 0" class="progress-striped" value="100" type="danger" style="margin-bottom: 0px">
+                <i>{{model.errorCounter}} не построен(ы)</i>
+            </uib-progressbar>
+            <uib-progressbar ng-if="model.doneCounter > 0" class="progress-striped" value="100" type="success" style="margin-bottom: 0px">
+                <i>{{model.doneCounter}} готов(ы)</i>
+            </uib-progressbar>
+            <uib-progressbar ng-if="model.waitCounter > 0" class="progress-striped active" value="100" type="info" style="margin-bottom: 0px">
+                <i>{{model.waitCounter}} строятся...</i>
+            </uib-progressbar>
+        </div>
+
+
+
+        <!--<div ng-if="model.selected">
+            <div ng-if="!model.success" class="modal-preview-body alert alert-danger">
+                <strong>{{model.error}}</strong>
+            </div>
+
+            <div ng-if="model.success && model.wait" class="modal-preview-body alert alert-info">
+                <progressbar class="progress-striped active" value="100" type="info" style="margin-bottom: 0px">
+                    <i>построение...</i>
+                </progressbar>
+                с {{model.start | date:"dd.MM.yyyy HH:mm"}} по {{model.end | date:"dd.MM.yyyy HH:mm"}}
+            </div>
+
+            <div ng-if="model.success && !model.wait" class="modal-preview-body alert alert-success">
+                <progressbar class="progress-striped" value="100" type="success" style="margin-bottom: 0px">
+                    <i>Готово!</i>
+                </progressbar>
+                с {{model.start | date:"dd.MM.yyyy HH:mm"}} по {{model.end | date:"dd.MM.yyyy HH:mm"}}
+            </div>
+        </div>
+        <div ng-if="model.doneCounter>0">
+            <span class="darkgreen bold" ng-bind='"Построено отчётов: " + model.doneCounter'></span>
+        </div>-->
+    </a>
+</div>

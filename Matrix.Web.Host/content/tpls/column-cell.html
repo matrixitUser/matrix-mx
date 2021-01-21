@@ -1,0 +1,10 @@
+﻿<div class="ui-grid-cell-contents" ng-click="getExternalScopes().updateCurrent(row.entity)">
+    <div ng-if="row.entity['columnDate'] != null">
+        <img src="./img/arrow_refresh_small.png" width="20" alt="Обновить" />
+        <span title="{{row.entity['columnDate'] | amDateFormat: 'DD.MM.YYYY HH:mm:ss'}}">{{row.entity[col.field] | number:2}} {{row.entity['columnUnit']}}</span>
+    </div>
+    <div ng-if="row.entity['columnDate'] == null">
+        <img src="./img/arrow_refresh_small.png" width="20" alt="Обновить" />
+        <span>нет данных</span>
+    </div>
+</div>

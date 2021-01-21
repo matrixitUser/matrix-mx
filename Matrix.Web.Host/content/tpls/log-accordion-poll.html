@@ -1,0 +1,158 @@
+﻿<uib-accordion-heading>
+    Вычислитель <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.open, 'glyphicon-chevron-right': !accordion.open}"></i>
+</uib-accordion-heading>
+
+<div style="margin-bottom: 10px" class="form-group row">
+    <div class="col-md-6 col-lg-5 pd-r">
+        <div class="col-md-6 pd-l0r0" fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+        <div class="col-md-6 pd-l0r0" fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+    </div>
+    <div class="col-md-6 col-lg-7 pd-l">
+        <button type="button" class="btn btn-default" ng-class="{'active' : poll.viewDetails}" ng-click="poll.viewDetails = !poll.viewDetails">
+            <img src="/img/cog.png" height="20" />
+            Детали опроса
+        </button>
+        <button type="button" class="btn" ng-class="{'active' : model.matrixIc485.enable, 'btn-default': model.matrixIc485.warn !== true, 'btn-info': model.matrixIc485.warn === true}" ng-click="model.matrixIc485.enable = !model.matrixIc485.enable">
+            <img src="/img/application_xp_terminal.png" height="20" />
+            Команды
+        </button>
+        <span ng-repeat="button in model.buttons.tube">
+            <button ng-click="button.act()" class="btn btn-default">
+                <img ng-src="{{button.icon}}" height="20" />
+                {{button.header}}
+            </button>
+        </span>
+    </div>
+</div>
+
+<div ng-if="poll.viewDetails">
+    <button ng-repeat="detail in poll.details" class="btn btn-default" ng-class="{'active': detail.enabled}" ng-click="detail.enabled = !detail.enabled" style="width: 120px; text-align: left">
+        <img ng-src="{{detail.enabled? '/img/check_box.png' : '/img/check_box_uncheck.png'}}" height="20" />
+        {{detail.title}}
+    </button>
+    <button class="btn btn-default" ng-class="{'active': poll.onlyHoles}" ng-click="poll.onlyHoles = !poll.onlyHoles" style="width: 150px; text-align: left">
+        <img ng-src="{{poll.onlyHoles? '/img/check_box.png' : '/img/check_box_uncheck.png'}}" height="20" />
+        Только дыры
+    </button>
+</div>
+
+<div style="overflow: auto; width: 100%" ng-if="model.matrixIc485.enable">
+    <table class="table table-hover" style="margin-bottom: 0px">
+
+        <tr>
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.log.enable" /> Изменение уровня логгирования
+                </label>
+            </td>
+            <td>
+                <select ng-model="model.matrixIc485.log.level" class="form-control" ng-if="model.matrixIc485.log.enable">
+                    <option value="0">Системные сообщения</option>
+                    <option value="1">Основная информация</option>
+                    <option value="2">Отладочная информация</option>
+                    <option value="3">Режим трассировки</option>
+                </select>
+            </td>
+        </tr>
+        <tr ng-if="model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setmode.enable" /> Установка режима работы
+                </label>
+            </td>
+            <td>
+                <select ng-model="model.matrixIc485.setmode.changeto" class="form-control" ng-if="model.matrixIc485.setmode.enable">
+                    <option value="">Выберите режим работы</option>
+                    <option value="service">Сервис</option>
+                    <option value="work">Работа</option>
+                </select>
+            </td>
+        </tr>
+        <tr ng-if="(model.rows.length === 1) && model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setna.enable" ng-disabled="model.rows.length !== 1" /> Изменение сетевого адреса (одно устройство)
+                </label>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="Введите число от 1 до 240" ng-model="model.matrixIc485.setna.changeto" ng-disabled="model.selected.ids.length !== 1" ng-if="model.matrixIc485.setna.enable" />
+            </td>
+        </tr>
+        <tr ng-if="(model.rows.length === 1) && model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setbkp.enable" ng-disabled="model.rows.length !== 1" /> Сверка показаний (одно устройство)
+                </label>
+            </td>
+            <td>
+                <div ng-if="model.matrixIc485.setbkp.enable && (!model.matrixIc485.channels || !model.matrixIc485.channels.length > 0)">
+                    Параметры не обнаружены
+                </div>
+                <div ng-if="model.matrixIc485.setbkp.enable && (model.matrixIc485.channels && model.matrixIc485.channels.length > 0)">
+                    <table class="table table-hover" style="margin-bottom: 0px">
+                        <tr>
+                            <!--<th ng-repeat="parameter in model.matrixIc485.parameters | orderBy: 'order'" ng-style="{'width': parameter.width || '100px'}">
+                            <span ng-if="parameter.required">*</span><span ng-bind="parameter.caption"></span>
+                        </th>-->
+                            <th>
+                                Параметр
+                            </th>
+                            <th colspan="2">
+                                Показание
+                            </th>
+                        </tr>
+                        <tr ng-repeat="channel in model.matrixIc485.channels">
+                            <!--<td ng-repeat="parameter in model.matrixIc485.parameters | orderBy: 'order'">
+                            <input type="text" ng-model="channel[parameter.name]" class="form-control" ng-style="{'width': parameter.width || '100px'}" />
+                        </td>-->
+                            <td>
+                                <span ng-bind="channel.parameter"></span>
+                            </td>
+                            <td>
+                                <input type="text" ng-model="channel.value" class="form-control" />
+                            </td>
+                            <td>
+                                <span ng-bind="channel.unit"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!--<span ng-repeat="button in model.buttons.matrixIc485">
+        <button ng-click="button.act()" tooltip="{{button.header}}" tooltip-append-to-body="true" class="btn btn-default">
+            <img ng-src="{{button.icon}}" height="20" /> {{button.header}}
+        </button>
+    </span>-->
+</div>
+
+<script type="text/ng-template" id="poll-details-popover.html">
+    <div>
+        <table>
+            <tr>
+                <th>Архив</th>
+                <!--<th>Опросить, если</th>
+                <th></th>-->
+            </tr>
+            <tr ng-repeat="detail in poll.details">
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="detail.enabled">
+                            {{detail.title}}
+                        </label>
+                    </div>
+                </td>
+                <!--<td>
+                    <select ng-model="detail.rule" class="form-control" ng-disabled="!detail.enabled" ng-options="rule.name for rule in poll.rules track by rule.id"></select>
+                </td>
+                <td>
+                    <input type="number" class="form-control" ng-disabled="!detail.enabled || detail.rule.id!==2" ng-model="detail.duration" max="999" min="0" style="max-width:100px" />
+                </td>-->
+            </tr>
+        </table>
+    </div>
+</script>

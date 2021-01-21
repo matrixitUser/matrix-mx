@@ -1,0 +1,301 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/counter.png" width="32" />
+        <span ng-if="!model.selected">
+            Типы вычислителей
+            <span class="smallergrey">
+                вычислитель не выбран
+            </span>
+        </span>
+        <span ng-if="model.selected">
+            Вычислитель:
+            <a href="#" editable-text="model.selected._edit.name" buttons="no">{{ model.selected._edit.name || 'без названия' }}</a><span class="red" ng-bind='model.selected._edited? "*":""'></span>
+            <span class="smallergrey">
+                выбор драйвера
+            </span>
+        </span>
+    </h3>
+</div>
+<div class="modal-body" style="padding:5px">
+
+    <!-- 1/1: загрузка [.v.] -->
+    <div ng-if="!model.drivers">
+        <div style="display: table; height: 55%; width: 100%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <!-- загружен -->
+    <div ng-if="model.drivers">
+
+        <!-- 1/1: нет списка [.v.] -->
+        <div ng-if="!model.drivers.length">
+            <div style="display: table; height: 55%; width: 100%; overflow: hidden;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center">
+                    <h3 ng-if="!model.lastErr">Нет вычислителей</h3>
+                    <h3 ng-if="model.lastErr" class="red">Произошла ошибка: {{model.lastErr}}</h3>
+                    <h4 ng-if="model.lastErr">Нажмите на кнопку &laquo;Сброс&raquo;</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- есть список [.|.] -->
+        <div ng-if="model.drivers.length" class="row" style="margin:5px">
+            <!-- 1/2: выбор объекта [v|.] -->
+            <div ng-if="!model.only1" class="col-md-5">
+                <div style="overflow: auto; height: 55%">
+                    <ul ng-repeat="driver in model.sorted" class="nav nav-pills nav-stacked">
+                        <li ng-class="{'active': model.selected == driver}">
+                            <a style="overflow: hidden" ng-class="{'red': driver._edited}" ng-click="model.select(driver)">
+                                <span ng-bind="driver.name || '&lt;без названия&gt;'"></span><span ng-bind='driver._edited? "*":""'></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 2/2: объект [.|v] -->
+            <div ng-class='{"col-md-7": !model.only1, "col-md-12": model.only1 }'>
+
+                <div ng-if="model.selected">
+                    <div style="overflow: auto; height: 55%">
+
+                        <h4>Вычислитель</h4>
+                        <table class="table table-hover">
+                            <tr>
+                                <td>Имя</td>
+                                <td>
+                                    <a href="#" editable-text="model.selected._edit.name" buttons="no">{{ model.selected._edit.name || 'без названия' }}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 200px">Ресурс</td>
+                                <td>
+                                    <a href="#" editable-select="model.selected._edit.reference" e-ng-options="s.value as s.text for s in model.references" buttons="no">
+                                        {{ model.selected._showReference() }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 200px">Использовать как фильтр?</td>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" ng-model="model.selected._edit.isFilter" />
+                                        <span ng-bind="model.selected._edit.isFilter? 'Да' : 'Нет'"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h4>
+                            Входные параметры
+                            <span ng-if="!inparamtf.$visible">
+                                <button type="button" class="btn btn-default" ng-show="!inparamtf.$visible" ng-click="inparamtf.$show()">
+                                    <img src="/img/16/page_edit.png" />
+                                </button>
+                                <button type="button" ng-disabled="!model.selected._editedFields || inparamtf.$waiting" ng-click="model.selected._reLoadFields()" class="btn btn-default">
+                                    <img src="/img/16/cancel.png" />
+                                </button>
+                            </span>                        
+                        </h4>
+
+                        <form editable-form name="inparamtf" onaftersave="model.selected._checkFields()" oncancel="model.selected._checkFields()">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>Имя параметра</th>
+                                    <th>Наименование</th>
+                                    <th><span ng-show="inparamtf.$visible" style="width: 30%">Действие</span></th>
+                                </tr>
+                                <tr ng-if="model.selected._edit._fields.length == 0">
+                                    <td colspan="3"><i>Нет параметров</i></td>
+                                </tr>
+                                <tr ng-repeat="field in model.selected._edit._fields">
+                                    <td>
+                                        <span editable-text="field.name" e-form="inparamtf" onbeforesave="model.checkField($data)">
+                                            {{ field.name || 'Введите имя' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="field.caption" e-form="inparamtf">
+                                            {{ field.caption || field.name }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button type="button" ng-show="inparamtf.$visible" ng-click="model.selected._deleteField(field.name)" class="btn btn-default pull-right">
+                                            <img src="/img/16/cross.png" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="inparamtf.$visible">
+                                    <td>
+                                        <button type="button" ng-disabled="inparamtf.$waiting" ng-click="model.selected._addField()" class="btn btn-default">
+                                            <img src="/img/16/add.png" />
+                                            Добавить...
+                                        </button>
+                                    </td>
+                                    <td colspan="2" style="text-align: right">
+                                        <button type="submit" ng-disabled="inparamtf.$waiting" class="btn btn-primary">ОК</button>
+                                        <button type="button" ng-disabled="inparamtf.$waiting" ng-click="inparamtf.$cancel()" class="btn btn-default">Отмена</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        
+
+                        <h4>
+                            Выходные параметры
+                            <span ng-if="!outparamtf.$visible">
+                                <button type="button" class="btn btn-default" ng-show="!outparamtf.$visible" ng-click="outparamtf.$show()">
+                                    <img src="/img/16/page_edit.png" />
+                                </button>
+                                <button type="button" ng-disabled="!model.selected._editedTags || outparamtf.$waiting" ng-click="model.selected._reLoadTags()" class="btn btn-default">
+                                    <img src="/img/16/cancel.png" />
+                                </button>
+                                <button type="button" ng-disabled="(model.selected._edit._tags.length > 0) || outparamtf.$waiting" ng-click="model.selected._fillTagsFromResource()" class="btn btn-default">
+                                    <img src="/img/16/fill.png" />
+                                </button>
+                            </span>
+                        </h4>
+
+                        <!-- name:Q р.у., parameter:Канал 2, calc: dataType:Hour -->
+
+                        <form editable-form name="outparamtf" onaftersave="model.selected._checkTags()" oncancel="model.selected._checkTags()">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>Имя тега</th>
+                                    <th>Параметр</th>
+                                    <th>Расчёт</th>
+                                    <th>Тип</th>
+                                    <th><span ng-show="outparamtf.$visible" style="width: 30%">Действие</span></th>
+                                </tr>
+                                <tr ng-if="model.selected._edit._tags.length == 0">
+                                    <td colspan="5"><i>Нет параметров</i></td>
+                                </tr>
+                                <tr ng-repeat="tag in model.selected._edit._tags">
+                                    <td>
+                                        <span editable-text="tag.name" e-form="outparamtf" onbeforesave="model.checkTag($data)">
+                                            {{ tag.name || 'Введите имя' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-text="tag.parameter" e-form="outparamtf">
+                                            {{ tag.parameter }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-select="tag.calc" e-form="outparamtf" e-ng-options="s.value as s.text for s in model.calcs">
+                                            {{ model.showCalc(tag) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span editable-select="tag.dataType" e-form="outparamtf" e-ng-options="s.value as s.text for s in model.dataTypes">
+                                            {{ model.showDataType(tag) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button type="button" ng-show="outparamtf.$visible" ng-click="model.selected._deleteTag(tag.name)" class="btn btn-default pull-right">
+                                            <img src="/img/16/cross.png" />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="outparamtf.$visible">
+                                    <td>
+                                        <button type="button" ng-disabled="outparamtf.$waiting" ng-click="model.selected._addTag()" class="btn btn-default">
+                                            <img src="/img/16/add.png" />
+                                            Добавить...
+                                        </button>
+                                    </td>
+                                    <td colspan="2" style="text-align: right">
+                                        <button type="submit" ng-disabled="outparamtf.$waiting" class="btn btn-primary">ОК</button>
+                                        <button type="button" ng-disabled="outparamtf.$waiting" ng-click="outparamtf.$cancel()" class="btn btn-default">Отмена</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+
+
+                        <h4>Текущий драйвер</h4>
+                        <table class="table table-hover">
+                            <tr>
+                                <td style="width: 100px">Имя файла</td>
+                                <td>{{model.selected.filename || model.selected.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Размер</td>
+                                <td>{{model.selected._filesize}} байт</td>
+                            </tr>
+                            <tr>
+                                <td>Дата загрузки</td>
+                                <td>{{model.selected.uploadDate}}</td>
+                            </tr>
+                        </table>
+
+                        <h4>Загрузка драйвера</h4>
+
+                        <div ng-if="!model.selected._file">
+                            <input type="file" ng-model="model.selected._file" base-sixty-four-input />
+                        </div>
+
+                        <div ng-if="model.selected._file">
+                            <table class="table table-hover">
+                                <tr>
+                                    <td style="width: 100px">Имя файла</td>
+                                    <td>{{model.selected._file.filename}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Размер</td>
+                                    <td>{{model.selected._file.filesize}} байт</td>
+                                </tr>
+                                <tr ng-if="model.selected._isEqual">
+                                    <td colspan="2">
+                                        <span class="red">Внимание! Загружаемый драйвер совпадает с текущим!</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="button" class="btn btn-danger" ng-click="model.cancelUpload(model.selected)">× Отмена</button>
+                            <!--<span ng-if="model.selected._file && (model.selected.driver === model.selected._file.base64)">
+                                Без изменений
+                            </span>-->
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="!model.selected">
+                    <div style="display: table; height: 55%; overflow: hidden;">
+                        <div style="display: table-cell; vertical-align: middle;">
+                            <h3>Выберите вычислитель из списка</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-3 col-md-6" style="text-align: left">
+            <button class="btn btn-default" ng-click="model.reset()">Сброс</button>
+            <!--<button class="btn btn-default" ng-class="{'active': !model.only1}" ng-click="model.toggleSideList()">
+                <img src="../img/application_side_list.png" height="20" />
+            </button>-->
+        </div>
+        <div class="col-xs-9 col-md-6">
+            <span ng-if="model.editedCounter>0">
+                <span class="red" ng-bind='"Непринятые изменения: " + model.editedCounter'></span>
+                <button class="btn btn-primary" ng-click="model.save()">Сохранить</button>
+            </span>
+            <span>
+                <button class="btn btn-success" ng-click="model.create()">Создать вычислитель</button>
+            </span>
+            <span ng-if="model.editedCounter==0">
+                <button class="btn btn-primary" ng-click="model.save()" disabled="disabled">Сохранить</button>
+            </span>
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

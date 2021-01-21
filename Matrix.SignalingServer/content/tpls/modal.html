@@ -1,0 +1,16 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">{{itemsTitle}}</h3>
+    <div>
+        <button class="btn btn-default" ng-click="show('settings')">Уставки</button><button class="btn btn-default" ng-click="show('current')">Текущие</button><button class="btn btn-default" ng-click="show('status')">Статус</button>
+    </div>
+</div>
+<div class="modal-body">
+    <div id="grid2" ui-grid="{data:items, columnDefs:itemcols, enableColumnMenus:false}"
+         ui-grid-resize-columns
+         ui-grid-auto-resize>
+    </div>
+</div>
+<div class="modal-footer">
+    <span>Всего: {{items.length}}</span>
+    <button class="btn btn-primary" ng-click="ok()">Закрыть</button>
+</div>

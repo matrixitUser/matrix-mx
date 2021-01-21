@@ -1,0 +1,330 @@
+﻿<uib-accordion-heading>
+    Вычислитель <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.open, 'glyphicon-chevron-right': !accordion.open}"></i>
+</uib-accordion-heading>
+
+<div style="margin-bottom: 10px" class="form-group row">
+    <div class="col-md-6 col-lg-5 pd-r">
+        <div class="col-md-6 pd-l0r0" fs-datetime="" ng-model="model.start" ng-disabled="false"></div>
+        <div class="col-md-6 pd-l0r0" fs-datetime="" ng-model="model.end" ng-disabled="false"></div>
+    </div>
+    <div class="col-md-6 col-lg-7 pd-l">
+        <button type="button" class="btn btn-default" ng-class="{'active' : poll.viewDetails}" ng-click="poll.viewDetails = !poll.viewDetails">
+            <img src="/img/cog.png" height="20" />
+            Детали опроса
+        </button>
+        <button type="button" class="btn" ng-class="{'active' : model.matrixIc485.enable, 'btn-default': model.matrixIc485.warn !== true, 'btn-info': model.matrixIc485.warn === true}" ng-click="model.matrixIc485.enable = !model.matrixIc485.enable">
+            <img src="/img/application_xp_terminal.png" height="20" />
+            Команды
+        </button>
+        <span ng-repeat="button in model.buttons.tube">
+            <button ng-click="button.act()" class="btn btn-default">
+                <img ng-src="{{button.icon}}" height="20" />
+                {{button.header}}
+            </button>
+        </span>
+    </div>
+    <div class="col-md-12">
+        <span ng-repeat="button in model.buttonsControl.tube">
+            <button ng-click="button.act()" class="btn btn-default btn-control">
+                <img ng-src="{{button.icon}}" height="20" />
+                {{button.header}}
+            </button>
+        </span>
+        <button class="btn btn-default" ng-click="model.clearLog()">
+            <img src="./img/eraser.png" alt="Очистить" height="20" />
+        </button>
+        <span ng-if="model.soundOffEnable">
+            <button class="btn btn-default" ng-click="model.acknowledge()">
+                <img src="./img/sound_mute.png" alt="Отключить звук" height="20" />
+                Отключить звук
+            </button>
+        </span>
+    </div>
+
+</div>
+<div ng-if="poll.viewDetails">
+    <button ng-repeat="detail in poll.details" class="btn btn-default" ng-class="{'active': detail.enabled}" ng-click="detail.enabled = !detail.enabled" style="width: 120px; text-align: left">
+        <img ng-src="{{detail.enabled? '/img/check_box.png' : '/img/check_box_uncheck.png'}}" height="20" />
+        {{detail.title}}
+    </button>
+    <button class="btn btn-default" ng-class="{'active': poll.onlyHoles}" ng-click="poll.onlyHoles = !poll.onlyHoles" style="width: 150px; text-align: left">
+        <img ng-src="{{poll.onlyHoles? '/img/check_box.png' : '/img/check_box_uncheck.png'}}" height="20" />
+        Только дыры
+    </button>
+</div>
+
+<div style="overflow: auto; width: 100%" ng-if="model.matrixIc485.enable">
+    <table class="table table-hover" style="margin-bottom: 0px">
+
+        <tr>
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.log.enable" /> Изменение уровня логгирования
+                </label>
+            </td>
+            <td>
+                <select ng-model="model.matrixIc485.log.level" class="form-control" ng-if="model.matrixIc485.log.enable">
+                    <option value="0">Системные сообщения</option>
+                    <option value="1">Основная информация</option>
+                    <option value="2">Отладочная информация</option>
+                    <option value="3">Режим трассировки</option>
+                </select>
+            </td>
+        </tr>
+        <tr ng-if="model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setmode.enable" /> Установка режима работы
+                </label>
+            </td>
+            <td>
+                <select ng-model="model.matrixIc485.setmode.changeto" class="form-control" ng-if="model.matrixIc485.setmode.enable">
+                    <option value="">Выберите режим работы</option>
+                    <option value="service">Сервис</option>
+                    <option value="work">Работа</option>
+                </select>
+            </td>
+        </tr>
+        <tr ng-if="(model.rows.length === 1) && model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setna.enable" ng-disabled="model.rows.length !== 1" /> Изменение сетевого адреса (одно устройство)
+                </label>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="Введите число от 1 до 240" ng-model="model.matrixIc485.setna.changeto" ng-disabled="model.selected.ids.length !== 1" ng-if="model.matrixIc485.setna.enable" />
+            </td>
+        </tr>
+        <tr ng-if="(model.rows.length === 1) && model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.setbkp.enable" ng-disabled="model.rows.length !== 1" /> Сверка показаний (одно устройство)
+                </label>
+            </td>
+            <td>
+                <div ng-if="model.matrixIc485.setbkp.enable && (!model.matrixIc485.channels || !model.matrixIc485.channels.length > 0)">
+                    Параметры не обнаружены
+                </div>
+                <div ng-if="model.matrixIc485.setbkp.enable && (model.matrixIc485.channels && model.matrixIc485.channels.length > 0)">
+                    <table class="table table-hover" style="margin-bottom: 0px">
+                        <tr>
+                            <th>
+                                Параметр
+                            </th>
+                            <th colspan="2">
+                                Показание
+                            </th>
+                        </tr>
+                        <tr ng-repeat="channel in model.matrixIc485.channels">
+                            <td>
+                                <span ng-bind="channel.parameter"></span>
+                            </td>
+                            <td>
+                                <input type="text" ng-model="channel.value" class="form-control" />
+                            </td>
+                            <td>
+                                <span ng-bind="channel.unit"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </td>
+        </tr>
+        <tr ng-if="model.devices['MPC-Modbus']">
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="model.matrixIc485.debug.enable"/> debug
+                </label>
+            </td>
+            <td>
+                <input type="text" class="form-control" placeholder="Введите пароль" ng-model="model.matrixIc485.debug.changeto" ng-if="model.matrixIc485.debug.enable" />
+            </td>
+            <td>
+               <button class="btn btn-default" ng-click="model.clickDebug()"  ng-if="model.matrixIc485.debug.enable">ok</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="table-responsive" ng-if="model.lightV1Enable">
+    <table>
+        <tr>
+            <th>Метод управления</th>
+        </tr>
+        <tr>
+            <td>
+                <select ng-model="model.lightControlMetod[0]" class="select-controlmetod">
+                    <option value="">Без изменения</option>
+                    <option value="0">По расписанию</option>
+                    <option value="1">По фотодатчику</option>
+                    <option value="2">Ручное управление</option>
+                    <option value="3">Астрономический таймер контроллера</option>
+                    <option value="12">Ручное управление(hard)</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="btn btn-success" ng-click="model.controlMetod()">
+                    Сохранить
+                </button>
+            </td>
+            <td>
+                <span ng-repeat="button in model.buttonsLight.tube">
+                    <button ng-click="button.act(0)" class="btn btn-default  btn-control">
+                        <img ng-src="{{button.icon}}" height="20" />
+                        {{button.header}}
+                    </button>
+                </span>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th colspan="2">Координаты</th>
+            <th rowspan="2">UTC</th>
+            <th colspan="2">Задержка</th>
+        </tr>
+        <tr>
+            <td>Широта</td>
+            <td>Долгота</td>
+            <td>Вкл</td>
+            <td>Выкл</td>
+        </tr>
+        <tr>
+            <td>
+                <input class="input-for-light-coordinates" type="text" ng-model="model.coordinates[0]" />
+            </td>
+            <td>
+                <input class="input-for-light-coordinates" type="text" ng-model="model.coordinates[1]" />
+            </td>
+            <td>
+                <input class="input-for-light-control" type="text" ng-model="model.utc" />
+            </td>
+            <td>
+                <input class="input-for-light-control" type="text" ng-model="model.afterBeforeSunSetRise[0]" />
+            </td>
+            <td>
+                <input class="input-for-light-control" type="text" ng-model="model.afterBeforeSunSetRise[1]" />
+            </td>
+            <td>
+                <button type="button" class="btn btn-success" ng-click="model.setAstronomicalTimerControllers()">
+                    Установить
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="col-md-12 col-lg-10 table-responsive light-v2-enable" ng-if="model.lightV2Enable">
+    <table>
+        <tr>
+            <td rowspan="2">Канал</td>
+            <td rowspan="2">Метод управления</td>
+            <td colspan="2">Задержка</td>
+            <td colspan="4" style="align-content:center">Расписание</td>
+        </tr>
+        <tr>
+            <td>Вкл</td>
+            <td>Выкл</td>
+            <td>Вкл</td>
+            <td>Выкл</td>
+            <td>Вкл</td>
+            <td>Выкл</td>
+        </tr>
+        <tr ng-repeat="i in model.lightControlMetod track by $index">
+            <td>{{$index+1}}</td>
+            <td>
+                <select ng-click="model.LightControlMetod($index)" ng-model="model.lightControlMetod[$index]" class="select-controlmetod">
+                    <option value="">Без изменения</option>
+                    <option value="0">По расписанию</option>
+                    <option value="1">По фотодатчику</option>
+                    <option value="2">Ручное управление</option>
+                    <option value="3">Астрономический таймер контроллера</option>
+                    <option value="16">Астрон.таймер+расписание</option>
+                </select>
+            </td>
+            <td>
+                <input class="input-for-light-control" type="text" ng-model="model.afterSunSetAndBeforeSunRise[$index][0]" />
+            </td>
+            <td>
+                <input class="input-for-light-control" type="text" ng-model="model.afterSunSetAndBeforeSunRise[$index][1]" />
+            </td>
+            <td>
+                <input ng-if="!model.isAstrTimePlusSheduler[$index]" class="input-for-light-shedule" type="time" ng-model="model.lightSheduleOn[$index][0]" />
+                <input ng-if="model.isAstrTimePlusSheduler[$index]" style="background-color:grey;" class="input-for-light-shedule" type="text" placeholder="Астр тайм" disabled />
+            </td>
+            <td>
+                <input class="input-for-light-shedule" type="time" ng-model="model.lightSheduleOff[$index][0]" />
+            </td>
+            <td>
+                <input class="input-for-light-shedule" type="time" ng-model="model.lightSheduleOn[$index][1]" />
+            </td>
+            <td>
+                <input ng-if="!model.isAstrTimePlusSheduler[$index]" class="input-for-light-shedule" type="time" ng-model="model.lightSheduleOff[$index][1]" />
+                <input ng-if="model.isAstrTimePlusSheduler[$index]" style="background-color:grey;" class="input-for-light-shedule" type="text" placeholder="Астр тайм" disabled />
+            </td>
+            <td>
+                <span ng-repeat="button in model.buttonsLight.tube">
+                    <button ng-click="button.act($parent.$index)" ng-class="'btn btn-control btn-'+ model.lightOnOff[$parent.$index][$index]">
+                        <img ng-src="{{button.icon}}" height="20" />
+                        {{button.header}}
+                    </button>
+                </span>
+            </td>
+        </tr>
+
+    </table>
+    <button type="button" class="btn btn-success" ng-click="model.saveConfig()">
+        Сохранить
+    </button>
+</div>
+<div class="col-md-12 col-lg-12">
+    <div ng-if="model.lightV2Enable && model.cameraEnable" class="col-12 text-center panel panel-default">
+        <div class="panel-heading">Демонстрация в реальном времени</div>
+        <div class="panel-body">
+            <img src="http://system.matrixit.ru:10115/mjpg/video.mjpg" id="camera" class="img-rounded img-camera">
+        </div>
+    </div>
+</div>
+<div ng-if="model.valveControlEnable">
+    <span ng-repeat="button in model.buttonsValveControl.tube">
+        <button ng-click="button.act()" class="btn btn-default  btn-control">
+            <img ng-src="{{button.icon}}" height="20" />
+            {{button.header}}
+        </button>
+    </span>
+</div>
+
+<div ng-if="model.softStartControlEnable">
+    <span ng-repeat="button in model.buttonsSoftStartControl.tube">
+        <button ng-click="button.act()" class="btn btn-default  btn-control">
+            <img ng-src="{{button.icon}}" height="20" />
+            {{button.header}}
+        </button>
+    </span>
+</div>
+<div ng-if="model.softStartControlDebugEnable">
+    <span ng-repeat="button in model.buttonsSoftStartControlDebug.tube">
+        <button ng-click="button.act()" class="btn btn-default  btn-control">
+            <img ng-src="{{button.icon}}" height="20" />
+            {{button.header}}
+        </button>
+    </span>
+</div>
+<script type="text/ng-template" id="poll-details-popover.html">
+    <div>
+        <table>
+            <tr>
+                <th>Архив</th>
+            </tr>
+            <tr ng-repeat="detail in poll.details">
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="detail.enabled">
+                            {{detail.title}}
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</script>

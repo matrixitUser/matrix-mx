@@ -1,0 +1,242 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/infocard.png" width="32" />
+        {{((model.row.Area && model.row.Area.length > 0 && model.row.Area[0].name && model.row.Area[0].name != "")? (model.row.Area[0].name + ": ") : "")}}{{model.row.name? model.row.name : "&lt;без имени&gt;"}}
+    </h3>
+    <small style="color: lightgrey">[{{model.row.id}}]</small>
+</div>
+<div class="modal-body" style="padding:5px">
+    <div ng-if="model.overlayEnabled">
+        <div style="display: table; width: 100%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+                <span ng-bind="model.overlayText"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="!model.overlayEnabled">
+
+        <div ng-class="{'col-md-4' : model.abnormals.length > 0, 'col-md-6' : model.abnormals.length == 0 }">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Общие сведения
+                </div>
+                <div class="panel-body" style="overflow-x: auto;">
+                    <table class="table table-hover">
+                        <tr>
+                            <td>Номер <span ng-if="model.config == 'orenburg'">площадки</span><span ng-if="model.config != 'orenburg'">договора</span></td>
+                            <td>{{model.number}}</td>
+                        </tr>
+                        <tr>
+                            <td>Адрес</td>
+                            <td ng-if="model.config === 'teplocom'">{{model.address}}</td>
+                            <td ng-if="model.config !== 'teplocom'">{{model.addr}}</td>
+                        </tr>
+                        <tr ng-if="model.config == 'matrix'">
+                            <td>Обслуживающая организация</td>
+                            <td>{{model.row.Area[0].respOrganization}}</td>
+                        </tr>
+                        <tr ng-if="model.config == 'teplocom'">
+                            <td>Представитель абонента</td>
+                            <td>{{model.row.Area[0].delegate}}</td>
+                        </tr>
+                        <tr>
+                            <td>Телефон ответственного</td>
+                            <td>{{model.row.Area[0].respPhone}}</td>
+                        </tr>
+                        <tr>
+                            <td>Тип прибора</td>
+                            <td>{{model.dev}}</td>
+                        </tr>
+                        <tr>
+                            <td>Телефоны</td>
+                            <td>{{model.phone}}</td>
+                        </tr>
+
+                        <tr ng-if="model.signal && model.signal.length > 0">
+                            <td>Уровень сигнала {{model.signal[0].date | amDateFormat:"DD.MM.YY HH:mm:ss"}}</td>
+                            <td ng-if="model.signal[0].img"><img ng-src="/img/{{model.signal[0].img}}" width="20" /> {{model.signal[0].level | number:2}}%</td>
+                            <td ng-if="!model.signal[0].img">{{model.signal[0].level | number:2}}%</td>
+                        </tr>                        
+                    </table>
+                </div>
+            </div>
+            
+            <div class="panel panel-default" ng-if="model.row && model.row.Device && (model.row.Device.length > 0) && (model.row.Device[0].id == '8eb78d32-40e2-4d7f-8f64-7baca2b33778') && (model.row.factoryNumberVKT)">
+                <div class="panel-heading">
+                    Сведения о вычислителе
+                </div>
+                <div class="panel-body" style="overflow-x: auto;">
+                    <table class="table table-hover">
+
+                        <tr>
+                            <th>{{model.row.Device[0].name}}</th>
+                            <th>Заводской номер</th>
+                            <th>Срок поверки</th>
+                        </tr>
+
+                        <tr>
+                            <td>Вычислитель</td>
+                            <td>{{model.row.factoryNumberVKT}}</td>
+                            <td>{{model.row.verificationPeriodVKT}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>ПРЭМ Т1</td>
+                            <td>{{model.row.factoryNumberPREMT1}}</td>
+                            <td>{{model.row.verificationPeriodPREMT1}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>ПРЭМ Т2</td>
+                            <td>{{model.row.factoryNumberPREMT2}}</td>
+                            <td>{{model.row.verificationPeriodPREMT2}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Термопара</td>
+                            <td>{{model.row.factoryNumberTermo}}</td>
+                            <td>{{model.row.verificationPeriodTermo}}</td>
+                        </tr>
+                        
+                        <tr ng-if="model.signal && model.signal.length > 0">
+                            <td>Уровень сигнала {{model.signal[0].date | amDateFormat:"DD.MM.YY HH:mm:ss"}}</td>
+                            <td ng-if="model.signal[0].img"><img ng-src="/img/{{model.signal[0].img}}" width="20" /> {{model.signal[0].level | number:2}}%</td>
+                            <td ng-if="!model.signal[0].img">{{model.signal[0].level | number:2}}%</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Константы
+                    <span ng-if="model.constants.length>0" class="badge">
+                        <span ng-bind="model.constants.length"></span>
+                    </span>
+                </div>
+                <div class="panel-body" style="overflow-x: auto;">
+                    <table class="table table-hover">
+                        <tr ng-if="!model.constants || (model.constants.length == 0)">
+                            <td colspan="3"><i>Нет данных</i></td>
+                        </tr>
+                        <tr ng-repeat="const in model.constants | orderBy:'s1' | limitTo:model.quantity.constant">
+                            <td>{{const.name}}</td>
+                            <td>{{const.value}}</td>
+                        </tr>
+                        <tr ng-if="model.quantity.constant < model.constants.length">
+                            <td colspan="3"><a href="#" ng-click="model.quantity.constant = model.constants.length">Показать полностью</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-class="{'col-md-4' : model.abnormals.length > 0, 'col-md-6' : model.abnormals.length == 0 }">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Текущие
+                    <span ng-if="model.currents.length>0">
+                        на <img src="/img/16/server.png" />{{model.currents[0].serverDate | amDateFormat:"DD.MM.YY HH:mm:ss"}}
+                        <span class="badge">
+                            <span ng-bind="model.currents.length + 1"></span>
+                        </span>
+                    </span>
+                </div>
+                <div class="panel-body" style="overflow-x: auto;">
+                    <table class="table table-hover table-striped">
+                        <tr>
+                            <th>Пар.</th>
+                            <th>Знач.</th>
+                            <th>Ед.</th>
+                        </tr>
+                        <tr ng-if="!model.currents || (model.currents.length == 0)">
+                            <td colspan="3"><i>Нет данных</i></td>
+                        </tr>
+                        <tr ng-if="model.currents && (model.currents.length > 0)">
+                            <td>Время на приборе</td>
+                            <td colspan="2">
+                                {{model.currents[0].date | date: "dd.MM.yy HH:mm:ss"}}
+                            </td>
+                        </tr>
+                        <tr ng-repeat="current in model.currents | orderBy:'s1' | limitTo:model.quantity.current">
+                            <td>{{current.name}}</td>
+                            <td>{{current.value | number:3}}</td>
+                            <td>
+                                <span ng-if="current.unit && (current.unit.length > 50)"><img ng-src="data:image/jpg;base64,{{(current.unit && current.unit.s2)? current.unit.s2 : '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKAP/2Q=='}}" /></span> 
+                                <span ng-if="current.unit && (current.unit.length <= 50)">{{current.unit}}</span>
+                            </td>
+                        </tr>
+                        <tr ng-if="model.quantity.current < model.currents.length">
+                            <td colspan="3"><a href="#" ng-click="model.quantity.current = model.currents.length">Показать полностью</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Суточный архив
+                    <span ng-if="model.days.length>0">
+                        на {{model.days[0].date | amDateFormat:"DD.MM.YYYY" }}
+                        <span ng-if="model.days.length>0" class="badge">
+                            <span ng-bind="model.days.length"></span>
+                        </span>
+                    </span>
+                </div>
+                <div class="panel-body" style="overflow-x: auto;">
+                    <table class="table table-hover table-striped">
+                        <tr>
+                            <th>Пар.</th>
+                            <th>Знач.</th>
+                            <th>Ед.</th>
+                        </tr>
+                        <tr ng-if="!model.days || (model.days.length == 0)">
+                            <td colspan="3"><i>Нет данных</i></td>
+                        </tr>
+                        <tr style="display:table-row" ng-repeat="day in model.days | orderBy:'name' | limitTo:model.quantity.hourly">
+                            <td>{{day.name}}</td>
+                            <td ng-if="day.name=='Фото'" colspan="2"><img ng-src="{{day.unit}}" width="160" /></td>
+                            <td ng-if="day.name!='Фото'">{{day.value | number: 3}}</td>
+                            <td ng-if="day.name!='Фото'">{{day.unit}}</td>
+                        </tr>
+                        <tr ng-if="model.quantity.hourly < model.days.length">
+                            <td colspan="3"><a href="#" ng-click="model.quantity.hourly = model.days.length">Показать полностью</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-if="model.abnormals.length>0" class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Нештатные ситуации
+                    <span ng-if="model.abnormals.length>0" class="badge">
+                        <span ng-bind="model.abnormals.length"></span>
+                    </span>
+                </div>
+                <div class="panel-body" style="overflow-x: auto;">
+                    <table class="table table-hover">
+                        <tr ng-if="!model.abnormals || (model.abnormals.length == 0)">
+                            <td colspan="3"><i>Нет данных</i></td>
+                        </tr>
+                        <tr ng-repeat="abnormal in model.abnormals | orderBy:'-date' | limitTo:model.quantity.abnormal">
+                            <td>{{abnormal.date | amDateFormat: "DD.MM.YY HH:mm:ss"}}</td>
+                            <td>{{abnormal.name}}</td>
+                        </tr>
+                        <tr ng-if="model.quantity.abnormal < model.abnormals.length">
+                            <td colspan="3"><a href="#" ng-click="model.quantity.abnormal = model.abnormals.length">Показать полностью</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+</div>

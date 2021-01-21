@@ -1,0 +1,41 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title modal-preview-head">
+        <img ng-src="/img/folders.png" width="32" />
+        Группы
+    </h3>
+</div>
+<div class="modal-body">
+    
+    <div style="overflow: auto; height: 75%">
+        <ng-include src="'tpls/folders.html'" ng-controller="FoldersCtrl"></ng-include>
+    </div>
+
+    <!--<div ng-if="model.isLoading">
+        <div style="display: table; height: 55%; width: 100%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!model.isLoading">
+        <js-tree tree-data="scope"
+                 tree-model="folders"
+                 tree-plugins="checkbox,types"
+                 tree-types="typesConfig"
+                 tree-events="select_node:onFolderSelect;deselect_node:onFolderDeselect"
+                 context-menu="model.menu">
+        </js-tree>
+    </div>-->
+
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+        </div>
+    </div>
+</div>

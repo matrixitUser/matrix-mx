@@ -1,0 +1,21 @@
+﻿<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 350px;">
+        <div class="modal-content" ng-controller="loginCtrl">
+            <div class="modal-header">
+                <h3 class="modal-title">Авторизация</h3>
+            </div>
+            <form class="modal-body form-horizontal" role="form">
+                <label for="login">Логин</label>
+                <input id="login" class="form-control" placeholder="логин" type="text" ng-model="login" required auto-fill />
+                <label for="password">Пароль</label>
+                <input id="password" class="form-control" placeholder="пароль" type="password" ng-model="password" required auto-fill />
+                <div class="alert alert-danger" style="margin-top:10px" ng-if="error">
+                    <strong>Ошибка!</strong> {{error}}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" ng-click="ok(login,password,rememberMe)" value="Логин" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

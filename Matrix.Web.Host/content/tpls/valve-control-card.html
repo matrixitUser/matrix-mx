@@ -1,0 +1,51 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+
+    <h4 class="modal-title">
+        <img src="/img/infocard.png" width="32" />
+        <var ng-repeat="row in model.rows">
+            {{((row.Area && row.Area.length > 0 && row.Area[0].name && row.Area[0].name != "")? (row.Area[0].name + ": ") : "")}}{{row.name? row.name : "&lt;без имени&gt;"}}{{(row != model.rows[model.rows.length - 1]) ? "; " : ""}}
+        </var>
+    </h4>
+     
+    <small style="color: lightgrey">{{model.objectIds}}</small>
+</div>
+<div class="modal-body" style="padding:5px">
+    <div class="panel panel-default">
+        <div class="panel-body" style="overflow-x: auto;">
+            <table class="table table-hover">
+
+                <tr>
+                    <th>{{model.headerName}}</th>
+                    <th>{{model.dataValue}}</th>
+                </tr>
+                <tr>
+                    <td>Пароль</td>
+                    <td>
+                        <input type="password" ng-model="model.password" class="form-control" placeholder="Введите пароль..." />
+                    </td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-primary fa-align-right" ng-click="model.okforpassword()">ОК</button></td>
+                    <td>
+                        <span ng-if="model.success">
+                            <span ng-if="model.isHaveControls">
+                                <button class="btn {{model.btnColor}}" ng-click="model.poll()">{{model.control}}</button>
+                            </span>
+                            <span ng-if="!model.isHaveControls">
+                                <button class="btn btn-success" ng-click="model.openValve()">Открыть</button>
+                                <button class="btn btn-danger" ng-click="model.closeValve()">Закрыть</button>
+                            </span>
+                        </span>
+                        <span ng-if="!model.success" class="red">{{model.messageForPassword}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="model.close()">Закрыть окно</button>
+</div>

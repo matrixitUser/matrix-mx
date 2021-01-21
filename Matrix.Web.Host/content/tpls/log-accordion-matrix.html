@@ -1,0 +1,39 @@
+﻿<uib-accordion-heading>
+    Контроллер матрикс <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordion.open, 'glyphicon-chevron-right': !accordion.open}"></i>
+</uib-accordion-heading>
+
+<div class="form-group row">
+    <div class="col-lg-3 col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control"
+                   ng-model="model.actions.matrix.atcmdtext"
+                   placeholder="AT+..." />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="model.actions.matrix.atcmd.act(model.selected.ids, model.actions.matrix.atcmdtext)"
+                        tooltip="{{model.actions.matrix.atcmd.header}}" tooltip-append-to-body="true">
+                    <img ng-src="{{model.actions.matrix.atcmd.icon}}" height="20" />
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control"
+                   ng-model="model.actions.matrix.chservertext"
+                   placeholder="IP-адрес : порт" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="model.actions.matrix.chserver.act(model.selected.ids, model.actions.matrix.chservertext)"
+                        tooltip="{{model.actions.matrix.chserver.header}}" tooltip-append-to-body="true">
+                    <img ng-src="{{model.actions.matrix.chserver.icon}}" height="20" />
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4">
+        <span ng-repeat="button in model.buttons.matrix">
+            <button ng-click="button.act(model.selected.ids)" tooltip="{{button.header}}" tooltip-append-to-body="true" class="btn btn-default">
+                <img ng-src="{{button.icon}}" height="20" />
+            </button>
+        </span>
+    </div>
+</div>

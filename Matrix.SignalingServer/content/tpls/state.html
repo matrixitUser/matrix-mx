@@ -1,0 +1,4 @@
+﻿<div class="ui-grid-cell-contents cell-contents-mine">    
+    <span ng-hide="row.entity.dateQuit==null">{{row.entity.dateQuit | date:'dd.MM.yyyy HH:mm:ss'}}</span>
+    <button ng-show="row.entity.dateQuit==null" ng-click="row.entity.quit(row.entity.id)" class="btn btn-outline-dark btn-sm btn-cell">квитировать</button>
+</div>

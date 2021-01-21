@@ -1,0 +1,26 @@
+﻿<div ng-controller="MaquetteCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div>
+            <div class="modal-preview-head">
+                <img src="/img/xml_exports.png" width="16" />
+                Отправка шаблонов макетов 80020
+            </div>
+            <div class="modal-preview-head">
+                <span ng-if="model.selected">
+                    <small>{{model.selected.name}}</small>
+                </span>
+                <span ng-if="!model.selected">
+                    <small>макет не выбран</small>
+                </span>
+            </div>
+        </div>
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+            <img ng-if="model.selected.isSending" src="img/loader.gif" height="32" />
+            <small>
+                <span ng-if="!model.selected.isSending" ng-bind='"Выбрано дней для отправки: " + model.days.length'></span>
+            </small>
+        </div>
+    </a>
+</div>

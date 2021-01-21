@@ -1,0 +1,244 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.modal.dismiss()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/application_control_bar.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/port.png" width="32" />
+        <span>
+            Виртуальный COM-порт
+        </span>
+    </h3>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+
+
+        <div ng-class="{'col-md-5' : !model.accordion.open, 'col-md-6' : model.accordion.open}">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Сервер COM-порта
+                </div>
+
+                <div class="panel-body">
+                    <!--<span ng-class="{'red' : !model.serial.isReceiving, 'green' : model.serial.isReceiving}">--&gt;</span><br />
+                    <span ng-class="{'red' : !model.serial.isTransmitting, 'green' : model.serial.isTransmitting}">&lt;--</span><br />-->
+                    <div ng-if="model.vcom.state == 'disconnected'">
+                        <div class="red">
+                            <b>Адрес:</b>
+                            {{model.vcom.host}}:{{model.vcom.port}}
+                        </div>
+                        <button type="button" class="btn btn-default" ng-click="model.vcom.connect()">
+                            <img src="/img/connect.png" width="20" />
+                            Подключиться
+                        </button>
+                        <div class="small">
+                            Сначала запустите сервер COM-порта. Сервер COM-порта находится по адресу "matrix/serial/Matrix.SerialWeb.Host.exe". <br />Для связи с "родной" программой вычислителя необходимо установить и запустить программу com0com.
+                        </div>
+                    </div>
+
+                    <div ng-if="model.vcom.state == 'connected'">
+                        <div class="darkgreen">
+                            <b>Адрес:</b>
+                            {{model.vcom.host}}:{{model.vcom.port}}
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-default" ng-click="model.vcom.disconnect()">
+                                <img src="/img/disconnect.png" width="20" />
+                                Отключиться
+                            </button>
+                        </div>
+
+                        <div>
+                            <br />
+                            <div ng-if="model.serial.state=='closed'">
+                                <div>
+                                    <b class="red">Выберите COM-порт:</b>
+                                    <select ng-model="model.serial.current" ng-options="port for port in model.serial.ports" ng-disabled="model.serial.ports.length == 0"></select>
+                                    <button type="button" class="btn btn-default" ng-click="model.serial.status()"><img src="/img/arrow_refresh_small.png" width="20" /></button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-default" ng-click="model.serial.open()" ng-disabled="model.serial.current.length == 0">Открыть</button>
+                                </div>
+                            </div>
+                            <div ng-if="model.serial.state=='opened'">
+                                <div>
+                                    <b class="darkgreen">Выбран COM-порт:</b>
+                                    {{model.serial.target}}
+                                    <button type="button" class="btn btn-default" ng-click="model.serial.status()"><img src="/img/arrow_refresh_small.png" width="20" /></button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-default" ng-click="model.serial.close()">Закрыть</button>
+                                </div>
+                            </div>
+                            <div ng-if="model.serial.state!='closed' && model.serial.state!='opened'">
+                                <div>
+                                    <b class="blue">Ожидание COM-порта:</b>
+                                    <span ng-if="model.serial.target != ''">
+                                        {{model.serial.target}}
+                                    </span>
+                                    <span ng-if="model.serial.target == ''" class="red">
+                                        ???
+                                    </span>
+                                    <button type="button" class="btn btn-default" ng-click="model.serial.status()"><img src="/img/arrow_refresh_small.png" width="20" /></button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-default" disabled="disabled">Ожидание...</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div ng-if="model.vcom.state != 'disconnected' && model.vcom.state != 'connected'">
+                        <div class="blue">
+                            <b>Адрес:</b>
+                            {{model.vcom.host}}:{{model.vcom.port}}
+                        </div>
+                        <button type="button" class="btn btn-default" disabled="disabled">
+                            <img src="/img/loader.gif" width="20" />
+                            Ожидание...
+                        </button>
+                    </div>
+
+                </div>
+                <!--<button type="button" class="btn btn-default" ng-click="model.vcom.turn()"
+                        ng-bind-html="(model.vcom.state == 'disconnected'? 'Подключиться' : (model.vcom.state == 'connected'? 'Отключиться' : '<img src=\'/img/loader.gif\' width=\'20\'> Ожидание...'))"></button>-->
+                <!--<button type="button" class="btn btn-default" ng-click="model.vcom.disconnect()">Закрыть соединение</button>-->
+
+            </div>
+
+        </div>
+
+        <div ng-if="!model.accordion.open" class="hidden-sm col-md-1">
+            <span ng-class="{'red' : !model.serial.isReceiving, 'green' : model.serial.isReceiving}">&rArr;</span><br />
+            <span ng-class="{'red' : !model.serial.isTransmitting, 'green' : model.serial.isTransmitting}">&lArr;</span>
+        </div>
+
+        <div ng-if="!model.accordion.open" class="hidden-sm col-md-1" style="text-align: right">
+            <span ng-class="{'red' : !model.server.isTransmitting, 'green' : model.server.isTransmitting}">&rArr;</span><br />
+            <span ng-class="{'red' : !model.server.isReceiving, 'green' : model.server.isReceiving}">&lArr;</span>
+        </div>
+
+        <div ng-class="{'col-md-5' : !model.accordion.open, 'col-md-6' : model.accordion.open}">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Сервер опроса
+                </div>
+
+                <div class="panel-body">
+                    <div ng-if="model.server.state=='disconnected'">
+                        <div>
+                            <b class="red">Объект:</b>
+                            <span ng-if="model.server.currentName != ''">
+                                <img src="/img/house.png" width="20" />
+                                {{model.server.currentName}}
+                            </span>
+                            <span ng-if="model.server.currentName == ''" class="red">
+                                сначала выберите объект из списка
+                            </span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-default" ng-click="model.server.connect()">
+                                <img src="/img/control_play_blue.png" width="20" />
+                                Начать опрос через виртуальный порт
+                            </button>
+                        </div>
+                    </div>
+
+                    <div ng-if="model.server.state == 'connected'">
+                        <div>
+                            <b class="darkgreen">Объект:</b>
+                            <span ng-if="model.server.targetName != ''">
+                                <img src="/img/house.png" width="20" />
+                                {{model.server.targetName}}
+                            </span>
+                            <span ng-if="model.server.targetName == ''" class="red">
+                                ???
+                            </span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-default" ng-click="model.server.disconnect()">
+                                <img src="/img/control_stop_blue.png" width="20" />
+                                Закончить опрос
+                            </button>
+                        </div>
+                        <!--<div ng-if="model.server.targetStatus" ng-class="{'darkgreen' : model.server.targetStatus.code == 20, 'red' : model.server.targetStatus.state != 20}">
+                            <br />
+                            <b>Статус: </b>
+                            <img ng-if="model.server.targetStatusImg" ng-src="/img/{{model.server.targetStatusImg}}" width="20" /> {{model.server.targetStatusTitle}}
+                        </div>-->
+                    </div>
+
+                    <div ng-if="model.server.state != 'connected' && model.server.state != 'disconnected'">
+                        <div>
+                            <b class="blue">Объект:</b>
+                            <span ng-if="model.server.targetName != ''">
+                                <img src="/img/house.png" width="20" />
+                                {{model.server.targetName}}
+                            </span>
+                            <span ng-if="model.server.targetName == ''" class="red">
+                                ???
+                            </span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-default" disabled="disabled">
+                                <img src="/img/loader.gif" width="20" />
+                                Ожидание...
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<b>Объект:</b> {{(model.server.state=='disconnected'? model.server.currentName : model.server.targetName)}} <br />-->
+                <!--<button type="button" class="btn btn-default" ng-click="model.server.turn()" ng-bind-html="(model.server.state == 'disconnected'? 'Подключиться' : (model.vcom.state == 'connected'? 'Отключиться' : '<img src=\'/img/loader.gif\' width=\'20\'> Ожидание...'))"></button>-->
+                <!--<button type="button" class="btn btn-default" ng-click="model.server.turn()">
+                    <img src="/img/connect.png" ng-if="model.server.state == 'disconnected'" width="20" />
+                    <img src="/img/disconnect.png" ng-if="model.server.state == 'connected'" width="20" />
+                    <img src="/img/loader.gif" ng-if="model.server.state != 'disconnected' && model.server.state != 'connected'" width="20" />
+                    <span ng-bind="(model.server.state == 'disconnected'? 'Подключиться' : (model.server.state == 'connected'? 'Отключиться' : 'Ожидание...'))"></span>
+                </button>-->
+                <!--<span ng-class="{'red' : !model.server.isTransmitting, 'green' : model.server.isTransmitting}">--&gt;</span><br />
+                <span ng-class="{'red' : !model.server.isReceiving, 'green' : model.server.isReceiving}">&lt;--</span><br />
+                <b>Объект:</b> {{model.server.currentName}}<br />
+                state: {{model.server.state}} <br />
+                target: {{model.server.targetName}} <br />
+                <button type="button" class="btn btn-default" ng-click="model.server.connect()" ng-disabled="model.server.state != 'disconnected'">Открыть соединение</button>
+                <button type="button" class="btn btn-default" ng-click="model.server.disconnect()" ng-disabled="model.server.state != 'connected'">Закрыть соединение</button>-->
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+
+        <accordion close-others="true">
+            <accordion-group is-open="model.accordion.open">
+
+                <accordion-heading>
+                    Журнал обмена данными
+                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': model.accordion.open, 'glyphicon-chevron-right': !model.accordion.open}"></i>
+                </accordion-heading>
+
+                <div>
+                    Сообщений: <span ng-bind="model.accordion.log.length"></span>
+                    <button class="btn btn-default" ng-click="model.accordion.log.length = 0">Очистить</button>
+                </div>
+                <div ng-repeat="msg in model.accordion.log">
+                    {{msg.text}}
+                </div>
+
+            </accordion-group>
+        </accordion>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="model.modal.dismiss()">Скрыть</button>
+    <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+</div>

@@ -1,0 +1,73 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/setting_tools.png" width="32" />
+        <span> Обновление ПО контроллера</span>
+    </h3>
+</div>
+<div class="modal-body" style="padding:20px">
+    <div class="panel panel-default" style="margin-bottom:0px">
+        Для обновления ПО, введите пароль
+        <table class="table table-hover">
+            <tr>
+                <td>Пароль</td>
+                <td>
+                    <input type="password" ng-model="model.password" class="form-control" placeholder="Введите пароль..." />
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-primary fa-align-right" ng-click="model.okforpassword()">ОК</button> <span class="red">{{model.messageForPassword}}</span> 
+    </div>
+    <div style="overflow: auto; height: 55%">
+        <h4>Текущая прошивка</h4>
+        <table class="table table-hover">
+            <tr>
+                <td style="width: 100px">Имя файла</td>
+                <td>{{model.selected.filename || model.selected.name}}</td>
+            </tr>
+            <tr>
+                <td>Размер</td>
+                <td>{{model.selected._filesize}} байт</td>
+            </tr>
+            <tr>
+                <td>Дата загрузки</td>
+                <td>{{model.selected.uploadDate}}</td>
+            </tr>
+        </table>
+
+        <h4>Загрузка прошивки</h4>
+
+        <div ng-if="!model.selected._file">
+            <input type="file" accept=".bin,.hex" ng-model="model.selected._file" base-sixty-four-input />
+        </div>
+
+        <div ng-if="model.selected._file">
+            <table class="table table-hover">
+                <tr>
+                    <td style="width: 100px">Имя файла</td>
+                    <td>{{model.selected._file.filename}}</td>
+                </tr>
+                <tr>
+                    <td>Размер</td>
+                    <td>{{model.selected._file.filesize}} байт</td>
+                </tr>
+                <tr ng-if="model.selected._isEqual">
+                    <td colspan="2">
+                        <span class="red">Внимание! Загружаемая прошивка совпадает с текущей!</span>
+                    </td>
+                </tr>
+            </table>
+            <button type="button" class="btn btn-danger" ng-click="model.cancelUpload(model.selected)">× Отмена</button>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" >
+    <div class="row" style="padding-right:20px">
+        <span ng-if="model.success">
+            <button class="btn btn-primary" ng-click="model.flash()">Обновление</button>
+        </span>
+        <button class="btn btn-warning" ng-click="model.close()">Закрыть</button>
+    </div>
+</div>

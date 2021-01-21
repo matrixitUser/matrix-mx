@@ -1,0 +1,36 @@
+﻿<html ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>Матрикс.Микросервис.Расписание</title>
+</head>
+<body ng-controller="main">
+    <button class="btn btn-default" ng-click="refresh()">Обновить</button>
+    <button class="btn btn-default" ng-click="restart()">Рестарт</button>
+    <button class="btn btn-default" ng-click="stop()">Стоп</button>
+    <button class="btn btn-default" ng-click="start()">Старт</button>
+    
+    <div dashboard="dashboardOptions">
+        
+    </div>
+    <div ng-repeat="task in tasks" class="well">
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.name" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.cron" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.kind" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.poll" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.mailer" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.maquette" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.nextOccurrence" />
+        <input type="text" ng-readonly="true" class="form-control" style="width:200" ng-model="task.id" />
+        <!--<button class="btn btn-default">Связанные тюбы</button>-->
+        <a class="btn btn-default" href="/tubes/{{task.id}}" target="_blank">Связанные тюбы</a>
+    </div>
+
+    <link href="ui/ui.css" rel="stylesheet">
+    <script src="ui/lib.min.js"></script>
+    <script src="http://localhost:9001/signalr/hubs"></script>
+    <script src="ui/ui.js"></script>
+</body>
+</html>

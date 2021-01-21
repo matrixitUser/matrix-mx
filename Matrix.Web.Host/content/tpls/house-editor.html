@@ -1,0 +1,187 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="model.close()" data-target="#report-window" aria-hidden="true">
+        <img ng-src="/img/cross.png" width="24" />
+    </button>
+    <h3 class="modal-title">
+        <img src="/img/edit_button.png" width="32" />
+        {{model1.area.name}}
+        <span class="smallergrey">
+            редактор дома
+        </span>
+    </h3>
+</div>
+
+<div class="modal-body" style="padding:5px;">
+
+    <div ng-if="!isLoaded">
+        <div style="display: table; width: 100%; height: 75%; overflow: hidden;">
+            <div style="display: table-cell; vertical-align: middle; text-align: center">
+                <img ng-src="/img/loader.gif" width="32" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="isLoaded">
+
+        <div class="row" style="margin:5px">
+
+            <div class="col-md-6">
+
+                <div style="overflow: auto; height: 75%">
+
+                    <form editable-form name="areaFrm">
+                        <h4>
+                            Объект учёта<span ng-if="areaFrm.$dirty">*</span>
+                            <button class="btn btn-default" ng-click="model1.area.__editMode = true" ng-if="!model1.area.__editMode" style="font-size: 8pt">
+                                Изменить
+                            </button>
+                        </h4>
+                        <table class="table table-hover">
+                            <tr ng-if="((model1.area.name !== undefined) && (model1.area.name !== '')) || model1.area.__viewMode">
+                                <td style="width:100px"><b><span ng-if="(model1.config === 'teplocom')">Абонент</span><span ng-if="(model1.config !== 'teplocom')">Название</span></b></td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.name" style="font-weight: bold" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+                            <tr ng-if="((model1.area.number !== undefined) && (model1.area.number !== '')) || model1.area.__viewMode">
+                                <td style="width:100px">Номер <span ng-if="(model1.config != 'orenburg')">договора</span><span ng-if="(model1.config == 'orenburg')">площадки</span></td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.number" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+                            <tr ng-if="(model1.config == 'teplocom') && (((model1.area.delegate !== undefined) && (model1.area.delegate !== '')) || model1.area.__viewMode)">
+                                <td style="width:100px">Представитель абонента</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.delegate" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+
+                            <tr ng-if="(model1.config == 'teplocom') && ((!model1.area.addr && (model1.area.address !== undefined) && (model1.area.address !== '')) || model1.area.__viewMode)">
+                                <td>Адрес</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.address" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+
+                            <tr ng-if="(model1.config != 'teplocom') && ((!model1.area.addr && (model1.area.city !== undefined) && (model1.area.city !== '')) || model1.area.__viewMode)">
+                                <td>Город</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.city" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+                            <tr ng-if="(model1.config != 'teplocom') && ((!model1.area.addr && (model1.area.street !== undefined) && (model1.area.street !== '')) || model1.area.__viewMode)">
+                                <td>Улица</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.street" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+                            <tr ng-if="(model1.config != 'teplocom') && ((!model1.area.addr && (model1.area.house !== undefined) && (model1.area.house !== '')) || model1.area.__viewMode)">
+                                <td>Дом</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.house" ng-disabled="!model1.area.__editMode || !!model1.area.addr" /></td>
+                            </tr>
+
+
+                            <tr ng-if="((model1.area.addr !== undefined) && (model1.area.addr !== '')) || model1.area.__viewMode">
+                                <td colspan="2">
+                                    Адрес (ФИАС) <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                    <!--<button type="button" class="btn btn-default" style="font-size: 8pt" ng-click="fillAddrFias()" ng-show="!!model1.area.__editMode && !model1.area.addr">Заполнить</button> <br />-->
+
+                                    <input type="text" ng-model="model1.area.addr" placeholder="Введите адрес для поиска в ФИАС"
+                                           uib-typeahead="address as address for address in getLocation($viewValue)"
+                                           typeahead-loading="loadingLocations"
+                                           typeahead-no-results="noResults"
+                                           typeahead-wait-ms="500"
+                                           class="form-control"
+                                           ng-disabled="!model1.area.__editMode">
+
+                                    <div ng-show="noResults">
+                                        <i class="glyphicon glyphicon-remove"></i> Адрес не найден
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                            <tr ng-if="(model1.config != 'orenburg') && (((model1.area.respOrganization !== undefined) && (model1.area.respOrganization !== '')) || model1.area.__viewMode)">
+                                <td>Обслуживающая организация</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.respOrganization" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+                            <tr ng-if="((model1.area.respPhone !== undefined) && (model1.area.respPhone !== '')) || model1.area.__viewMode">
+                                <td>Телефон ответственного</td>
+                                <td><input type="text" class="form-control" ng-model="model1.area.respPhone" ng-disabled="!model1.area.__editMode" /></td>
+                            </tr>
+
+
+                            <tr ng-if="!model1.area.__viewMode">
+                                <td colspan="2">
+                                    <button class="btn btn-default" ng-click="model1.area.__viewMode = true" style="font-size: 5pt; width: 100%; height: 24px">
+                                        ...
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <form name="tubeFrm" editable-form>
+                        <h4>Точка учёта<span ng-if="tubeFrm.$dirty">*</span></h4>
+                        <table class="table table-hover">
+                            <tr>
+                                <td style="width:100px"><b>Название</b></td>
+                                <td><input type="text" class="form-control" ng-model="model1.tube.name" ng-disabled="model1.tube.isDisabled" style="font-weight: bold" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">Примечание</td>
+                                <td><textarea class="form-control" rows="3" ng-model="model1.tube.comment" ng-disabled="model1.tube.isDisabled"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="width:100px">
+                                    Квартиры
+                                </td>
+                                <td>
+                                    <span class="input-group">
+                                        <input type="text" class="form-control" ng-model="model1.tube.apts" ng-disabled="model1.tube.isDisabled" />
+                                        <span class="input-group-btn">
+                                            <input type="button" class="btn btn-default" value="Редактор" ng-click="model1.editHouse(model1.tube.apts)" ng-disabled="model1.tube.isDisabled" />
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <h4>
+                    Точки учёта:
+                    <input class="btn btn-default" type="button" ng-click="model1.chooseTubes()" value="Добавить" />
+                    <button ng-disabled="model1.tubeIds.length == 0" class="btn btn-default" ng-click="model1._deletingTube = !model1._deletingTube">
+                        {{model1._deletingTube? "ОК" : "Снять выбор"}}
+                    </button>
+                    <input ng-if="model1.tubeIds.length > 0 && model1.tube._deletingTube" class="btn btn-danger" type="button" ng-click="model1._deleteTube('all')" value="× Снять выбор со всех" />
+                </h4>
+
+                <div class="col-xs-12 red" ng-if="model1.tubeIds.length == 0">
+                    Точки учёта не выбраны
+                </div>
+
+                <div>
+                    <ul>
+                        <li ng-repeat="tube in model1.Tube | orderBy: 'code'">
+                            {{(tube.Area && tube.Area[0] && tube.Area[0].name? tube.Area[0].name : "")}} {{tube.name}}
+                            <span ng-if="tube.Device && tube.Device[0] && tube.Device[0].name">({{tube.Device[0].name}})</span>
+                            <button type="button" class="btn btn-default" ng-if="model1._deletingTube" ng-click="model1._deleteTube(tube.id)">×</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>&nbsp;</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-xs-3 col-md-6" style="text-align: left">
+            <button class="btn btn-primary" ng-click="model.delete()">{{trashButton}}</button>
+        </div>
+
+        <div class="col-xs-9 col-md-6">
+            <button class="btn btn-primary" ng-click="save()">Сохранить</button>
+            <button class="btn btn-warning" ng-click="model.close(null)">Закрыть</button>
+        </div>
+    </div>
+</div>

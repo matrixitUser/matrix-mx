@@ -1,0 +1,13 @@
+﻿<div ng-controller="TestCtrl">
+    <a ng-click="model.modalOpen()" href="#">
+        <!-- head -->
+        <div class="modal-preview-head">
+            Тест
+            <span class="badge" tooltip="{{model.names.join('; ')}}" tooltip-append-to-body="true" tooltip-placement="bottom" ng-bind="model.names.length"></span>
+        </div>        
+        <!-- body -->
+        <div class="modal-preview-body alert alert-info">
+            Кол-во: <span ng-bind="model.counter"></span>
+        </div>
+    </a>
+</div>

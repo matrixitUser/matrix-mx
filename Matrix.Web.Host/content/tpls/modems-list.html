@@ -1,0 +1,53 @@
+﻿<div ng-controller="modemsCtrl">
+    <div ui-layout="{flow:'column',dividerSize:'10'}">
+        <div ui-layout-container size="30%">
+            <button class="btn btn-small" ng-click="add()">+</button>
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-repeat="modem in modems" ng-class="{'active': $parent.selected==modem}">
+                    <a style="overflow:hidden" ng-click="$parent.select(modem);">
+                        <span ng-if="modem.w.dirty" style="color:red">*</span>{{ modem.comPort}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div ui-layout-container>
+            <form class="form-horizontal" name="frm">
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">порт</span>
+                    <input type="text" class="form-control" placeholder="Порт" ng-model="selected.comPort" ng-required="true">
+                </div>
+
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">скорость</span>
+                    <input type="text" class="form-control" placeholder="Скорость" ng-model="selected.baudRate" ng-required="true">
+                </div>
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">дата биты</span>
+                    <input type="text" class="form-control" placeholder="Дата биты" ng-model="selected.dataBits" ng-required="true">
+                </div>
+
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">четность</span>                    
+                    <select class="form-control" ng-model="selected.parity">
+                        <option value="none" selected>None</option>
+                        <option value="even">Even</option>
+                        <option value="mark">Mark</option>
+                        <option value="odd">Odd</option>
+                        <option value="space">Space</option>
+                    </select>
+                </div>
+
+                <div class="input-group mx-margin">
+                    <span class="input-group-addon mx-label">стоп биты</span>
+                    <select class="form-control" ng-model="selected.stopBits">
+                        <option value="none" selected>None</option>
+                        <option value="one">One</option>
+                        <option value="onePointFive">OnePointFive</option>
+                        <option value="two">Two</option>                        
+                    </select>
+                </div>
+                <input type="hidden" value="{{selected.w.dirty=frm.$dirty}}" />
+            </form>
+        </div>
+    </div>
+</div>

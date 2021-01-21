@@ -1,0 +1,18 @@
+﻿<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="close()" data-target="#report-window" aria-hidden="true">×</button>
+                <h3 class="modal-title">Группа</h3>
+            </div>
+            <form class="modal-body form-horizontal" role="form">
+                <label for="name">Название</label>
+                <input id="name" class="form-control" placeholder="название" type="text" ng-model="name" required auto-fill />
+            </form>
+            <div class="modal-footer">
+                <input type="button" class="btn" value="Отмена" ng-click="close()" />
+                <input type="button" class="btn btn-success btn-default" ng-click="save(name)" value="Сохранить" />
+            </div>
+        </div>
+    </div>
+</div>

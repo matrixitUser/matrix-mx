@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html ng-app="matrix">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>Система телеметрии</title>
+</head>
+<body ng-controller="mainCtrl">
+    <nav class="navbar  navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Телеметрия объектов теплоснабжения, ХВС, ГВС г.Агидель</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="panel panel-default" style="margin:5px">
+        <div class="panel-body">
+            <div>
+                <img ng-src="{{sound.muting==true?'/img/muted.png':'/img/unmuted.png'}}" style="width:32px; height:32px" />
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn btn-outline-dark" ng-model="sound.muting" btn-checkbox>
+                        <span ng-show="sound.muting">Вкл.</span>
+                        <span ng-hide="sound.muting">Откл.</span>
+                        звук
+                    </button>
+                    <button class="btn btn-outline-dark" ng-model="model.archive" ng-click="model.onChangeArchive()" btn-checkbox>
+                        <span ng-show="model.archive">Скрыть</span>
+                        <span ng-hide="model.archive">Показать</span>
+                        архив
+                    </button>
+                </div>
+
+                <!--<button class="btn btn-default" ng-click="model.settingsRefresh()">
+            Обновить уставки
+        </button>-->
+                <div class="input-group input-group-mine ">
+                    <input class="form-control" ng-show="model.archive" type="date" name="trip-start" ng-model="model.dtStart" min="2020-01-01" max="2050-12-31">
+                    <input class="form-control" ng-show="model.archive" type="date" name="trip-start" ng-model="model.dtEnd" min="2020-01-01" max="2050-12-31">
+                    <div class="input-group-append">
+                        <button ng-show="model.archive" class="btn btn-dark" ng-click="model.getArchive()">Ок</button>
+                    </div>
+                </div>
+                <!--<button class="btn btn-default" ng-click="model.openModal()">
+            Доп. информация
+        </button>-->
+            </div>
+
+            <div class="grid-mine" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-auto-resize external-scopes="ext" ng-style="{height:model.height/2-75}"></div>
+            <div class="grid-mine" ui-grid="gridOptionsNotReplay" ui-grid-resize-columns ui-grid-auto-resize external-scopes="ext" ng-style="{height:model.height/2-75}"></div>
+
+            <div>
+                <span ng-style="{ 'color': model.isNoServerConnection==true || model.IsDbOk==false? '#ff0000' : '#00ff00' }" style="font-size: 20px">
+                    &bull;
+                </span>
+                Состояние сервера
+            </div>
+        </div>
+    </div>
+
+    <toast></toast>
+
+    <link href="lib/bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="lib/bootstrap-4.4.1/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="lib/ui-grid-rc/ui-grid.min.css" rel="stylesheet" />
+    <link href="lib/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="lib/angular-bootstrap-datetimepicker/datetimepicker.css" rel="stylesheet" />
+    <link href="lib/jquery-ui-1.11.2/jquery-ui.min.css" rel="stylesheet" />
+    <link href="lib/ui-layout/ui-layout.css" rel="stylesheet" />
+    <link href="lib/ngToast/ngToast.min.css" rel="stylesheet" />
+    <link href="lib/angular-formstamp/formstamp.css" rel="stylesheet" />
+    <link href="site.css" rel="stylesheet" />
+
+    <!--необходимое-->
+    <script src="lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="lib/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+    <script src="lib/angular-1.3.9/angular.js"></script>
+    <script src="lib/angular-1.3.2/i18n/angular-locale_ru-ru.js"></script>
+    <script src="lib/moment/moment-with-locales.js"></script>
+    <script src="lib/moment/angular-moment.min.js"></script>
+    <script src="lib/angular-formstamp/formstamp.js"></script>
+
+    <!--контролы бутстрап-->
+    <script src="lib/ui-bootstrap-0.10.0/ui-bootstrap-0.10.0.min.js"></script>
+    <script src="lib/ui-bootstrap-0.10.0/ui-bootstrap-tpls-0.10.0.min.js"></script>
+
+    <script src="lib/jquery-ui-1.11.2/jquery-ui.min.js"></script>
+
+    <!--еще контролы бутстрапа-->
+    <script src="lib/angular-strap-2.1.3/angular-strap.min.js"></script>
+    <script src="lib/angular-strap-2.1.3/angular-strap.tpl.min.js"></script>
+
+    <!-- тостер -->
+    <script src="lib/angular-1.3.9/angular-animate.min.js"></script>
+    <script src="lib/angular-1.3.9/angular-sanitize.min.js"></script>
+    <script src="lib/ngToast/ngToast.min.js"></script>
+
+    <!--аудио-->
+    <script src="lib/audio/angular.audio.js"></script>
+
+    <!--грид-->
+    <script src="lib/ui-grid-rc/ui-grid.min.js"></script>
+
+    <!--даты-->
+    <script src="lib/datetimepicker/datetimepicker.js"></script>
+
+    <!--разметка-->
+    <script src="lib/ui-layout/ui-layout.js"></script>
+
+    <!--матрикс-->
+    <script src="js/app.js"></script>
+
+    <!-- касание -->
+    <script src="lib/angular-1.3.9/angular-touch.min.js"></script>
+
+
+</body>
+</html>

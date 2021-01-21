@@ -1,0 +1,9 @@
+﻿здесь собраны полезная информация по работе с субд neo4j
+* переход в режим консоли: http://localhost:7474/webadmin/#/console/
+* дамп базы (в виде текста в консоли) dump <query>
+* индексы
+** как сделать регистронезависимым lucene индекс:
+   - чтение текущего конфига: index --get-config node_auto_index
+   - задаем новый конфиг: index --set-config node_auto_index type fulltext
+   - перезагружаем сервер neo4j
+   - ребилдим индексы команды типа: match(x) where has(x.<property>) set x.<property>=x.<property> return x где <property> индексируемое свойство (name,imei,phone,id и т.п.)
